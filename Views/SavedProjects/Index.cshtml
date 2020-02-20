@@ -1,0 +1,48 @@
+﻿@model IEnumerable<onni.Models.SavedProjects>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SavedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Project)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SavedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Project.BodyContent)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.SavedId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.SavedId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.SavedId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
