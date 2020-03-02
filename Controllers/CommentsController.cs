@@ -47,7 +47,7 @@ namespace onni.Controllers
         // GET: Comments/Create
         public IActionResult Create()
         {
-            ViewData["ProjectId"] = new SelectList(_context.Projects, "ProjectId", "BodyContent");
+            ViewData["ProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName");
             return View();
         }
 
@@ -64,7 +64,7 @@ namespace onni.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProjectId"] = new SelectList(_context.Projects, "ProjectId", "BodyContent", comments.ProjectId);
+            ViewData["ProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName", comments.ProjectId);
             return View(comments);
         }
 
@@ -81,7 +81,7 @@ namespace onni.Controllers
             {
                 return NotFound();
             }
-            ViewData["ProjectId"] = new SelectList(_context.Projects, "ProjectId", "BodyContent", comments.ProjectId);
+            ViewData["ProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName", comments.ProjectId);
             return View(comments);
         }
 
@@ -117,7 +117,7 @@ namespace onni.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProjectId"] = new SelectList(_context.Projects, "ProjectId", "BodyContent", comments.ProjectId);
+            ViewData["ProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName", comments.ProjectId);
             return View(comments);
         }
 

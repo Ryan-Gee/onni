@@ -50,7 +50,7 @@ namespace onni.Controllers
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoriesId", "CategoriesName");
-            ViewData["ParentProjectId"] = new SelectList(_context.Projects, "ProjectId", "BodyContent");
+            ViewData["ParentProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName");
             ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusName");
             return View();
         }
@@ -69,7 +69,7 @@ namespace onni.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoriesId", "CategoriesName", projects.CategoryId);
-            ViewData["ParentProjectId"] = new SelectList(_context.Projects, "ProjectId", "BodyContent", projects.ParentProjectId);
+            ViewData["ParentProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName", projects.ParentProjectId);
             ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusName", projects.StatusId);
             return View(projects);
         }
@@ -88,7 +88,7 @@ namespace onni.Controllers
                 return NotFound();
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoriesId", "CategoriesName", projects.CategoryId);
-            ViewData["ParentProjectId"] = new SelectList(_context.Projects, "ProjectId", "BodyContent", projects.ParentProjectId);
+            ViewData["ParentProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName", projects.ParentProjectId);
             ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusName", projects.StatusId);
             return View(projects);
         }
@@ -126,7 +126,7 @@ namespace onni.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoriesId", "CategoriesName", projects.CategoryId);
-            ViewData["ParentProjectId"] = new SelectList(_context.Projects, "ProjectId", "BodyContent", projects.ParentProjectId);
+            ViewData["ParentProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName", projects.ParentProjectId);
             ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusName", projects.StatusId);
             return View(projects);
         }
