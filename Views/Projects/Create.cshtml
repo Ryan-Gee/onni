@@ -30,8 +30,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="BodyContent" class="control-label"></label>
-                <input asp-for="BodyContent" class="form-control" />
+                <input asp-for="BodyContent" type="hidden" class="form-control"  />
                 <span asp-validation-for="BodyContent" class="text-danger"></span>
+                <div id="codex-editor" contenteditable class="cdx-input" data-placeholder="Custom placeholder"></div>
+                <div class="cdx-button" id="cdx-save">
+                    Save
+                </div>
             </div>
             <div class="form-group">
                 <label asp-for="Files" class="control-label"></label>
@@ -55,11 +59,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="StatusId" class="control-label"></label>
-                <select asp-for="StatusId" class ="form-control" asp-items="ViewBag.StatusId"></select>
+                <select asp-for="StatusId" class="form-control" asp-items="ViewBag.StatusId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="ParentProjectId" class="control-label"></label>
-                <select asp-for="ParentProjectId" class ="form-control" asp-items="ViewBag.ParentProjectId">
+                <select asp-for="ParentProjectId" class="form-control" asp-items="ViewBag.ParentProjectId">
                     <option value=""></option>
                 </select>
             </div>
@@ -70,7 +74,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class ="form-control" asp-items="ViewBag.CategoryId"></select>
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

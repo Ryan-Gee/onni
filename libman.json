@@ -1,0 +1,20 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "editor.js@2.16.1",
+      "destination": "wwwroot/lib/editor.js/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "@editorjs/header@2.4.0",
+      "destination": "wwwroot/lib/@editorjs/header/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "@editorjs/list@1.4.0",
+      "destination": "wwwroot/lib/@editorjs/list/"
+    }
+  ]
+}
