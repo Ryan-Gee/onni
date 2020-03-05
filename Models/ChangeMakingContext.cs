@@ -56,7 +56,7 @@ namespace onni.Models
 
                 entity.Property(e => e.Files).IsUnicode(false);
 
-                entity.Property(e => e.Imeages).IsUnicode(false);
+                entity.Property(e => e.Images).IsUnicode(false);
 
                 entity.Property(e => e.ProjectName).IsUnicode(false);
 
