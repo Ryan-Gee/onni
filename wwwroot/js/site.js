@@ -18,13 +18,20 @@ const editor = new EditorJS({
             inlineToolbar: true
         }
     }, 
+    onReady: function () {
+        if (bodyContent.value !== "") {
+            const data = JSON.parse(bodyContent.value);
+            editor.render(data);
+        }
+
+    }
 })
 const bodyContent = document.querySelector('#BodyContent');
 const saveBtn = document.querySelector('#cdx-save');
 saveBtn.addEventListener('click', () => {
     editor.save().then((outputData) => {
         console.log('Article data: ', outputData)
-        bodyContent.value = outputData;
+        bodyContent.value = JSON.stringify(outputData);
         console.log('body: ', bodyContent.value)
 
     }).catch((error) => {
