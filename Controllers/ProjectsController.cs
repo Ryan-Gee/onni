@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using onni.Models;
 
 namespace onni.Controllers
@@ -38,6 +40,7 @@ namespace onni.Controllers
                 .Include(p => p.ParentProject)
                 .Include(p => p.Status)
                 .FirstOrDefaultAsync(m => m.ProjectId == id);
+
             if (projects == null)
             {
                 return NotFound();

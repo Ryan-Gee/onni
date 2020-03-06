@@ -4,88 +4,94 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div>@ViewData["body"]</div>
 
-<h2>Details</h2>
+<div data-page="project-details">
+    <h2>Details</h2>
 
-<div>
-    <h4>Projects</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ProjectName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ProjectName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CreatedDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.BodyContent)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.BodyContent)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Files)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Files)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Images)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Images)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ViewCounts)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ViewCounts)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.LikeCounts)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.LikeCounts)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Tags)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Tags)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Category.CategoriesName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ParentProject)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ParentProject.BodyContent)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Status.StatusName)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.ProjectId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div>
+        <h4>Projects</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.ProjectName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ProjectName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.UserName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.UserName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CreatedDate)
+            </dd>
+            <dt >
+                @Html.DisplayNameFor(model => model.BodyContent)
+            </dt>
+            <dd id="bodyContent-input">
+                @Html.DisplayFor(model => model.BodyContent)
+            </dd>
+            <dd id="bodyContent-output">
+
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Files)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Files)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Images)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Images)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ViewCounts)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ViewCounts)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.LikeCounts)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.LikeCounts)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Tags)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Tags)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Category)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Category.CategoriesName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ParentProject)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ParentProject.BodyContent)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Status.StatusName)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.ProjectId">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
 </div>
