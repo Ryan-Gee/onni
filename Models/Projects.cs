@@ -28,7 +28,7 @@ namespace onni.Models
         [Required]
         public string BodyContent { get; set; }
         public string Files { get; set; }
-        public string Imeages { get; set; }
+        public string Images { get; set; }
         public int ViewCounts { get; set; }
         public int LikeCounts { get; set; }
         [Column("StatusID")]

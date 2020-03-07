@@ -4,89 +4,89 @@
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+    <div data-page="project-create">
 
-<h2>Create</h2>
+        <h2>Create</h2>
+        <h4>Projects</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="ProjectName" class="control-label"></label>
+                        <input asp-for="ProjectName" class="form-control" />
+                        <span asp-validation-for="ProjectName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UserName" class="control-label"></label>
+                        <input asp-for="UserName" class="form-control" />
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CreatedDate" class="control-label"></label>
+                        <input asp-for="CreatedDate" class="form-control" />
+                        <span asp-validation-for="CreatedDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BodyContent" class="control-label"></label>
+                        <input asp-for="BodyContent" type="hidden" class="form-control" />
+                        <span asp-validation-for="BodyContent" class="text-danger"></span>
+                        <div id="codex-editor" class="cdx-input" data-placeholder="Custom placeholder"></div>
+                        <div class="cdx-button" id="cdx-save">
+                            Save
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Files" class="control-label"></label>
+                        <input asp-for="Files" class="form-control" type="file" name="files" multiple/>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Images" class="control-label"></label>
+                        <input asp-for="Images" class="form-control" />
+                        <span asp-validation-for="Images" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ViewCounts" class="control-label"></label>
+                        <input asp-for="ViewCounts" class="form-control" />
+                        <span asp-validation-for="ViewCounts" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LikeCounts" class="control-label"></label>
+                        <input asp-for="LikeCounts" class="form-control" />
+                        <span asp-validation-for="LikeCounts" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StatusId" class="control-label"></label>
+                        <select asp-for="StatusId" class="form-control" asp-items="ViewBag.StatusId"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ParentProjectId" class="control-label"></label>
+                        <select asp-for="ParentProjectId" class="form-control" asp-items="ViewBag.ParentProjectId">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Tags" class="control-label"></label>
+                        <input asp-for="Tags" class="form-control" />
+                        <span asp-validation-for="Tags" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CategoryId" class="control-label"></label>
+                        <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </form>
+            </div>
+        </div>
 
-<h4>Projects</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
-            @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
-            <div class="form-group">
-                <label asp-for="ProjectName" class="control-label"></label>
-                <input asp-for="ProjectName" class="form-control" />
-                <span asp-validation-for="ProjectName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedDate" class="control-label"></label>
-                <input asp-for="CreatedDate" class="form-control" />
-                <span asp-validation-for="CreatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BodyContent" class="control-label"></label>
-                <input asp-for="BodyContent" class="form-control" />
-                <span asp-validation-for="BodyContent" class="text-danger"></span>
-            </div>
-            @*<div class="form-group">
-                <label asp-for="Files" class="control-label"></label>
-                <input asp-for="Files" class="form-control" />
-                <span asp-validation-for="Files" class="text-danger"></span>
-            </div>*@
-            <div class="form-group">
-                <label asp-for="Files" class="control-label"></label>
-                <input asp-for="Files" class="form-control" type="file" name="files" multiple/>
-            </div>
-            <div class="form-group">
-                <label asp-for="Imeages" class="control-label"></label>
-                <input asp-for="Imeages" class="form-control" />
-                <span asp-validation-for="Imeages" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ViewCounts" class="control-label"></label>
-                <input asp-for="ViewCounts" class="form-control" />
-                <span asp-validation-for="ViewCounts" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LikeCounts" class="control-label"></label>
-                <input asp-for="LikeCounts" class="form-control" />
-                <span asp-validation-for="LikeCounts" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StatusId" class="control-label"></label>
-                <select asp-for="StatusId" class ="form-control" asp-items="ViewBag.StatusId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="ParentProjectId" class="control-label"></label>
-                <select asp-for="ParentProjectId" class ="form-control" asp-items="ViewBag.ParentProjectId">
-                    <option value=""></option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Tags" class="control-label"></label>
-                <input asp-for="Tags" class="form-control" />
-                <span asp-validation-for="Tags" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class ="form-control" asp-items="ViewBag.CategoryId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
-</div>
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }
+        </div>

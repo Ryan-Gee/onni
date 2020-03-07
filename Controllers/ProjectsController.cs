@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using onni.Models;
 
 namespace onni.Controllers
@@ -39,6 +41,7 @@ namespace onni.Controllers
                 .Include(p => p.ParentProject)
                 .Include(p => p.Status)
                 .FirstOrDefaultAsync(m => m.ProjectId == id);
+
             if (projects == null)
             {
                 return NotFound();
@@ -99,7 +102,7 @@ namespace onni.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProjectId,ProjectName,UserName,CreatedDate,BodyContent,Files,Imeages,ViewCounts,LikeCounts,StatusId,ParentProjectId,Tags,CategoryId")] Projects projects)
+        public async Task<IActionResult> Edit(int id, [Bind("ProjectId,ProjectName,UserName,CreatedDate,BodyContent,Files,Images,ViewCounts,LikeCounts,StatusId,ParentProjectId,Tags,CategoryId")] Projects projects)
         {
             if (id != projects.ProjectId)
             {
