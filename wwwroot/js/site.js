@@ -29,8 +29,8 @@ if (pageName == 'project-create' || pageName == 'project-edit') {
         }
     })
     const bodyContent = document.querySelector('#BodyContent');
-    const saveBtn = document.querySelector('#cdx-save');
-    saveBtn.addEventListener('click', () => {
+    const codexEditor = document.querySelector('#codex-editor')
+    codexEditor.addEventListener('focusout', () => {
         editor.save().then((outputData) => {
             console.log('Article data: ', outputData)
             // convert outputData to string and inject to bodyContent.value
@@ -61,7 +61,13 @@ if (pageName == 'project-details') {
                     <ol>
                     ${e.data.items.map(i => ` <li>${i}</li>`).join("")} 
                     </ol>`
-        }else {
+        } else if (e.type == 'list' && e.data.style == 'unordered') {
+            return `
+                    <ul>
+                    ${e.data.items.map(i => ` <li>${i}</li>`).join("")} 
+                    </ul>`
+        }
+        else {
             return `<div>${e.data.text}</div>`
         }
     }).join("")

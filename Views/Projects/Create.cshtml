@@ -17,24 +17,21 @@
                         <input asp-for="ProjectName" class="form-control" />
                         <span asp-validation-for="ProjectName" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
+                    @*<div class="form-group">
                         <label asp-for="UserName" class="control-label"></label>
                         <input asp-for="UserName" class="form-control" />
                         <span asp-validation-for="UserName" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
+                    </div>*@
+                    @*<div class="form-group">
                         <label asp-for="CreatedDate" class="control-label"></label>
                         <input asp-for="CreatedDate" class="form-control" />
                         <span asp-validation-for="CreatedDate" class="text-danger"></span>
-                    </div>
+                    </div>*@
                     <div class="form-group">
                         <label asp-for="BodyContent" class="control-label"></label>
                         <input asp-for="BodyContent" type="hidden" class="form-control" />
                         <span asp-validation-for="BodyContent" class="text-danger"></span>
                         <div id="codex-editor" class="cdx-input" data-placeholder="Custom placeholder"></div>
-                        <div class="cdx-button" id="cdx-save">
-                            Save
-                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Files" class="control-label"></label>
@@ -47,7 +44,7 @@
                         <input asp-for="Images" class="form-control" type="file" name="Images" multiple />
                         <span asp-validation-for="Images" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
+                    @*<div class="form-group">
                         <label asp-for="ViewCounts" class="control-label"></label>
                         <input asp-for="ViewCounts" class="form-control" />
                         <span asp-validation-for="ViewCounts" class="text-danger"></span>
@@ -60,7 +57,7 @@
                     <div class="form-group">
                         <label asp-for="StatusId" class="control-label"></label>
                         <select asp-for="StatusId" class="form-control" asp-items="ViewBag.StatusId"></select>
-                    </div>
+                    </div>*@
                     <div class="form-group">
                         <label asp-for="ParentProjectId" class="control-label"></label>
                         <select asp-for="ParentProjectId" class="form-control" asp-items="ViewBag.ParentProjectId">

@@ -8,8 +8,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using onni.Models;
 
 namespace onni.Controllers
@@ -75,57 +73,20 @@ namespace onni.Controllers
 			//Validate according to the upload model
             if (ModelState.IsValid)
             {
-				//Create a placeholder for the file uploads list
-				var filePaths = new List<string>();
-				var imgPaths = new List<string>();
-				//Iterate through all the uploaded files
-				var uploadFiles = upload.Files;
-				for (var i = 0; i < uploadFiles.Count; i++)
-				{
-					var file = uploadFiles[i];
-					//If there's something there
-					if (file.Length > 0)
-					{
-						//Get the file path to wwwroot/upload/files
-						var uniqueFileName = MakeFileNameUnique(file.FileName);
-						var filesFolder = Path.Combine(hostingEnvironment.WebRootPath, "upload/files");
-						var filePath = Path.Combine(filesFolder, uniqueFileName);
-						using (var stream = new FileStream(filePath, FileMode.Create))
-						{
-							await file.CopyToAsync(stream);
-						}
-					}
-				}
-				//Repeat for images
-				foreach (var imgFile in upload.Images)
-				{
-					if (imgFile.Length > 0)
-					{
-						//Get the file path to wwwroot/upload/img
-						var uniqueImgName = MakeFileNameUnique(imgFile.FileName);
-						var imgFolder = Path.Combine(hostingEnvironment.WebRootPath, "upload/img");
-						var imgFilePath = Path.Combine(imgFolder, uniqueImgName);
-						using (var stream = new FileStream(imgFilePath, FileMode.Create))
-						{
-							await imgFile.CopyToAsync(stream);
-						}
-					}
-				}
-				//Concatenate the file names
-				string files = String.Join(" ", filePaths);
-				string imgs = String.Join(" ", imgPaths);
-
 				//Create a project model and bind everything from upload to the new model
 				var project = new Projects();
 				project.ProjectName = upload.ProjectName;
-				project.UserName = upload.UserName;
-				project.CreatedDate = upload.CreatedDate;
-				project.BodyContent = upload.BodyContent;
-				//project.Files = files;
-				//project.Images = imgs;
-				project.ViewCounts = upload.ViewCounts;
-				project.LikeCounts = upload.LikeCounts;
-				project.StatusId = upload.StatusId;
+				project.UserName = User.Identity.Name;
+                //Get Date time now for CreateTime
+                project.CreatedDate = DateTime.Now;
+                project.BodyContent = upload.BodyContent;
+
+                // initialize default value 
+				project.ViewCounts = 0;
+				project.LikeCounts = 0;
+                // 1: pending 2: draft 3:public
+				project.StatusId = 1;
+
 				project.ParentProjectId = upload.ParentProjectId;
 				project.Tags = upload.Tags;
 				project.CategoryId = upload.CategoryId;
