@@ -70,7 +70,7 @@ namespace onni.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ProjectUpload upload)
+        public async Task<IActionResult> Create(ProjectUpload projectUpload)
         {
 			//Validate according to the upload model
             if (ModelState.IsValid)
@@ -79,68 +79,75 @@ namespace onni.Controllers
 				var filePaths = new List<string>();
 				var imgPaths = new List<string>();
 				//Iterate through all the uploaded files
-				var uploadFiles = upload.Files;
-				for (var i = 0; i < uploadFiles.Count; i++)
+				var x = Request.Files[0];
+				if (projectUpload.Files != null)
 				{
-					var file = uploadFiles[i];
-					//If there's something there
-					if (file.Length > 0)
+					var file = projectUpload.Files;
+					//Get the file path to wwwroot/upload/files
+					var uniqueFileName = MakeFileNameUnique(file.FileName);
+					var filesFolder = Path.Combine(hostingEnvironment.WebRootPath, "upload/files");
+					var filePath = Path.Combine(filesFolder, uniqueFileName);
+					filePaths.Add(filePath);
+					using (var stream = new FileStream(filePath, FileMode.Create))
 					{
-						//Get the file path to wwwroot/upload/files
-						var uniqueFileName = MakeFileNameUnique(file.FileName);
-						var filesFolder = Path.Combine(hostingEnvironment.WebRootPath, "upload/files");
-						var filePath = Path.Combine(filesFolder, uniqueFileName);
-						using (var stream = new FileStream(filePath, FileMode.Create))
-						{
-							await file.CopyToAsync(stream);
-						}
+						await file.CopyToAsync(stream);
 					}
+					Console.WriteLine("successfully wrote file");
+				}
+				else
+				{
+					Console.WriteLine("No files");
 				}
 				//Repeat for images
-				foreach (var imgFile in upload.Images)
+				if (projectUpload.Images != null)
 				{
-					if (imgFile.Length > 0)
+					var imgFile = projectUpload.Images;
+					//Get the file path to wwwroot/upload/img
+					var uniqueImgName = MakeFileNameUnique(imgFile.FileName);
+					var imgFolder = Path.Combine(hostingEnvironment.WebRootPath, "upload/img");
+					var imgFilePath = Path.Combine(imgFolder, uniqueImgName);
+					imgPaths.Add(imgFilePath);
+					using (var stream = new FileStream(imgFilePath, FileMode.Create))
 					{
-						//Get the file path to wwwroot/upload/img
-						var uniqueImgName = MakeFileNameUnique(imgFile.FileName);
-						var imgFolder = Path.Combine(hostingEnvironment.WebRootPath, "upload/img");
-						var imgFilePath = Path.Combine(imgFolder, uniqueImgName);
-						using (var stream = new FileStream(imgFilePath, FileMode.Create))
-						{
-							await imgFile.CopyToAsync(stream);
-						}
+						await imgFile.CopyToAsync(stream);
 					}
+					Console.WriteLine("successfully wrote image");
 				}
+				else
+				{
+					Console.WriteLine("No images");
+				}
+				
 				//Concatenate the file names
 				string files = String.Join(" ", filePaths);
 				string imgs = String.Join(" ", imgPaths);
 
 				//Create a project model and bind everything from upload to the new model
 				var project = new Projects();
-				project.ProjectName = upload.ProjectName;
-				project.UserName = upload.UserName;
-				project.CreatedDate = upload.CreatedDate;
-				project.BodyContent = upload.BodyContent;
+				project.ProjectName = projectUpload.ProjectName;
+				project.UserName = projectUpload.UserName;
+				project.CreatedDate = projectUpload.CreatedDate;
+				project.BodyContent = projectUpload.BodyContent;
 				//project.Files = files;
 				//project.Images = imgs;
-				project.ViewCounts = upload.ViewCounts;
-				project.LikeCounts = upload.LikeCounts;
-				project.StatusId = upload.StatusId;
-				project.ParentProjectId = upload.ParentProjectId;
-				project.Tags = upload.Tags;
-				project.CategoryId = upload.CategoryId;
+				project.ViewCounts = projectUpload.ViewCounts;
+				project.LikeCounts = projectUpload.LikeCounts;
+				project.StatusId = projectUpload.StatusId;
+				project.ParentProjectId = projectUpload.ParentProjectId;
+				project.Tags = projectUpload.Tags;
+				project.CategoryId = projectUpload.CategoryId;
 
 				_context.Add(project);
 				await _context.SaveChangesAsync();
 				return RedirectToAction(nameof(Index));
 			}
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoriesId", "CategoriesName", upload.CategoryId);
-            ViewData["ParentProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName", upload.ParentProjectId);
-            ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusName", upload.StatusId);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoriesId", "CategoriesName", projectUpload.CategoryId);
+            ViewData["ParentProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName", projectUpload.ParentProjectId);
+            ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusName", projectUpload.StatusId);
             return View("index");
         }
 
-		private string MakeFileNameUnique (string input)
+		public string MakeFileNameUnique (string input)
 		{
 			input = Path.GetFileName(input);
 			return Path.GetFileNameWithoutExtension(input) + "_" + Guid.NewGuid().ToString().Substring(0, 4) + Path.GetExtension(input);

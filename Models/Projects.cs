@@ -63,8 +63,8 @@ namespace onni.Models
 		public string UserName { get; set; }
 		public DateTime CreatedDate { get; set; }
 		public string BodyContent { get; set; }
-		public List<IFormFile> Files { get; set; }
-		public List<IFormFile> Images { get; set; }
+		public IFormFile Files { get; set; }
+		public IFormFile Images { get; set; }
 		public int ViewCounts { get; set; }
 		public int LikeCounts { get; set; }
 		public int StatusId { get; set; }

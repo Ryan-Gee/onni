@@ -36,9 +36,12 @@
                             Save
                         </div>
                     </div>
+                    <div id="dragAndDropArea" class="upload-area">
+                        Drag and drop a file into this area
+                    </div>
                     <div class="form-group">
                         <label asp-for="Files" class="control-label"></label>
-                        <input asp-for="Files" class="form-control" type="file" name="Files" multiple />
+                        <input asp-for="Files" class="form-control" type="file" name="Files" />
                         <span asp-validation-for="Files" class="text-danger"></span>
 
                     </div>
