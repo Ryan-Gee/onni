@@ -79,7 +79,6 @@ namespace onni.Controllers
 				var filePaths = new List<string>();
 				var imgPaths = new List<string>();
 				//Iterate through all the uploaded files
-				var x = Request.Files[0];
 				if (projectUpload.Files != null)
 				{
 					var file = projectUpload.Files;
