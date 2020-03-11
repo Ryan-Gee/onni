@@ -8,8 +8,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using onni.Models;
 
 namespace onni.Controllers
@@ -75,66 +73,23 @@ namespace onni.Controllers
 			//Validate according to the upload model
             if (ModelState.IsValid)
             {
-				//Create a placeholder for the file uploads list
-				var filePaths = new List<string>();
-				var imgPaths = new List<string>();
-				//Iterate through all the uploaded files
-				if (projectUpload.Files != null)
-				{
-					var file = projectUpload.Files;
-					//Get the file path to wwwroot/upload/files
-					var uniqueFileName = MakeFileNameUnique(file.FileName);
-					var filesFolder = Path.Combine(hostingEnvironment.WebRootPath, "upload/files");
-					var filePath = Path.Combine(filesFolder, uniqueFileName);
-					filePaths.Add(filePath);
-					using (var stream = new FileStream(filePath, FileMode.Create))
-					{
-						await file.CopyToAsync(stream);
-					}
-					Console.WriteLine("successfully wrote file");
-				}
-				else
-				{
-					Console.WriteLine("No files");
-				}
-				//Repeat for images
-				if (projectUpload.Images != null)
-				{
-					var imgFile = projectUpload.Images;
-					//Get the file path to wwwroot/upload/img
-					var uniqueImgName = MakeFileNameUnique(imgFile.FileName);
-					var imgFolder = Path.Combine(hostingEnvironment.WebRootPath, "upload/img");
-					var imgFilePath = Path.Combine(imgFolder, uniqueImgName);
-					imgPaths.Add(imgFilePath);
-					using (var stream = new FileStream(imgFilePath, FileMode.Create))
-					{
-						await imgFile.CopyToAsync(stream);
-					}
-					Console.WriteLine("successfully wrote image");
-				}
-				else
-				{
-					Console.WriteLine("No images");
-				}
-				
-				//Concatenate the file names
-				string files = String.Join(" ", filePaths);
-				string imgs = String.Join(" ", imgPaths);
-
 				//Create a project model and bind everything from upload to the new model
 				var project = new Projects();
-				project.ProjectName = projectUpload.ProjectName;
-				project.UserName = projectUpload.UserName;
-				project.CreatedDate = projectUpload.CreatedDate;
-				project.BodyContent = projectUpload.BodyContent;
-				//project.Files = files;
-				//project.Images = imgs;
-				project.ViewCounts = projectUpload.ViewCounts;
-				project.LikeCounts = projectUpload.LikeCounts;
-				project.StatusId = projectUpload.StatusId;
-				project.ParentProjectId = projectUpload.ParentProjectId;
-				project.Tags = projectUpload.Tags;
-				project.CategoryId = projectUpload.CategoryId;
+				project.ProjectName = upload.ProjectName;
+				project.UserName = User.Identity.Name;
+                //Get Date time now for CreateTime
+                project.CreatedDate = DateTime.Now;
+                project.BodyContent = upload.BodyContent;
+
+                // initialize default value 
+				project.ViewCounts = 0;
+				project.LikeCounts = 0;
+                // 1: pending 2: draft 3:public
+				project.StatusId = 1;
+
+				project.ParentProjectId = upload.ParentProjectId;
+				project.Tags = upload.Tags;
+				project.CategoryId = upload.CategoryId;
 
 				_context.Add(project);
 				await _context.SaveChangesAsync();
