@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\lib\dropzone\" />
     <Folder Include="wwwroot\upload\files\" />
     <Folder Include="wwwroot\upload\img\" />
   </ItemGroup>

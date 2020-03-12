@@ -18,84 +18,115 @@
                     <span asp-validation-for="ProjectName" class="text-danger"></span>
                 </div>
                 @*<div class="form-group">
-                    <label asp-for="UserName" class="control-label"></label>
-                    <input asp-for="UserName" class="form-control" />
-                    <span asp-validation-for="UserName" class="text-danger"></span>
-                </div>*@
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>*@
                 @*<div class="form-group">
-                    <label asp-for="CreatedDate" class="control-label"></label>
-                    <input asp-for="CreatedDate" class="form-control" />
-                    <span asp-validation-for="CreatedDate" class="text-danger"></span>
-                </div>*@
+                <label asp-for="CreatedDate" class="control-label"></label>
+                <input asp-for="CreatedDate" class="form-control" />
+                <span asp-validation-for="CreatedDate" class="text-danger"></span>
+            </div>*@
                 @*<div class="form-group">
+            <label asp-for="BodyContent" class="control-label"></label>
+            <input asp-for="BodyContent" type="hidden" class="form-control" />
+            <span asp-validation-for="BodyContent" class="text-danger"></span>
+            <div id="codex-editor" class="cdx-input" data-placeholder="Custom placeholder"></div>
+            <div class="cdx-button" id="cdx-save">
+                Save
+            </div>*@
+                @*<div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>*@
+                @*<div class="form-group">
+                <label asp-for="CreatedDate" class="control-label"></label>
+                <input asp-for="CreatedDate" class="form-control" />
+                <span asp-validation-for="CreatedDate" class="text-danger"></span>
+            </div>*@
+                <div class="form-group">
                     <label asp-for="BodyContent" class="control-label"></label>
                     <input asp-for="BodyContent" type="hidden" class="form-control" />
                     <span asp-validation-for="BodyContent" class="text-danger"></span>
                     <div id="codex-editor" class="cdx-input" data-placeholder="Custom placeholder"></div>
-                    <div class="cdx-button" id="cdx-save">
-                        Save
-                    </div>*@
-                    @*<div class="form-group">
-                        <label asp-for="UserName" class="control-label"></label>
-                        <input asp-for="UserName" class="form-control" />
-                        <span asp-validation-for="UserName" class="text-danger"></span>
-                    </div>*@
-                    @*<div class="form-group">
-                        <label asp-for="CreatedDate" class="control-label"></label>
-                        <input asp-for="CreatedDate" class="form-control" />
-                        <span asp-validation-for="CreatedDate" class="text-danger"></span>
-                    </div>*@
-                    <div class="form-group">
-                        <label asp-for="BodyContent" class="control-label"></label>
-                        <input asp-for="BodyContent" type="hidden" class="form-control" />
-                        <span asp-validation-for="BodyContent" class="text-danger"></span>
-                        <div id="codex-editor" class="cdx-input" data-placeholder="Custom placeholder"></div>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Files" class="control-label"></label>
-                        <input asp-for="Files" class="form-control" type="file" name="Files" multiple />
-                        <span asp-validation-for="Files" class="text-danger"></span>
+                </div>
+                @*<div class="form-group">
+                <label asp-for="Files" class="control-label"></label>
+                <input asp-for="Files" class="form-control" type="file" name="Files" multiple />
+                <span asp-validation-for="Files" class="text-danger"></span>
 
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Images" class="control-label"></label>
-                        <input asp-for="Images" class="form-control" type="file" name="Images" multiple />
-                        <span asp-validation-for="Images" class="text-danger"></span>
-                    </div>
-                    @*<div class="form-group">
-                        <label asp-for="ViewCounts" class="control-label"></label>
-                        <input asp-for="ViewCounts" class="form-control" />
-                        <span asp-validation-for="ViewCounts" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="LikeCounts" class="control-label"></label>
-                        <input asp-for="LikeCounts" class="form-control" />
-                        <span asp-validation-for="LikeCounts" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="StatusId" class="control-label"></label>
-                        <select asp-for="StatusId" class="form-control" asp-items="ViewBag.StatusId"></select>
-                    </div>*@
-                    <div class="form-group">
-                        <label asp-for="ParentProjectId" class="control-label"></label>
-                        <select asp-for="ParentProjectId" class="form-control" asp-items="ViewBag.ParentProjectId">
-                            <option value=""></option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Tags" class="control-label"></label>
-                        <input asp-for="Tags" class="form-control" />
-                        <span asp-validation-for="Tags" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CategoryId" class="control-label"></label>
-                        <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-default" />
+            </div>*@
+
+                <div class="form-group">
+                    <label asp-for="Images" class="control-label"></label>
+                    <input asp-for="Images" class="form-control" type="file" name="Images" multiple />
+                    <span asp-validation-for="Images" class="text-danger"></span>
+                </div>
+                @*<div class="form-group">
+                <label asp-for="ViewCounts" class="control-label"></label>
+                <input asp-for="ViewCounts" class="form-control" />
+                <span asp-validation-for="ViewCounts" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LikeCounts" class="control-label"></label>
+                <input asp-for="LikeCounts" class="form-control" />
+                <span asp-validation-for="LikeCounts" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StatusId" class="control-label"></label>
+                <select asp-for="StatusId" class="form-control" asp-items="ViewBag.StatusId"></select>
+            </div>*@
+                <div class="form-group">
+                    <label asp-for="ParentProjectId" class="control-label"></label>
+                    <select asp-for="ParentProjectId" class="form-control" asp-items="ViewBag.ParentProjectId">
+                        <option value=""></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Tags" class="control-label"></label>
+                    <input asp-for="Tags" class="form-control" />
+                    <span asp-validation-for="Tags" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CategoryId" class="control-label"></label>
+                    <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </form>
+
+            <div class="dropzone-container" id="dropzone">
+                <form action="UploadFiles" id="uploader" class="dropzone">
+                    <div id="dropzone-drop-area" class="dropzone-drop-area">
                     </div>
                 </form>
             </div>
+
+            <script>
+                $(document).ready(function () {
+                    Dropzone.options.uploader = {
+                        paramName: "file", // The name that will be used to transfer the file
+                        maxFilesize: 2, // MB
+                        maxFiles: 1,
+                        clickable: true,
+                        acceptedFiles: ".png,.jpg,.gif,.bmp,.jpeg",
+                        uploadMultiple: false,
+                        createImageThumbnails: true,
+                        accept: function (file, done) {
+                            if (file.name == "badfile.jpg") {
+                                done("This is a bad file!");
+                            }
+                            else {
+                                //Show a confirm alert and display the image on the page.
+                            }
+                        }
+                    };
+                });
+            </script>
+
+        </div>
         </div>
     </div>
 

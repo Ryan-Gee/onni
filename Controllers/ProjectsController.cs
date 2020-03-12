@@ -100,6 +100,21 @@ namespace onni.Controllers
 			return View("index");
 		}
 
+		[HttpPost]
+		public async Task<IActionResult> UploadFiles(IFormFile file)
+		{
+			var uploads = Path.Combine(hostingEnvironment.WebRootPath, "uploads");
+
+			if (file.Length > 0)
+			{
+				using (var fileStream = new FileStream(Path.Combine(uploads, file.FileName), FileMode.Create))
+				{
+					await file.CopyToAsync(fileStream);
+				}
+			}
+			return RedirectToAction("Index");
+		}
+
 		public string MakeFileNameUnique(string input)
 		{
 			input = Path.GetFileName(input);
