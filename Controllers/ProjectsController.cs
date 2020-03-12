@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ using onni.Models;
 
 namespace onni.Controllers
 {
+	[Authorize]
 	public class ProjectsController : Controller
 	{
 		//Used for file upload
@@ -28,6 +30,7 @@ namespace onni.Controllers
 		}
 
 		// GET: Projects
+		[AllowAnonymous]
 		public async Task<IActionResult> Index()
 		{
 			var changeMakingContext = _context.Projects.Include(p => p.Category).Include(p => p.ParentProject).Include(p => p.Status);
@@ -35,6 +38,7 @@ namespace onni.Controllers
 		}
 
 		// GET: Projects/Details/5
+		[AllowAnonymous]
 		public async Task<IActionResult> Details(int? id)
 		{
 			if (id == null)
@@ -57,11 +61,13 @@ namespace onni.Controllers
 		}
 
 		// GET: Projects/Create
-		public IActionResult Create()
+		public IActionResult Create(int? ParentProjectId)
+		//passing ParentProjectId when create child project
 		{
 			ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoriesId", "CategoriesName");
-			ViewData["ParentProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName");
 			ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusName");
+			ViewBag.ParentProjectId = ParentProjectId;
+
 			return View(new ProjectUpload());
 		}
 
@@ -95,7 +101,7 @@ namespace onni.Controllers
 				return RedirectToAction(nameof(Index));
 			}
 			ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoriesId", "CategoriesName", projectUpload.CategoryId);
-			ViewData["ParentProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName", projectUpload.ParentProjectId);
+			//ViewData["ParentProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName", projectUpload.ParentProjectId);
 			ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusName", projectUpload.StatusId);
 			return View("index");
 		}
