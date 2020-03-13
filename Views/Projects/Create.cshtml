@@ -10,7 +10,7 @@
     <hr />
     <div class="row">
         <div class="col-md-4">
-            <form asp-action="Create">
+            <form asp-action="Create"  >
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="ProjectName" class="control-label"></label>
@@ -51,16 +51,15 @@
                     <span asp-validation-for="BodyContent" class="text-danger"></span>
                     <div id="codex-editor" class="cdx-input" data-placeholder="Custom placeholder"></div>
                 </div>
-                @*<div class="form-group">
-                <label asp-for="Files" class="control-label"></label>
-                <input asp-for="Files" class="form-control" type="file" name="Files" multiple />
-                <span asp-validation-for="Files" class="text-danger"></span>
-
-            </div>*@
+                <div class="form-group">
+                    <label asp-for="Files" class="control-label"></label>
+                    <input asp-for="Files" class="form-control" name="Files" id="file-upload" />
+                    <span asp-validation-for="Files" class="text-danger"></span>
+                </div>
 
                 <div class="form-group">
                     <label asp-for="Images" class="control-label"></label>
-                    <input asp-for="Images" class="form-control" type="file" name="Images" multiple />
+                    <input asp-for="Images" class="form-control" name="Images" id="img-upload" />
                     <span asp-validation-for="Images" class="text-danger"></span>
                 </div>
                 @*<div class="form-group">
@@ -98,31 +97,39 @@
             </form>
 
             <div class="dropzone-container" id="dropzone">
-                <form action="UploadFiles" id="uploader" class="dropzone">
-                    <div id="dropzone-drop-area" class="dropzone-drop-area">
-                    </div>
+                <form action="UploadFiles" id="imgUploader" class="dropzone">
+                    <div id="dropzone-drop-area" class="dropzone-drop-area"></div>
                 </form>
-            </div>
+                <input type="hidden" value=@ViewBag.guid id="guid" />
 
+            </div>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <script src="~/lib/dropzone/dropzone.min.js"></script>
             <script>
+                var guid = $("#guid").val();
                 $(document).ready(function () {
-                    Dropzone.options.uploader = {
+                    
+                    Dropzone.options.imgUploader = {
                         paramName: "file", // The name that will be used to transfer the file
-                        maxFilesize: 2, // MB
-                        maxFiles: 1,
+                        maxFilesize: 100, // MB
+                        maxFiles: 10,
                         clickable: true,
                         acceptedFiles: ".png,.jpg,.gif,.bmp,.jpeg",
                         uploadMultiple: false,
                         createImageThumbnails: true,
+                        renameFile: function (file) {
+                            return new Date().getTime() + '_' + file.name;
+                        },
                         accept: function (file, done) {
                             if (file.name == "badfile.jpg") {
                                 done("This is a bad file!");
                             }
                             else {
-                                //Show a confirm alert and display the image on the page.
                             }
                         }
                     };
+
+
                 });
             </script>
 
