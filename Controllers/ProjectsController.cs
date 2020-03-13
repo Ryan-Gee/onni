@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -56,9 +57,13 @@ namespace onni.Controllers
 			{
 				return NotFound();
 			}
-
+			var comments = _context.Comments.Where(p => p.ProjectId == projects.ProjectId);
+			ViewData["Comments"] = comments;
 			return View(projects);
 		}
+
+
+
 
 		// GET: Projects/Create
 		public IActionResult Create(int? ParentProjectId)

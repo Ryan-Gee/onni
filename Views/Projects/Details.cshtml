@@ -1,5 +1,4 @@
 ﻿@model onni.Models.Projects
-
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,11 +11,11 @@
     <div>
         <h4>Projects</h4>
         <hr />
-        @if (User.Identity.IsAuthenticated )
+        @if (User.Identity.IsAuthenticated)
         {
-        <p>
-            <a asp-action="Create" asp-route-ParentProjectId="@Model.ProjectId">Create Child project</a>
-        </p>
+            <p>
+                <a asp-action="Create" asp-route-ParentProjectId="@Model.ProjectId">Create Child project</a>
+            </p>
         }
         <dl class="dl-horizontal">
             <dt>
@@ -40,7 +39,7 @@
             <dt>
                 @Html.DisplayNameFor(model => model.BodyContent)
             </dt>
-            <dd >
+            <dd>
                 <div id="bodyContent-input" style="display:none">
                     @Html.DisplayFor(model => model.BodyContent)
                 </div>
@@ -102,4 +101,28 @@
         <a asp-action="Edit" asp-route-id="@Model.ProjectId">Edit</a> |
         <a asp-action="Index">Back to List</a>
     </div>
+
+    <partial name="_DisplayComments" view-data="ViewData"/>
+    @*<tbody>
+        @foreach (var item in (IEnumerable<Comments>)ViewData["Comments"])
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CommentDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BodyContent)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.CommentId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.CommentId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.CommentId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>*@
+
 </div>
