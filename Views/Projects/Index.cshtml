@@ -10,93 +10,143 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ProjectName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BodyContent)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Files)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Images)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ViewCounts)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LikeCounts)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tags)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ParentProject)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProjectName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BodyContent)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Files)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Images)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ViewCounts)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LikeCounts)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tags)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.CategoriesName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ParentProject.ProjectName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status.StatusName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ProjectId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProjectId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProjectId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="container">
+    <!-- All project listings -->
+    <div class="projects">
+        @foreach (var item in Model)
+        {
+            <div class="card mb-4 d-flex flex-wrap">
+                <div class="row">
+                    <!-- Thumbnail at the top of the card -->
+                    <div class="col-md-6">
+                        <img class="img-fluid" src="https://www.rimolgreenhouses.com/sites/default/files/greenhouses/galleries/Center2P30.jpg" alt="" />
+                    </div>
+                    <!-- Project title -->
+                    <!-- <h2 class="card-header"></h2> -->
+                    <div class="col-md-6 ">
+                        <h2><a href="project.html">@Html.DisplayFor(modelItem => item.ProjectName)</a></h2>
+                        <!-- User attribution -->
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.UserName)</h5>
+                        <!-- Description -->
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectiteur adispiscing elit, sed diam.</p>
+                        <!-- Category icons -->
+                        <div class="btn-group category-group" role="group">
+                            <button class="icon icon-category">
+                                <img src="icons/leaf.svg" alt="environmental" />
+                            </button>
+                            <button class="icon icon-category">
+                                <img src="icons/user.svg" alt="social" />
+                            </button>
+                        </div>
+                        <!-- Views and likes icons (used button group as default styling is close) -->
+                        <div class="btn-group stats-group" role="group">
+                            <button class="stat">
+                                <img src="icons/eye.svg" alt="views" class="mr-2" />@Html.DisplayFor(modelItem => item.ViewCounts)
+                            </button>
+                            <button class="stat">
+                                <img src="icons/heart.svg" alt="likes" class="mr-2" />@Html.DisplayFor(modelItem => item.LikeCounts)
+                            </button>
+                        </div>
+                        <div>
+                            <a asp-action="Edit" asp-route-id="@item.ProjectId">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.ProjectId">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.ProjectId">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+        @*<table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ProjectName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UserName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CreatedDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BodyContent)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Files)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Images)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ViewCounts)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.LikeCounts)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Tags)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Category)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ParentProject)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Status)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+            @foreach (var item in Model) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProjectName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BodyContent)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Files)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Images)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ViewCounts)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LikeCounts)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tags)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Category.CategoriesName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ParentProject.ProjectName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status.StatusName)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.ProjectId">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.ProjectId">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.ProjectId">Delete</a>
+                        </td>
+                    </tr>
+            }
+                </tbody>
+            </table>*@

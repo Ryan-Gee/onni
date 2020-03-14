@@ -1,9 +1,10 @@
-﻿@model onni.Models.ProjectUpload
+﻿@model onni.Models.Projects
+
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <div data-page="project-create">
+    <div data-page="project-create" class="project-create">
 
         <h2>Create</h2>
         <h4>Projects</h4>
@@ -38,13 +39,11 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Files" class="control-label"></label>
-                        <input asp-for="Files" class="form-control" type="file" name="Files" multiple />
-                        <span asp-validation-for="Files" class="text-danger"></span>
-
+                        <input asp-for="Files" class="form-control" type="file" name="files" multiple/>
                     </div>
                     <div class="form-group">
                         <label asp-for="Images" class="control-label"></label>
-                        <input asp-for="Images" class="form-control" type="file" name="Images" multiple />
+                        <input asp-for="Images" class="form-control" />
                         <span asp-validation-for="Images" class="text-danger"></span>
                     </div>
                     <div class="form-group">

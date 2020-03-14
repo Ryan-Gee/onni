@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -56,20 +55,4 @@ namespace onni.Models
         [InverseProperty("Project")]
         public ICollection<SavedProjects> SavedProjects { get; set; }
     }
-
-	public class  ProjectUpload
-	{
-		public string ProjectName { get; set; }
-		public string UserName { get; set; }
-		public DateTime CreatedDate { get; set; }
-		public string BodyContent { get; set; }
-		public List<IFormFile> Files { get; set; }
-		public List<IFormFile> Images { get; set; }
-		public int ViewCounts { get; set; }
-		public int LikeCounts { get; set; }
-		public int StatusId { get; set; }
-		public int? ParentProjectId { get; set; }
-		public string Tags { get; set; }
-		public int? CategoryId { get; set; }
-	}
 }

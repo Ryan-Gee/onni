@@ -6,90 +6,202 @@
 }
 <div>@ViewData["body"]</div>
 
-<div data-page="project-details">
+<div data-page="project-details" class="project-details">
     <h2>Details</h2>
 
-    <div>
-        <h4>Projects</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.ProjectName)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.ProjectName)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.UserName)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.UserName)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.CreatedDate)
-            </dd>
-            <dt >
-                @Html.DisplayNameFor(model => model.BodyContent)
-            </dt>
-            <dd id="bodyContent-input">
-                @Html.DisplayFor(model => model.BodyContent)
-            </dd>
-            <dd id="bodyContent-output">
-
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Files)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Files)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Images)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Images)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.ViewCounts)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.ViewCounts)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.LikeCounts)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.LikeCounts)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Tags)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Tags)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Category)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Category.CategoriesName)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.ParentProject)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.ParentProject.BodyContent)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Status)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Status.StatusName)
-            </dd>
-        </dl>
+    <!-- Main project listing -->
+    <div class="project pt-4">
+        <!-- Bar containing user, comments, likes, etc links, rendered as a large pill-styled bar in the mockup -->
+        <div class="action-bar btn-group" role="group">
+            <!-- User link, should take up twice the space of other items in the bar -->
+            <button type="button" class="btn" id="action-user">
+                <img class="profile-img" src="https://randomuser.me/api/portraits/women/32.jpg" alt="profile" height="30" />
+                Nicole W.
+            </button>
+            <!-- Add link -->
+            <button type="button" class="btn" id="action-add">
+                <img src="https://image.flaticon.com/icons/svg/808/808559.svg" alt="add" height="30" />
+            </button>
+            <!-- Comments link -->
+            <button type="button" class="btn" id="action-comment">
+                <img src="https://image.flaticon.com/icons/svg/1380/1380338.svg" alt="comments" height="30" />
+            </button>
+            <!-- Like button -->
+            <button type="button" class="btn" id="action-like">
+                <img src="icons/heart.svg" alt="like" height="40" />
+            </button>
+        </div>
+        <!-- Main project card -->
+        <div class="card">
+            <!-- Header contains categories and views and likes -->
+            <div class="card-header">
+                <div class="btn-group category-group" role="group">
+                    <button class="icon icon-category">
+                        <img src="icons/leaf.svg" alt="environmental" />
+                    </button>
+                    <button class="icon icon-category">
+                        <img src="icons/user.svg" alt="social" />
+                    </button>
+                </div>
+                <!-- Views and likes icons (used button group as default styling is close) -->
+                <div class="btn-group stats-group" role="group">
+                    <button class="stat">
+                        <img src="icons/eye.svg" alt="views" class="mr-2" />@Html.DisplayFor(model => model.ViewCounts)
+                    </button>
+                    <button class="stat">
+                        <img src="icons/heart.svg" alt="likes" class="mr-2" />@Html.DisplayFor(model => model.LikeCounts)
+                    </button>
+                </div>
+            </div>
+            <!-- Body contains the various sectioned content pieces -->
+            <div class="card-body">
+                <!-- Background brief section -->
+                <section class="project-background">
+                    <h2>Background</h2>
+                    <p>Lorem ipsum dolor sit amet consecteteur adispicing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore manga eliquam verad dolupat. Ut wisi enim ad minim veniam, quis nostrad excim tatius a corpus suscipit laboris minoris.</p>
+                    <p>Auctor augue mauris augue neque gravida in fermentum. Ornare suspendisse sed nisi lacus sed viverra tellus in. Elit eget gravida cum sociis natoque penatibus et magnis dis. Tellus pellentesque eu tincidunt tortor. Vulputate odio ut enim blandit volutpat maecenas volutpat blandit.</p>
+                </section>
+                <!-- Gallery section (may need additional classes?) -->
+                <section class="project-gallery mt-4">
+                    <h2>Gallery</h2>
+                    <div class="gallery">
+                        <img class="img-fluid" src="https://i.ytimg.com/vi/Tn7EfyRNRyE/maxresdefault.jpg" alt="" />
+                        <img class="img-fluid" src="https://imgs.6sqft.com/wp-content/uploads/2017/11/15113025/Bedford-Green-House-Rendering-of-Rooftop-Greenhouse.jpg" alt="" />
+                        <img class="img-fluid" src="https://cdn.instructables.com/FT9/LXSR/HAQ3DS7T/FT9LXSRHAQ3DS7T.LARGE.jpg" alt="" />
+                        <img class="img-fluid" src="https://extension.umn.edu/sites/extension.umn.edu/files/styles/crop_3_x_2_collage_image_crop_/public/DSC_0516.JPG?h=6fd521c9&itok=ZsFw8G7o" alt="" />
+                        <img class="img-fluid" src="https://baileylineroad.com/wp-content/uploads/2017/04/hoop_house_opener.jpg" alt="" />
+                        <img class="img-fluid" src="https://gardenmagz.com/wp-content/uploads/2017/09/Greenhouse-Gardening-For-Beginners-Ideas-4.jpg" alt="" />
+                    </div>
+                </section>
+                <!-- Downloads section -->
+                <section class="project-downloads mt-4">
+                    <h2>Downloads</h2>
+                    <div class="file-uploads p-5">
+                        <img src="https://image.flaticon.com/icons/svg/2089/2089751.svg" alt="download" class="mx-auto d-block" width="40" />
+                    </div>
+                </section>
+            </div>
+        </div>
+        <!-- End of project -->
     </div>
+    <!-- Comments section -->
+    <div class="comments mt-5 pb-3">
+        <!-- Comments title -->
+        <h2>project discussion</h2>
+        <!-- Section elements used for comments, similar styling to project sections -->
+        <section class="comment mb-5 mt-5">
+            <!-- User name and image -->
+            <h4 id="comment-user">
+                <img class="profile-img" src="https://randomuser.me/api/portraits/women/32.jpg" alt="profile" height="30" />
+                Nicole W.
+            </h4>
+            <!-- Body of the comment itself -->
+            <p class="comment-body m-4">If anyone has feedback, please share!</p>
+        </section>
+        <section class="comment mb-5 mt-5">
+            <h4 id="comment-user">
+                <img class="profile-img" src="https://randomuser.me/api/portraits/men/15.jpg" alt="profile" height="30" />
+                Marco A.
+            </h4>
+            <p class="comment-body m-4">Hey Nicole, could you share where this project is currently used? My town council is interested, but asked for more than one proof of concept before moving ahead with the construction of our own!</p>
+        </section>
+        <section class="comment mb-5 mt-5">
+            <h4 id="comment-user">
+                <img class="profile-img" src="https://randomuser.me/api/portraits/women/71.jpg" alt="profile" height="30" />
+                Zahra R.
+            </h4>
+            <p class="comment-body m-4">Would you be able to share the total cost of the finished project? Looking into proceding with this as a social initiative at my college!</p>
+        </section>
+        <section class="comment mb-5 mt-5">
+            <h4 id="comment-user">
+                <img class="profile-img" src="https://randomuser.me/api/portraits/men/89.jpg" alt="profile" height="30" />
+                Ric H.
+            </h4>
+            <p class="comment-body m-4">Thanks for sharing! Used this as a template for my own, turned out pretty well! You can check it out at my <a href="#">child project</a> page.</p>
+        </section>
+    </div>
+
+    @*<div>
+            <h4>Projects</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.ProjectName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ProjectName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.UserName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.UserName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.CreatedDate)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.CreatedDate)
+                </dd>
+                <dt >
+                    @Html.DisplayNameFor(model => model.BodyContent)
+                </dt>
+                <dd id="bodyContent-input">
+                    @Html.DisplayFor(model => model.BodyContent)
+                </dd>
+                <dd id="bodyContent-output">
+
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Files)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Files)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Images)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Images)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ViewCounts)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ViewCounts)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.LikeCounts)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.LikeCounts)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Tags)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Tags)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Category)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Category.CategoriesName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ParentProject)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ParentProject.BodyContent)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Status)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Status.StatusName)
+                </dd>
+            </dl>
+        </div>*@
     <div>
         <a asp-action="Edit" asp-route-id="@Model.ProjectId">Edit</a> |
         <a asp-action="Index">Back to List</a>
