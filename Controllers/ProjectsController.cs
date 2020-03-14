@@ -39,31 +39,32 @@ namespace onni.Controllers
 		}
 
 		// GET: Projects/Details/5
+		// using comments model instead of project
 		[AllowAnonymous]
 		public async Task<IActionResult> Details(int? id)
 		{
-			if (id == null)
 			{
-				return NotFound();
-			}
+				if (id == null)
+				{
+					return NotFound();
+				}
 
-			var projects = await _context.Projects
-				.Include(p => p.Category)
-				.Include(p => p.ParentProject)
-				.Include(p => p.Status)
-				.FirstOrDefaultAsync(m => m.ProjectId == id);
-
-			if (projects == null)
-			{
-				return NotFound();
+				var projects = _context.Projects
+					.Where(m => m.ProjectId == id)
+					.Include(p => p.Category)
+					.Include(p => p.ParentProject)
+					.Include(p => p.Status);
+				if (projects == null)
+				{
+					return NotFound();
+				}
+				// find all comments with the project ID
+				var comments = _context.Comments.Where(p => p.ProjectId == id);
+				ViewData["Projects"] = projects;
+				ViewBag.id = id;
+				return View(comments);
 			}
-			// find all comments with the project ID
-			var comments = _context.Comments.Where(p => p.ProjectId == projects.ProjectId);
-			ViewData["Comments"] = comments;
-			return View(projects);
 		}
-
-
 
 
 		// GET: Projects/Create

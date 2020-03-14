@@ -44,32 +44,7 @@ namespace onni.Controllers
 
             return View(comments);
         }
-        // GET: view project with comments
-        public async Task<IActionResult> Project(int? id)
-        {
-            {
-                if (id == null)
-                {
-                    return NotFound();
-                }
 
-                var projects = _context.Projects
-                    .Where(m => m.ProjectId == id)
-                    .Include(p => p.Category)
-                    .Include(p => p.ParentProject)
-                    .Include(p => p.Status);
-                if (projects == null)
-                {
-                    return NotFound();
-                }
-                // find all comments with the project ID
-                var comments = _context.Comments.Where(p => p.ProjectId == id);
-                ViewData["Projects"] = projects;
-                ViewBag.id =id;
-                return View(comments);
-            }
-
-        }
         // GET: Comments/Create
         public IActionResult Create()
         {
@@ -88,11 +63,13 @@ namespace onni.Controllers
             {
                 _context.Add(comments);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Projects", new { id = comments.ProjectId });
             }
             ViewData["ProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName", comments.ProjectId);
-            return View();
+            return RedirectToAction("Details", "Projects", new { id = comments.ProjectId });
         }
+
+
         // GET: Comments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -173,7 +150,7 @@ namespace onni.Controllers
             var comments = await _context.Comments.FindAsync(id);
             _context.Comments.Remove(comments);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Projects", new { id = comments.ProjectId });
         }
 
         private bool CommentsExists(int id)
