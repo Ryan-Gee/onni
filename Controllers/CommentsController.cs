@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using onni.Models;
 
@@ -43,7 +44,32 @@ namespace onni.Controllers
 
             return View(comments);
         }
+        // GET: view project with comments
+        public async Task<IActionResult> Project(int? id)
+        {
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
+                var projects = _context.Projects
+                    .Where(m => m.ProjectId == id)
+                    .Include(p => p.Category)
+                    .Include(p => p.ParentProject)
+                    .Include(p => p.Status);
+                if (projects == null)
+                {
+                    return NotFound();
+                }
+                // find all comments with the project ID
+                var comments = _context.Comments.Where(p => p.ProjectId == id);
+                ViewData["Projects"] = projects;
+                ViewBag.id =id;
+                return View(comments);
+            }
+
+        }
         // GET: Comments/Create
         public IActionResult Create()
         {
@@ -65,9 +91,8 @@ namespace onni.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName", comments.ProjectId);
-            return View(comments);
+            return View();
         }
-
         // GET: Comments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

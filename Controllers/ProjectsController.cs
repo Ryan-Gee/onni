@@ -57,6 +57,7 @@ namespace onni.Controllers
 			{
 				return NotFound();
 			}
+			// find all comments with the project ID
 			var comments = _context.Comments.Where(p => p.ProjectId == projects.ProjectId);
 			ViewData["Comments"] = comments;
 			return View(projects);

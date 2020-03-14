@@ -1,0 +1,92 @@
+﻿@model IEnumerable<onni.Models.Comments>
+
+@{
+    ViewData["Title"] = "Project";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div data-page="project-details">
+
+    <h2>Project</h2>
+
+    @foreach (var item in (IEnumerable<Projects>)ViewData["Projects"])
+    {
+        @if (User.Identity.IsAuthenticated)
+        {
+            <p>
+                <a asp-action="Create" asp-route-ParentProjectId="@item.ProjectId">Create Child project</a>
+            </p>
+        }
+
+        <div>
+            @Html.DisplayFor(modelItem => item.ProjectName)
+        </div>
+        <div>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </div>
+        <div>
+            @Html.DisplayFor(modelItem => item.CreatedDate)
+        </div>
+        <div>
+            <div id="bodyContent-input" style="display:none">
+                @Html.DisplayFor(modelItem => item.BodyContent)
+            </div>
+            <div id="bodyContent-output">
+
+            </div>
+        </div>
+        <div>
+            @Html.DisplayFor(modelItem => item.Files)
+        </div>
+        <div>
+            @Html.DisplayFor(modelItem => item.Images)
+        </div>
+        <div>
+            @Html.DisplayFor(modelItem => item.ViewCounts)
+        </div>
+        <div>
+            @Html.DisplayFor(modelItem => item.LikeCounts)
+        </div>
+        <div>
+            @Html.DisplayFor(modelItem => item.Tags)
+        </div>
+        <div>
+            @Html.DisplayFor(modelItem => item.Category)
+        </div>
+        <div>
+            @Html.DisplayFor(modelItem => item.ParentProject.ProjectName)
+        </div>
+        <div>
+            @Html.DisplayFor(modelItem => item.Status.StatusName)
+        </div>
+
+        <div>
+            <a asp-action="Edit" asp-route-id="@item.ProjectId">Edit</a> |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    }
+    <h2>Comments</h2>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    @foreach (var item in Model)
+    {
+
+        <div>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </div>
+        <div>
+            @Html.DisplayFor(modelItem => item.CommentDate)
+        </div>
+        <div>
+            @Html.DisplayFor(modelItem => item.BodyContent)
+        </div>
+        <div>
+            <a asp-action="Edit" asp-route-id="@item.CommentId">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.CommentId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.CommentId">Delete</a>
+        </div>
+
+    }
+</div>
+@*<partial name="_DisplayComments" view-data="ViewData" />*@
+<partial name="_CreateComment" />
