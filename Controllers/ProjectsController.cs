@@ -74,7 +74,7 @@ namespace onni.Controllers
 			ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoriesId", "CategoriesName");
 			ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusName");
 			ViewBag.ParentProjectId = ParentProjectId;
-
+			ViewBag.guid = Guid.NewGuid();
 			return View(new ProjectUpload());
 		}
 
@@ -94,8 +94,8 @@ namespace onni.Controllers
 				project.UserName = User.Identity.Name;
 				project.CreatedDate = DateTime.Now;
 				project.BodyContent = projectUpload.BodyContent;
-				//project.Files = files;
-				//project.Images = imgs;
+				project.Files = projectUpload.Files;
+				project.Images = projectUpload.Images;
 				project.ViewCounts = 0;
 				project.LikeCounts = 0;
 				project.StatusId = 1;
@@ -114,9 +114,9 @@ namespace onni.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> UploadFiles(IFormFile file)
+		public async Task<string> UploadFiles(IFormFile file)
 		{
-			var uploads = Path.Combine(hostingEnvironment.WebRootPath, "uploads");
+			var uploads = Path.Combine(hostingEnvironment.WebRootPath, "upload/img");
 
 			if (file.Length > 0)
 			{
@@ -125,7 +125,7 @@ namespace onni.Controllers
 					await file.CopyToAsync(fileStream);
 				}
 			}
-			return RedirectToAction("Index");
+			return file.FileName;
 		}
 
 		public string MakeFileNameUnique(string input)
