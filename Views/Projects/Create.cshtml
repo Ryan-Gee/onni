@@ -10,31 +10,83 @@
     <hr />
     <div class="row">
         <div class="col-md-4">
-            <form asp-action="Create"  >
+            <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="ProjectName" class="control-label"></label>
                     <input asp-for="ProjectName" class="form-control" />
                     <span asp-validation-for="ProjectName" class="text-danger"></span>
                 </div>
-              
+        @*<div class="form-group">
+            <label asp-for="UserName" class="control-label"></label>
+            <input asp-for="UserName" class="form-control" />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>*@
+                @*<div class="form-group">
+            <label asp-for="CreatedDate" class="control-label"></label>
+            <input asp-for="CreatedDate" class="form-control" />
+            <span asp-validation-for="CreatedDate" class="text-danger"></span>
+        </div>*@
+                @*<div class="form-group">
+        <label asp-for="BodyContent" class="control-label"></label>
+        <input asp-for="BodyContent" type="hidden" class="form-control" />
+        <span asp-validation-for="BodyContent" class="text-danger"></span>
+        <div id="codex-editor" class="cdx-input" data-placeholder="Custom placeholder"></div>
+        <div class="cdx-button" id="cdx-save">
+            Save
+        </div>*@
+                @*<div class="form-group">
+            <label asp-for="UserName" class="control-label"></label>
+            <input asp-for="UserName" class="form-control" />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>*@
+                @*<div class="form-group">
+            <label asp-for="CreatedDate" class="control-label"></label>
+            <input asp-for="CreatedDate" class="form-control" />
+            <span asp-validation-for="CreatedDate" class="text-danger"></span>
+        </div>*@
                 <div class="form-group">
                     <label asp-for="BodyContent" class="control-label"></label>
                     <input asp-for="BodyContent" type="hidden" class="form-control" />
                     <span asp-validation-for="BodyContent" class="text-danger"></span>
                     <div id="codex-editor" class="cdx-input" data-placeholder="Custom placeholder"></div>
                 </div>
-                <div class="form-group">
+                @*<div class="form-group">
+                    <label asp-for="Files" class="control-label"></label>*@
+                    <input asp-for="Files" class="form-control" name="Files" type="hidden" id="file-upload" />
+                    @*<span asp-validation-for="Files" class="text-danger"></span>
+                </div>*@
+                <div class="dropzone-container form-group">
                     <label asp-for="Files" class="control-label"></label>
-                    <input asp-for="Files" class="form-control" name="Files" id="file-upload" />
-                    <span asp-validation-for="Files" class="text-danger"></span>
+                    <div action="UploadFile" id="fileUploader" class="dropzone">
+                        <div class="dropzone-drop-area"></div>
+                    </div>
                 </div>
-                <div class="form-group">
+                @*<div class="form-group">
+                    <label asp-for="Images" class="control-label"></label>*@
+                    <input asp-for="Images" class="form-control" name="Images" type="hidden" id="img-upload" />
+                    @*<span asp-validation-for="Images" class="text-danger"></span>
+                </div>*@
+                <div class="dropzone-container form-group">
                     <label asp-for="Images" class="control-label"></label>
-                    <input asp-for="Images" class="form-control" name="Images" id="img-upload" />
-                    <span asp-validation-for="Images" class="text-danger"></span>
+                    <div action="UploadImg" id="imgUploader" class="dropzone">
+                        <div class="dropzone-drop-area"></div>
+                    </div>
                 </div>
-              
+                @*<div class="form-group">
+            <label asp-for="ViewCounts" class="control-label"></label>
+            <input asp-for="ViewCounts" class="form-control" />
+            <span asp-validation-for="ViewCounts" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="LikeCounts" class="control-label"></label>
+            <input asp-for="LikeCounts" class="form-control" />
+            <span asp-validation-for="LikeCounts" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="StatusId" class="control-label"></label>
+            <select asp-for="StatusId" class="form-control" asp-items="ViewBag.StatusId"></select>
+        </div>*@
                 <div class="form-group">
                     <input asp-for="ParentProjectId" class="form-control" value="@ViewBag.ParentProjectId" type="hidden"/>
                 </div>
@@ -52,40 +104,88 @@
                 </div>
             </form>
 
-            <div class="dropzone-container" id="dropzone">
-                <form action="UploadFiles" id="imgUploader" class="dropzone">
-                    <div id="dropzone-drop-area" class="dropzone-drop-area"></div>
-                </form>
-                <input type="hidden" value=@ViewBag.guid id="guid" />
+            
 
-            </div>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
             <script src="~/lib/dropzone/dropzone.min.js"></script>
-            <script>
-                var guid = $("#guid").val();
-                $(document).ready(function () {
-                    
-                    Dropzone.options.imgUploader = {
-                        paramName: "file", // The name that will be used to transfer the file
-                        maxFilesize: 100, // MB
-                        maxFiles: 10,
-                        clickable: true,
-                        acceptedFiles: ".png,.jpg,.gif,.bmp,.jpeg",
-                        uploadMultiple: false,
-                        createImageThumbnails: true,
-                        renameFile: function (file) {
-                            return new Date().getTime() + '_' + file.name;
-                        },
-                        accept: function (file, done) {
-                            if (file.name == "badfile.jpg") {
-                                done("This is a bad file!");
-                            }
-                            else {
-                            }
+            <script type="text/javascript">
+                //Holder arrays for all images filenames and image fiels
+                var imageNames = []
+                var imageFiles = []
+                var dataNames = []
+                var dataFiles = []
+                Dropzone.autoDiscover = false
+
+                new Dropzone("#imgUploader", {
+                    maxFilesize: 100, // MB
+                    addRemoveLinks: true,
+                    //Will throw errors if more photos are added
+                    maxFiles: 50,
+                    //Only accept images files
+                    acceptedFiles: "image/*",
+                    removedfile: function (file) {
+                        //Grab the index (only the file object is passed, must search image files to get index for image names)
+                        var index = imageFiles.indexOf(file);
+                        var filename = imageNames[index];
+                        //Send the message to the server to delete the file
+                        $.post('DeleteFile/' + filename);
+                        //Update the holder arrays
+                        if (index > -1) {
+                            imageFiles.splice(index, 1);
+                            imageNames.splice(index, 1);
                         }
-                    };
+                        //Update the images form value
+                        $("#img-upload").attr('value', imageNames.join(" "));
+                        console.log(filename + "deleted successfully");
+                        //Remove the element
+                        return (el = file.previewElement) != null ? el.parentNode.removeChild(file.previewElement) : void 0;
+                    },
+                    init: function () {
+                        //On a successful file upload
+                        this.on("success", function (file, imgName) {
+                            //Add it to both arrays
+                            imageNames.push(imgName);
+                            imageFiles.push(file);
+                            //Update the form value
+                            $("#img-upload").attr('value', imageNames.join(" "));
+                            console.log(imgName + " uploaded successfully");
+                        });
+                    }
+                });
 
-
+                new Dropzone("#fileUploader", {
+                    maxFilesize: 100, // MB
+                    addRemoveLinks: true,
+                    //Will throw errors if more photos are added
+                    maxFiles: 25,
+                    removedfile: function (file) {
+                        //Grab the index (only the file object is passed, must search image files to get index for image names)
+                        var index = dataFiles.indexOf(file);
+                        var filename = dataNames[index];
+                        //Send the message to the server to delete the file
+                        $.post('DeleteFile/' + filename);
+                        //Update the holder arrays
+                        if (index > -1) {
+                            dataFiles.splice(index, 1);
+                            dataNames.splice(index, 1);
+                        }
+                        //Update the images form value
+                        $("#file-upload").attr('value', dataNames.join(" "));
+                        console.log(filename + "deleted successfully");
+                        //Remove the element
+                        return (el = file.previewElement) != null ? el.parentNode.removeChild(file.previewElement) : void 0;
+                    },
+                    init: function () {
+                        //On a successful file upload
+                        this.on("success", function (file, dataName) {
+                            //Add it to both arrays
+                            dataNames.push(dataName);
+                            dataFiles.push(file);
+                            //Update the form value
+                            $("#file-upload").attr('value', dataNames.join(" "));
+                            console.log(dataName + " uploaded successfully");
+                        });
+                    }
                 });
             </script>
         </div>

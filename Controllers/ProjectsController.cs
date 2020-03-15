@@ -74,7 +74,6 @@ namespace onni.Controllers
 			ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoriesId", "CategoriesName");
 			ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusName");
 			ViewBag.ParentProjectId = ParentProjectId;
-			ViewBag.guid = Guid.NewGuid();
 			return View(new ProjectUpload());
 		}
 
@@ -114,18 +113,71 @@ namespace onni.Controllers
 		}
 
 		[HttpPost]
-		public async Task<string> UploadFiles(IFormFile file)
+		public async Task<string> UploadImg(IFormFile file)
 		{
 			var uploads = Path.Combine(hostingEnvironment.WebRootPath, "upload/img");
 
 			if (file.Length > 0)
 			{
-				using (var fileStream = new FileStream(Path.Combine(uploads, file.FileName), FileMode.Create))
+				var f = file.FileName;
+				f = f.Replace(" ", "");
+				f = f.Replace("/", "");
+				f = f.Replace("\\", "");
+				var fn = Guid.NewGuid() + "-" + f;
+				using (var fileStream = new FileStream(Path.Combine(uploads, fn), FileMode.Create))
 				{
 					await file.CopyToAsync(fileStream);
+					return fn;
 				}
 			}
-			return file.FileName;
+			else
+			{
+				return null;
+			}
+		}
+
+		[HttpPost]
+		public async Task<string> UploadFile(IFormFile file)
+		{
+			var uploads = Path.Combine(hostingEnvironment.WebRootPath, "upload/files");
+
+			if (file.Length > 0)
+			{
+				var f = file.FileName;
+				f = f.Replace(" ", "");
+				f = f.Replace("/", "");
+				f = f.Replace("\\", "");
+				var fn = Guid.NewGuid() + "-" + f;
+				using (var fileStream = new FileStream(Path.Combine(uploads, fn), FileMode.Create))
+				{
+					await file.CopyToAsync(fileStream);
+					return fn;
+				}
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+		[HttpPost]
+		public async Task<string> DeleteFile(string id)
+		{
+			var uploads = Path.Combine(hostingEnvironment.WebRootPath, "upload/img");
+			var fn = id;
+
+			var filepath = Path.Combine(uploads, fn);
+			if (System.IO.File.Exists(filepath))
+			{
+				// If file found, delete it    
+				System.IO.File.Delete(filepath);
+				Console.WriteLine("File deleted.");
+				return "";
+			}
+			else
+			{
+				return "File does not exist";
+			}
 		}
 
 		public string MakeFileNameUnique(string input)
