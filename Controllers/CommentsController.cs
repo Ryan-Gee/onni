@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using onni.Models;
 
@@ -62,11 +63,12 @@ namespace onni.Controllers
             {
                 _context.Add(comments);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Projects", new { id = comments.ProjectId });
             }
             ViewData["ProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName", comments.ProjectId);
-            return View(comments);
+            return RedirectToAction("Details", "Projects", new { id = comments.ProjectId });
         }
+
 
         // GET: Comments/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -148,7 +150,7 @@ namespace onni.Controllers
             var comments = await _context.Comments.FindAsync(id);
             _context.Comments.Remove(comments);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Projects", new { id = comments.ProjectId });
         }
 
         private bool CommentsExists(int id)

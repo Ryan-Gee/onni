@@ -1,0 +1,22 @@
+﻿@model IEnumerable<onni.Models.Comments>;
+
+@foreach (var item in Model)
+{
+
+    <div>
+        @Html.DisplayFor(modelItem => item.UserName)
+    </div>
+    <div>
+        @Html.DisplayFor(modelItem => item.CommentDate)
+    </div>
+    <div>
+        @Html.DisplayFor(modelItem => item.BodyContent)
+    </div>
+    if (User.Identity.Name == item.UserName || User.IsInRole("Admin"))
+{
+    <div>
+        <a asp-controller="Comments" asp-action="Delete" asp-route-id="@item.CommentId">Delete</a>
+    </div>
+    }
+    <hr />
+}
