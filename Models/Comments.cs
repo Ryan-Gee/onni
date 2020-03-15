@@ -24,4 +24,5 @@ namespace onni.Models
         [InverseProperty("Comments")]
         public Projects Project { get; set; }
     }
+
 }
