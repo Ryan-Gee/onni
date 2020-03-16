@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -123,7 +124,8 @@ namespace onni.Controllers
 				f = f.Replace(" ", "");
 				f = f.Replace("/", "");
 				f = f.Replace("\\", "");
-				var fn = Guid.NewGuid() + "-" + f;
+				f = f.Replace("#", "");
+				var fn = Guid.NewGuid() + "_" + Uri.EscapeUriString(f);
 				using (var fileStream = new FileStream(Path.Combine(uploads, fn), FileMode.Create))
 				{
 					await file.CopyToAsync(fileStream);
@@ -147,7 +149,8 @@ namespace onni.Controllers
 				f = f.Replace(" ", "");
 				f = f.Replace("/", "");
 				f = f.Replace("\\", "");
-				var fn = Guid.NewGuid() + "-" + f;
+				f = f.Replace("#", "");
+				var fn = Guid.NewGuid() + "_" + Uri.EscapeUriString(f);
 				using (var fileStream = new FileStream(Path.Combine(uploads, fn), FileMode.Create))
 				{
 					await file.CopyToAsync(fileStream);
@@ -180,10 +183,14 @@ namespace onni.Controllers
 			}
 		}
 
-		public string MakeFileNameUnique(string input)
+		[HttpGet()]
+		public IActionResult DownloadFile(string id)
 		{
-			input = Path.GetFileName(input);
-			return Path.GetFileNameWithoutExtension(input) + "_" + Guid.NewGuid().ToString().Substring(0, 4) + Path.GetExtension(input);
+			var fileFolder = Path.Combine(hostingEnvironment.WebRootPath, "upload/files/");
+			string path = fileFolder;
+			byte[] fileBytes = System.IO.File.ReadAllBytes(path + id);
+			string fileName = id.Substring(id.IndexOf("_") + 1);
+			return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
 		}
 
 		// GET: Projects/Edit/5

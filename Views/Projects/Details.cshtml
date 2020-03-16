@@ -34,11 +34,11 @@
 
             </div>
         </div>
-        <div>
+        <div id="project-files">
             @Html.DisplayFor(modelItem => item.Files)
         </div>
-        <div>
-            @Html.DisplayFor(modelItem => item.Images)
+        <div id="project-images">
+            @item.Images
         </div>
         <div>
             @Html.DisplayFor(modelItem => item.ViewCounts)
@@ -70,3 +70,33 @@
     <partial name="_DisplayComments" />
     <partial name="_CreateComment" />
 </div>
+
+<script src="/lib/jquery/dist/jquery.js"></script>
+<script>
+    var imgSection = $("#project-images")
+    var fileSection = $("#project-files")
+    var images = imgSection.text().trim().split(" ")
+    var files = fileSection.text().trim().split(" ")
+    var imgContent = ""
+    var fileContent = ""
+
+    if (images != "") {
+        $.each(images, function (index, img) {
+            //Image HTML goes here!
+            imgContent += "<img src = '../../upload/img/"+img+"' alt = '' width='200' />"
+        })
+    }
+    else {
+        imgContent = "<p>No Images</p>"
+    }
+    imgSection.html(imgContent)
+
+    if (files != "") {
+        $.each(files, function (index, file) {
+            var plainName = file.substring(file.indexOf("_") + 1);
+            //File display HTML goes here!
+            fileContent += "<p class=''><a target='_blank' href='../DownloadFile/"+file+"'>" + plainName + "</a></p>"
+        })
+    }
+    fileSection.html(fileContent);
+</script>
