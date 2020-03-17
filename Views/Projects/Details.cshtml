@@ -15,7 +15,7 @@
                 <p>
                     <a asp-action="Create" asp-route-ParentProjectId="@item.ProjectId">Create Child project</a>
                 </p>
-            } 
+            }
             @if (User.IsInRole("Admin") && @item.StatusId == 1)
             {
                 <form asp-area="Admin" asp-action="Public" asp-route-id="@item.ProjectId" method="post">
@@ -64,11 +64,24 @@
             <div>
                 @Html.DisplayFor(modelItem => item.Status.StatusName)
             </div>
-            if (User.Identity.Name == item.UserName || User.IsInRole("Admin"))
+            @if (User.Identity.Name == item.UserName || User.IsInRole("Admin"))
             {
                 <div>
                     <a asp-action="Edit" asp-route-id="@item.ProjectId">Edit</a>
                 </div>
+            }
+            @if (ViewBag.isLike == true)
+            {
+                <form asp-controller="SavedProjects" asp-action="Unlike" asp-route-ProjectId="@item.ProjectId" asp-route-UserName="@User.Identity.Name" method="post">
+                    <button type="submit" class="btn btn-link">Unlike</button>
+                </form>
+            }
+            else
+            {
+                <form asp-controller="SavedProjects" asp-action="Like" asp-route-ProjectId="@item.ProjectId" asp-route-UserName="@User.Identity.Name" method="post">
+                    <button type="submit" class="btn btn-link">Like</button>
+                </form>
+
             }
         }
         <h2>Comments</h2>

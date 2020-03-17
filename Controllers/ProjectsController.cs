@@ -59,6 +59,15 @@ namespace onni.Controllers
 				{
 					return NotFound();
 				}
+				var savedProjects = _context.SavedProjects.SingleOrDefault(s => s.UserName == User.Identity.Name && s.ProjectId == id);
+				if (savedProjects == null)
+				{
+					ViewBag.isLike = false;
+				}
+				else
+				{
+					ViewBag.isLike = true;
+				}
 				// find all comments with the project ID
 				var comments = _context.Comments.Where(p => p.ProjectId == id);
 				ViewData["Projects"] = projects;
