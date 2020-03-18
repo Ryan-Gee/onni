@@ -1,0 +1,25 @@
+﻿@model IEnumerable<onni.Models.Comments>;
+
+@foreach (var item in Model)
+{
+    <!-- Section elements used for comments, similar styling to project sections -->
+    <section class="comment mb-5 mt-5">
+        <!-- User name and image -->
+        <h4 id="comment-user">
+            <img class="profile-img" src="https://randomuser.me/api/portraits/women/32.jpg" alt="profile" height="30" />
+            @Html.DisplayFor(modelItem => item.UserName)
+        </h4>
+        <!-- Body of the comment itself -->
+        <p class="comment-body m-4">@Html.DisplayFor(modelItem => item.BodyContent)</p>
+    </section>
+    @*<div>
+        @Html.DisplayFor(modelItem => item.CommentDate)
+    </div>*@
+    if (User.Identity.Name == item.UserName || User.IsInRole("Admin"))
+    {
+        <div>
+            <a asp-controller="Comments" asp-action="Delete" asp-route-id="@item.CommentId">Delete</a>
+        </div>
+    }
+    <hr />
+}

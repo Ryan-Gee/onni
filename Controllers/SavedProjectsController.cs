@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using onni.Models;
 
 namespace onni.Controllers
 {
+    [Authorize]
     public class SavedProjectsController : Controller
     {
         private readonly ChangeMakingContext _context;
@@ -50,6 +52,39 @@ namespace onni.Controllers
             ViewData["ProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName");
             return View();
         }
+
+        // POST: Like Button
+        // Like
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Like( string UserName, int ProjectId)
+        {
+            var savedProjects = new SavedProjects
+            {
+                UserName = UserName,
+                ProjectId = ProjectId,
+                SavedDate = DateTime.Now
+            };
+
+                _context.SavedProjects.Add(savedProjects);
+                _context.SaveChanges();
+
+            return RedirectToAction("Details", "Projects", new { id = ProjectId });
+        }
+        // Unlike 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Unlike(string UserName, int ProjectId)
+        {
+            var savedProjects = _context.SavedProjects.SingleOrDefault(s => s.UserName == UserName && s.ProjectId == ProjectId);
+            _context.SavedProjects.Remove(savedProjects);
+            _context.SaveChanges();
+            return RedirectToAction("Details", "Projects", new { id = ProjectId });
+        }
+
+
+
+
 
         // POST: SavedProjects/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

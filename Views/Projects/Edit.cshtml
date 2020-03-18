@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div data-page="project-edit" class="project-edit">
+<div data-page="project-edit">
 
     <h2>Edit</h2>
 
@@ -35,9 +35,6 @@
                     <input asp-for="BodyContent" type="hidden" class="form-control" />
                     <span asp-validation-for="BodyContent" class="text-danger"></span>
                     <div id="codex-editor" class="cdx-input" data-placeholder="Custom placeholder"></div>
-                    <div class="cdx-button" id="cdx-save">
-                        Save
-                    </div>
                 </div>
                 <div class="form-group">
                     <label asp-for="Files" class="control-label"></label>

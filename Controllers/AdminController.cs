@@ -17,64 +17,61 @@ using onni.Models;
 
 namespace onni.Controllers
 {
-	[Authorize]
-	public class ProjectsController : Controller
+	[Authorize(Roles = "Admin")]
+	public class AdminController : Controller
 	{
 		//Used for file upload
 		private readonly IHostingEnvironment hostingEnvironment;
 		//Add db context
 		private readonly ChangeMakingContext _context;
 
-		public ProjectsController(ChangeMakingContext context, IHostingEnvironment environment)
+		public AdminController(ChangeMakingContext context, IHostingEnvironment environment)
 		{
 			_context = context;
 			hostingEnvironment = environment;
 		}
 
 		// GET: Projects
-		[AllowAnonymous]
 		public async Task<IActionResult> Index()
 		{
 			var changeMakingContext = _context.Projects.Include(p => p.Category).Include(p => p.ParentProject).Include(p => p.Status);
 			return View(await changeMakingContext.ToListAsync());
 		}
 
-		// GET: Projects/Details/5
-		// using comments model instead of project
-		[AllowAnonymous]
-		public async Task<IActionResult> Details(int? id)
-		{
-			{
-				if (id == null)
-				{
-					return NotFound();
-				}
 
-				var projects = _context.Projects
-					.Where(m => m.ProjectId == id)
-					.Include(p => p.Category)
-					.Include(p => p.ParentProject)
-					.Include(p => p.Status);
-				if (projects == null)
-				{
-					return NotFound();
-				}
-				var savedProjects = _context.SavedProjects.SingleOrDefault(s => s.UserName == User.Identity.Name && s.ProjectId == id);
-				if (savedProjects == null)
-				{
-					ViewBag.isLike = false;
-				}
-				else
-				{
-					ViewBag.isLike = true;
-				}
-				// find all comments with the project ID
-				var comments = _context.Comments.Where(p => p.ProjectId == id);
-				ViewData["Projects"] = projects;
-				ViewBag.id = id;
-				return View(comments);
+
+		public async Task<IActionResult> Public(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
 			}
+
+			var comments = await _context.Comments
+				.Include(c => c.Project)
+				.FirstOrDefaultAsync(m => m.CommentId == id);
+			if (comments == null)
+			{
+				return NotFound();
+			}
+
+			return View(comments);
 		}
+
+		// POST: Make a project public
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public  IActionResult Public(int id)
+		{
+			var project = _context.Projects.SingleOrDefault(m => m.ProjectId == id);
+			// projectID 1: Pending 2:Draft 3:Public
+			project.StatusId = 3;
+			_context.Update(project);
+			_context.SaveChanges();
+			return RedirectToAction ("index");
+		}
+
+
 
 
 		// GET: Projects/Create
@@ -122,85 +119,6 @@ namespace onni.Controllers
 			return View("index");
 		}
 
-		[HttpPost]
-		public async Task<string> UploadImg(IFormFile file)
-		{
-			var uploads = Path.Combine(hostingEnvironment.WebRootPath, "upload/img");
-
-			if (file.Length > 0)
-			{
-				var f = file.FileName;
-				f = f.Replace(" ", "");
-				f = f.Replace("/", "");
-				f = f.Replace("\\", "");
-				f = f.Replace("#", "");
-				var fn = Guid.NewGuid() + "_" + Uri.EscapeUriString(f);
-				using (var fileStream = new FileStream(Path.Combine(uploads, fn), FileMode.Create))
-				{
-					await file.CopyToAsync(fileStream);
-					return fn;
-				}
-			}
-			else
-			{
-				return null;
-			}
-		}
-
-		[HttpPost]
-		public async Task<string> UploadFile(IFormFile file)
-		{
-			var uploads = Path.Combine(hostingEnvironment.WebRootPath, "upload/files");
-
-			if (file.Length > 0)
-			{
-				var f = file.FileName;
-				f = f.Replace(" ", "");
-				f = f.Replace("/", "");
-				f = f.Replace("\\", "");
-				f = f.Replace("#", "");
-				var fn = Guid.NewGuid() + "_" + Uri.EscapeUriString(f);
-				using (var fileStream = new FileStream(Path.Combine(uploads, fn), FileMode.Create))
-				{
-					await file.CopyToAsync(fileStream);
-					return fn;
-				}
-			}
-			else
-			{
-				return null;
-			}
-		}
-
-		[HttpPost]
-		public async Task<string> DeleteFile(string id)
-		{
-			var uploads = Path.Combine(hostingEnvironment.WebRootPath, "upload/img");
-			var fn = id;
-
-			var filepath = Path.Combine(uploads, fn);
-			if (System.IO.File.Exists(filepath))
-			{
-				// If file found, delete it    
-				System.IO.File.Delete(filepath);
-				Console.WriteLine("File deleted.");
-				return "";
-			}
-			else
-			{
-				return "File does not exist";
-			}
-		}
-
-		[HttpGet()]
-		public IActionResult DownloadFile(string id)
-		{
-			var fileFolder = Path.Combine(hostingEnvironment.WebRootPath, "upload/files/");
-			string path = fileFolder;
-			byte[] fileBytes = System.IO.File.ReadAllBytes(path + id);
-			string fileName = id.Substring(id.IndexOf("_") + 1);
-			return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
-		}
 
 		// GET: Projects/Edit/5
 		public async Task<IActionResult> Edit(int? id)
