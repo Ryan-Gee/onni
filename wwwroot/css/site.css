@@ -24,7 +24,7 @@ body {
 }
 
 /* Navbar styles */
-.navbar-expand-lg {
+.navbar-fixed-top {
     position: fixed;
     top: 0px;
     background-color: #1bde3d;
@@ -37,27 +37,26 @@ body {
     outline: none;
 }
 
-.navbar-expand-lg .navbar-collapse li {
+.navbar-fixed-top .navbar-collapse li {
     margin: 0 auto;
     text-align: center;
 }
 
-.navbar-expand-lg .navbar-collapse li a {
+.navbar-fixed-top .navbar-collapse li a {
     color: #000;
 }
 
-.navbar-expand-lg .navbar-brand a {
+.navbar-fixed-top .navbar-brand a {
     color: #000;
 }
 
-.navbar-expand-lg .navbar-brand a:visited {
+.navbar-fixed-top .navbar-brand a:visited {
     color: #000;
 }
 
-.navbar-expand-lg .navbar-collapse li a:hover {
+.navbar-fixed-top .navbar-collapse li a:hover {
     background-color: #006837;
     color: #ffffff;
-    width: 100%;
 }
 
 /* Card tag styles */
