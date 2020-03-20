@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.IO;
+using System.Dynamic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -70,6 +70,31 @@ namespace onni.Controllers
 			_context.SaveChanges();
 			return RedirectToAction ("index");
 		}
+
+
+		// GET report 
+		public IActionResult Report()
+		{
+
+			var commentsInYear = _context.Comments.Where(y => y.CommentDate.Year == 2020).Count();
+			var ProjectsCount = _context.Projects.Where(p => p.CreatedDate.Month == 3).Count();
+			var MostLiked = _context.Projects.OrderByDescending(p => p.LikeCounts).Take(5).ToList();
+			var MostViewed = _context.Projects.OrderByDescending(p => p.ViewCounts).Take(5).ToList();
+			var PendingProjects = _context.Projects.Where(p => p.StatusId == 1).Count();
+			var ProjectsInYears = _context.Projects.Where(p => p.CreatedDate.Year == 2020).GroupBy(p => p.CreatedDate.Month)
+				//.Select(g => new ProjectsInYear { Mouth = g.Key, Count = g.Count() })
+				.ToList();
+
+			ViewData["commentsInYear"] = commentsInYear;
+			ViewData["ProjectsCount"] = ProjectsCount;
+			ViewData["MostLiked"] = MostLiked; 
+			ViewData["MostViewed"] = MostViewed;
+			ViewData["PendingProjects"] = PendingProjects;
+			ViewData["ProjectsInYears"] = ProjectsInYears;
+
+			return View(ProjectsInYears);
+		}
+
 
 
 
@@ -213,6 +238,9 @@ namespace onni.Controllers
 		{
 			return _context.Projects.Any(e => e.ProjectId == id);
 		}
+
+
 	}
+
 }
 

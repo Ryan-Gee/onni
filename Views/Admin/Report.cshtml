@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewData["Title"] = "Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Report</h2>
+<h3>New Comments</h3>
+<p>@ViewData["commentsInYear"]</p>
+<h3>New Projects</h3>
+<p>@ViewData["ProjectsCount"]</p>
+<p>@ViewData["ProjectsInYears"]</p>
+
+
+
+
+
+<div>
+    <h2>
+        Most Liked Projects
+    </h2>
+    <ol>
+
+        @foreach (var project in (IEnumerable<Projects>)ViewData["MostLiked"])
+        {
+            <li>
+                <a asp-controller="Projects" asp-action="Details" asp-route-id="@project.ProjectId"> @project.ProjectName</a>
+                <span>(@project.LikeCounts) </span>
+            </li>
+
+        }
+    </ol>
+</div>
+
+
+<div>
+    <h2>
+        Most viewed Project
+    </h2>
+    <ol>
+
+        @foreach (var project in (IEnumerable<Projects>)ViewData["MostViewed"])
+        {
+            <li>
+                <a asp-controller="Projects" asp-action="Details" asp-route-id="@project.ProjectId"> @project.ProjectName</a>
+                <span>(@project.LikeCounts) </span>
+            </li>
+
+        }
+    </ol>
+</div>
+<p> You have <a asp-action="Index">@ViewData["PendingProjects"] </a>pending projects</p>
+<a asp-area="" asp-controller="role" asp-action="index">Menage Role </a>
