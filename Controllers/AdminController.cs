@@ -75,24 +75,45 @@ namespace onni.Controllers
 		// GET report 
 		public IActionResult Report()
 		{
+			//IDictionary<int, string> monthList = new Dictionary<int, string>();
+			//monthList.Add(1, "January");
+			//monthList.Add(2, "February");
+			//monthList.Add(3, "March");
+			//monthList.Add(4, "April");
+			//monthList.Add(5, "May");
+			//monthList.Add(6, "June");
+			//monthList.Add(7, "July");
+			//monthList.Add(8, "August");
+			//monthList.Add(9, "September");
+			//monthList.Add(10, "October");
+			//monthList.Add(11, "November");
+			//monthList.Add(12, "December ");
 
-			var commentsInYear = _context.Comments.Where(y => y.CommentDate.Year == 2020).Count();
-			var ProjectsCount = _context.Projects.Where(p => p.CreatedDate.Month == 3).Count();
+
+			var CommentsCount = _context.Comments.Where(y => y.CommentDate.Month == DateTime.Now.Month).Count();
+			var ProjectsCount = _context.Projects.Where(p => p.CreatedDate.Month == DateTime.Now.Month).Count();
 			var MostLiked = _context.Projects.OrderByDescending(p => p.LikeCounts).Take(5).ToList();
 			var MostViewed = _context.Projects.OrderByDescending(p => p.ViewCounts).Take(5).ToList();
 			var PendingProjects = _context.Projects.Where(p => p.StatusId == 1).Count();
 			var ProjectsInYears = _context.Projects.Where(p => p.CreatedDate.Year == 2020).GroupBy(p => p.CreatedDate.Month)
-				//.Select(g => new ProjectsInYear { Mouth = g.Key, Count = g.Count() })
-				.ToList();
+				.Select(g => new ProjectsInYear { Mouth = g.Key, Count = g.Count() })
+				.ToList().OrderBy(s => s.Mouth);
+			var CommentsInYear = _context.Comments.Where(p => p.CommentDate.Year == 2020).GroupBy(p => p.CommentDate.Month)
+				.Select(g => new CommentsInYear { Mouth = g.Key, Count = g.Count() })
+				.ToList().OrderBy(s => s.Mouth);
 
-			ViewData["commentsInYear"] = commentsInYear;
+
+
+			ViewData["CommentsCount"] = CommentsCount;
 			ViewData["ProjectsCount"] = ProjectsCount;
 			ViewData["MostLiked"] = MostLiked; 
 			ViewData["MostViewed"] = MostViewed;
 			ViewData["PendingProjects"] = PendingProjects;
 			ViewData["ProjectsInYears"] = ProjectsInYears;
+			ViewData["CommentsInYear"] = CommentsInYear;
 
-			return View(ProjectsInYears);
+
+			return View();
 		}
 
 

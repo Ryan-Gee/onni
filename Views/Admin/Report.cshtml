@@ -5,20 +5,68 @@
 }
 
 <h2>Report</h2>
-<h3>New Comments</h3>
-<p>@ViewData["commentsInYear"]</p>
-<h3>New Projects</h3>
+<h3>New Comments This Month</h3>
+<p>@ViewData["CommentsCount"]</p>
+<h3>New Projects This Month</h3>
 <p>@ViewData["ProjectsCount"]</p>
-<p>@ViewData["ProjectsInYears"]</p>
+
+<h3>New comments of Year</h3>
+<table class="table">
+    <tr>
+        <th>
+            Mouth
+        </th>
+        <th>
+            Count
+        </th>
+    </tr>
+    @foreach (var item in (IEnumerable<CommentsInYear>)ViewData["CommentsInYear"])
+    {
+        var mouthName = new DateTime(2012, item.Mouth, 1).ToString("MMMM");
+        <tr>
+            <td>
+                @mouthName
+            </td>
+            <td>
+                @item.Count
+            </td>
+        </tr>
+
+    }
+</table>
 
 
+<h3>New projects of Year</h3>
+<table class="table">
+    <tr>
+        <th>
+            Mouth
+        </th>
+        <th>
+            Count
+        </th>
+    </tr>
+    @foreach (var item in (IEnumerable<ProjectsInYear>)ViewData["ProjectsInYears"])
+    {
+        var mouthName = new DateTime(2012, item.Mouth, 1).ToString("MMMM");
+        <tr>
+            <td>
+                @mouthName
+            </td>
+            <td>
+                @item.Count
+            </td>
+        </tr>
+
+    }
+</table>
 
 
 
 <div>
-    <h2>
+    <h3>
         Most Liked Projects
-    </h2>
+    </h3>
     <ol>
 
         @foreach (var project in (IEnumerable<Projects>)ViewData["MostLiked"])
@@ -34,9 +82,9 @@
 
 
 <div>
-    <h2>
+    <h3>
         Most viewed Project
-    </h2>
+    </h3>
     <ol>
 
         @foreach (var project in (IEnumerable<Projects>)ViewData["MostViewed"])
