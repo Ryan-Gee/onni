@@ -5,13 +5,29 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
     <div data-page="project-index">
-        <h2>Index</h2>
         @if (User.Identity.IsAuthenticated)
         {
             <p>
                 <a asp-action="Create">Create New</a>
             </p>
         }
+        <!-- Main site content -->
+        <div class="container-fluid">
+            <!-- Header at the top of the page -->
+            <div class="jumbotron">
+                <h1>Everything. By Everyone.</h1>
+                <h3>All your projects, in one place.</h3>
+                <!-- Search bar -->
+                <div class="input-group mt-4">
+                    <input type="text" class="form-control" placeholder="Search..." value="greenhouse">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button">
+                            <img src="icons/search.svg" alt="search" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="container">
             <!-- All project listings -->
             <div class="projects">

@@ -6,11 +6,15 @@
     <title>@ViewData["Title"] - onni</title>
 
     <environment include="Development">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Karla&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Karla&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     </environment>
 
@@ -18,11 +22,10 @@
     <link rel="stylesheet" href="~/lib/dropzone/basic.min.css" />
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-fixed-top ">
-        <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-fixed-top nav-main">
                 <a class="navbar-brand" href="#">ONNI</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                    <img src="https://image.flaticon.com/icons/svg/2089/2089792.svg" alt="hamburger" height="20" />
                 </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
@@ -53,7 +56,6 @@
                 </ul>
                 <partial name="_LoginPartial" />
             </div>
-        </div>
     </nav>
     <partial name="_CookieConsentPartial" />
 

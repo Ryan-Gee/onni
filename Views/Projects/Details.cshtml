@@ -6,8 +6,6 @@
 }
     <div data-page="project-details">
 
-        <h2>Project</h2>
-
         @foreach (var item in (IEnumerable<Projects>)ViewData["Projects"])
         {
             @if (User.Identity.IsAuthenticated)
@@ -22,7 +20,13 @@
                     <button type="submit" class="btn btn-link">Make it public</button>
                 </form>
             }
-
+            <!-- Main site content -->
+            <div class="container-fluid">
+                <div class="jumbotron">
+                    <h1 class="project-title">@Html.DisplayFor(modelItem => item.ProjectName)</h1>
+                    <p class="project-description">@Html.DisplayFor(modelItem => item.CreatedDate)</p>
+                </div>
+            </div>
             <!-- Main project listing -->
             <div class="project pt-4">
                 <!-- Bar containing user, comments, likes, etc links, rendered as a large pill-styled bar in the mockup -->

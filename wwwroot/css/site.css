@@ -24,7 +24,7 @@ body {
 }
 
 /* Navbar styles */
-.navbar-fixed-top {
+.nav-main {
     position: fixed;
     top: 0px;
     background-color: #1bde3d;
@@ -37,24 +37,24 @@ body {
     outline: none;
 }
 
-.navbar-fixed-top .navbar-collapse li {
+.nav-main .navbar-collapse li {
     margin: 0 auto;
     text-align: center;
 }
 
-.navbar-fixed-top .navbar-collapse li a {
+.nav-main .navbar-collapse li a {
     color: #000;
 }
 
-.navbar-fixed-top .navbar-brand a {
+.nav-main .navbar-brand a {
     color: #000;
 }
 
-.navbar-fixed-top .navbar-brand a:visited {
+.nav-main .navbar-brand a:visited {
     color: #000;
 }
 
-.navbar-fixed-top .navbar-collapse li a:hover {
+.nav-main .navbar-collapse li a:hover {
     background-color: #006837;
     color: #ffffff;
 }
@@ -188,6 +188,16 @@ body {
     .input-group-append img {
         fill: #fff;
     }
+
+.container-fluid, .jumbotron {
+    background-color: #1bde3d;
+}
+
+.jumbotron {
+    max-width: 1140px;
+    margin: auto;
+    margin-bottom: 10px;
+}
 
 /* Login styles */
 #login {
