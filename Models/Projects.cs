@@ -72,4 +72,18 @@ namespace onni.Models
 		public string Tags { get; set; }
 		public int? CategoryId { get; set; }
 	}
+    public class ProjectsInYear
+    {
+        public int Mouth { get; set; }
+        public int Count { get; set; }
+
+    }
+    public class CommentsInYear
+    {
+        public int Mouth { get; set; }
+        public int Count { get; set; }
+
+    }
+
+    
 }

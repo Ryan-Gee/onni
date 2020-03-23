@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.IO;
+using System.Dynamic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -17,64 +17,107 @@ using onni.Models;
 
 namespace onni.Controllers
 {
-	[Authorize]
-	public class ProjectsController : Controller
+	[Authorize(Roles = "Admin")]
+	public class AdminController : Controller
 	{
 		//Used for file upload
 		private readonly IHostingEnvironment hostingEnvironment;
 		//Add db context
 		private readonly ChangeMakingContext _context;
 
-		public ProjectsController(ChangeMakingContext context, IHostingEnvironment environment)
+		public AdminController(ChangeMakingContext context, IHostingEnvironment environment)
 		{
 			_context = context;
 			hostingEnvironment = environment;
 		}
 
 		// GET: Projects
-		[AllowAnonymous]
 		public async Task<IActionResult> Index()
 		{
 			var changeMakingContext = _context.Projects.Include(p => p.Category).Include(p => p.ParentProject).Include(p => p.Status);
 			return View(await changeMakingContext.ToListAsync());
 		}
 
-		// GET: Projects/Details/5
-		// using comments model instead of project
-		[AllowAnonymous]
-		public async Task<IActionResult> Details(int? id)
-		{
-			{
-				if (id == null)
-				{
-					return NotFound();
-				}
 
-				var projects = _context.Projects
-					.Where(m => m.ProjectId == id)
-					.Include(p => p.Category)
-					.Include(p => p.ParentProject)
-					.Include(p => p.Status);
-				if (projects == null)
-				{
-					return NotFound();
-				}
-				var savedProjects = _context.SavedProjects.SingleOrDefault(s => s.UserName == User.Identity.Name && s.ProjectId == id);
-				if (savedProjects == null)
-				{
-					ViewBag.isLike = false;
-				}
-				else
-				{
-					ViewBag.isLike = true;
-				}
-				// find all comments with the project ID
-				var comments = _context.Comments.Where(p => p.ProjectId == id);
-				ViewData["Projects"] = projects;
-				ViewBag.id = id;
-				return View(comments);
+
+		public async Task<IActionResult> Public(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
 			}
+
+			var comments = await _context.Comments
+				.Include(c => c.Project)
+				.FirstOrDefaultAsync(m => m.CommentId == id);
+			if (comments == null)
+			{
+				return NotFound();
+			}
+
+			return View(comments);
 		}
+
+		// POST: Make a project public
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public  IActionResult Public(int id)
+		{
+			var project = _context.Projects.SingleOrDefault(m => m.ProjectId == id);
+			// projectID 1: Pending 2:Draft 3:Public
+			project.StatusId = 3;
+			_context.Update(project);
+			_context.SaveChanges();
+			return RedirectToAction ("index");
+		}
+
+
+		// GET report 
+		public IActionResult Report()
+		{
+			//IDictionary<int, string> monthList = new Dictionary<int, string>();
+			//monthList.Add(1, "January");
+			//monthList.Add(2, "February");
+			//monthList.Add(3, "March");
+			//monthList.Add(4, "April");
+			//monthList.Add(5, "May");
+			//monthList.Add(6, "June");
+			//monthList.Add(7, "July");
+			//monthList.Add(8, "August");
+			//monthList.Add(9, "September");
+			//monthList.Add(10, "October");
+			//monthList.Add(11, "November");
+			//monthList.Add(12, "December ");
+
+
+			var CommentsCount = _context.Comments.Where(y => y.CommentDate.Month == DateTime.Now.Month).Count();
+			var ProjectsCount = _context.Projects.Where(p => p.CreatedDate.Month == DateTime.Now.Month).Count();
+			var MostLiked = _context.Projects.OrderByDescending(p => p.LikeCounts).Take(5).ToList();
+			var MostViewed = _context.Projects.OrderByDescending(p => p.ViewCounts).Take(5).ToList();
+			var PendingProjects = _context.Projects.Where(p => p.StatusId == 1).Count();
+			var ProjectsInYears = _context.Projects.Where(p => p.CreatedDate.Year == 2020).GroupBy(p => p.CreatedDate.Month)
+				.Select(g => new ProjectsInYear { Mouth = g.Key, Count = g.Count() })
+				.ToList().OrderBy(s => s.Mouth);
+			var CommentsInYear = _context.Comments.Where(p => p.CommentDate.Year == 2020).GroupBy(p => p.CommentDate.Month)
+				.Select(g => new CommentsInYear { Mouth = g.Key, Count = g.Count() })
+				.ToList().OrderBy(s => s.Mouth);
+
+
+
+			ViewData["CommentsCount"] = CommentsCount;
+			ViewData["ProjectsCount"] = ProjectsCount;
+			ViewData["MostLiked"] = MostLiked; 
+			ViewData["MostViewed"] = MostViewed;
+			ViewData["PendingProjects"] = PendingProjects;
+			ViewData["ProjectsInYears"] = ProjectsInYears;
+			ViewData["CommentsInYear"] = CommentsInYear;
+
+
+			return View();
+		}
+
+
+
 
 
 		// GET: Projects/Create
@@ -122,85 +165,6 @@ namespace onni.Controllers
 			return View("index");
 		}
 
-		[HttpPost]
-		public async Task<string> UploadImg(IFormFile file)
-		{
-			var uploads = Path.Combine(hostingEnvironment.WebRootPath, "upload/img");
-
-			if (file.Length > 0)
-			{
-				var f = file.FileName;
-				f = f.Replace(" ", "");
-				f = f.Replace("/", "");
-				f = f.Replace("\\", "");
-				f = f.Replace("#", "");
-				var fn = Guid.NewGuid() + "_" + Uri.EscapeUriString(f);
-				using (var fileStream = new FileStream(Path.Combine(uploads, fn), FileMode.Create))
-				{
-					await file.CopyToAsync(fileStream);
-					return fn;
-				}
-			}
-			else
-			{
-				return null;
-			}
-		}
-
-		[HttpPost]
-		public async Task<string> UploadFile(IFormFile file)
-		{
-			var uploads = Path.Combine(hostingEnvironment.WebRootPath, "upload/files");
-
-			if (file.Length > 0)
-			{
-				var f = file.FileName;
-				f = f.Replace(" ", "");
-				f = f.Replace("/", "");
-				f = f.Replace("\\", "");
-				f = f.Replace("#", "");
-				var fn = Guid.NewGuid() + "_" + Uri.EscapeUriString(f);
-				using (var fileStream = new FileStream(Path.Combine(uploads, fn), FileMode.Create))
-				{
-					await file.CopyToAsync(fileStream);
-					return fn;
-				}
-			}
-			else
-			{
-				return null;
-			}
-		}
-
-		[HttpPost]
-		public async Task<string> DeleteFile(string id)
-		{
-			var uploads = Path.Combine(hostingEnvironment.WebRootPath, "upload/img");
-			var fn = id;
-
-			var filepath = Path.Combine(uploads, fn);
-			if (System.IO.File.Exists(filepath))
-			{
-				// If file found, delete it    
-				System.IO.File.Delete(filepath);
-				Console.WriteLine("File deleted.");
-				return "";
-			}
-			else
-			{
-				return "File does not exist";
-			}
-		}
-
-		[HttpGet()]
-		public IActionResult DownloadFile(string id)
-		{
-			var fileFolder = Path.Combine(hostingEnvironment.WebRootPath, "upload/files/");
-			string path = fileFolder;
-			byte[] fileBytes = System.IO.File.ReadAllBytes(path + id);
-			string fileName = id.Substring(id.IndexOf("_") + 1);
-			return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
-		}
 
 		// GET: Projects/Edit/5
 		public async Task<IActionResult> Edit(int? id)
@@ -295,6 +259,9 @@ namespace onni.Controllers
 		{
 			return _context.Projects.Any(e => e.ProjectId == id);
 		}
+
+
 	}
+
 }
 

@@ -1,0 +1,110 @@
+﻿@model IEnumerable<onni.Models.Projects>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Index</h2>
+<td><a asp-controller="Admin" asp-action="Report">Back to Report</a></td>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.BodyContent)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Files)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Images)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ViewCounts)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LikeCounts)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Tags)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Category)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ParentProject)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+            <th></th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="Projects" asp-action="Details" asp-route-id="@item.ProjectId"> @Html.DisplayFor(modelItem => item.ProjectName)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.BodyContent)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Files)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Images)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ViewCounts)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LikeCounts)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tags)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category.CategoriesName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ParentProject.BodyContent)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status.StatusName)
+                </td>
+                <td>
+                    <form asp-area="Admin" asp-action="Public" asp-route-id="@item.ProjectId" method="post">
+
+                        @if (item.StatusId == 1)
+                        {
+                            <button type="submit" class="btn btn-link">Public</button>
+                        }
+                    </form>
+                </td>
+                <td>
+                    <a class="btn btn-link" asp-controller="Projects" asp-action="Delete" asp-route-id="@item.ProjectId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

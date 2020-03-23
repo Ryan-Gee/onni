@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewData["Title"] = "Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Report</h2>
+<h3>New Comments This Month</h3>
+<p>@ViewData["CommentsCount"]</p>
+<h3>New Projects This Month</h3>
+<p>@ViewData["ProjectsCount"]</p>
+
+<h3>New comments of Year</h3>
+<table class="table">
+    <tr>
+        <th>
+            Mouth
+        </th>
+        <th>
+            Count
+        </th>
+    </tr>
+    @foreach (var item in (IEnumerable<CommentsInYear>)ViewData["CommentsInYear"])
+    {
+        var mouthName = new DateTime(2012, item.Mouth, 1).ToString("MMMM");
+        <tr>
+            <td>
+                @mouthName
+            </td>
+            <td>
+                @item.Count
+            </td>
+        </tr>
+
+    }
+</table>
+
+
+<h3>New projects of Year</h3>
+<table class="table">
+    <tr>
+        <th>
+            Mouth
+        </th>
+        <th>
+            Count
+        </th>
+    </tr>
+    @foreach (var item in (IEnumerable<ProjectsInYear>)ViewData["ProjectsInYears"])
+    {
+        var mouthName = new DateTime(2012, item.Mouth, 1).ToString("MMMM");
+        <tr>
+            <td>
+                @mouthName
+            </td>
+            <td>
+                @item.Count
+            </td>
+        </tr>
+
+    }
+</table>
+
+
+
+<div>
+    <h3>
+        Most Liked Projects
+    </h3>
+    <ol>
+
+        @foreach (var project in (IEnumerable<Projects>)ViewData["MostLiked"])
+        {
+            <li>
+                <a asp-controller="Projects" asp-action="Details" asp-route-id="@project.ProjectId"> @project.ProjectName</a>
+                <span>(@project.LikeCounts) </span>
+            </li>
+
+        }
+    </ol>
+</div>
+
+
+<div>
+    <h3>
+        Most viewed Project
+    </h3>
+    <ol>
+
+        @foreach (var project in (IEnumerable<Projects>)ViewData["MostViewed"])
+        {
+            <li>
+                <a asp-controller="Projects" asp-action="Details" asp-route-id="@project.ProjectId"> @project.ProjectName</a>
+                <span>(@project.LikeCounts) </span>
+            </li>
+
+        }
+    </ol>
+</div>
+<p> You have <a asp-action="Index">@ViewData["PendingProjects"] </a>pending projects</p>
+<a asp-area="" asp-controller="role" asp-action="index">Menage Role </a>

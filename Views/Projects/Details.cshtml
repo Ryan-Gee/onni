@@ -4,69 +4,118 @@
     ViewData["Title"] = "Project";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div data-page="project-details">
+    <div data-page="project-details">
 
-    <h2>Project</h2>
+        <h2>Project</h2>
 
-    @foreach (var item in (IEnumerable<Projects>)ViewData["Projects"])
-    {
-        @if (User.Identity.IsAuthenticated)
+        @foreach (var item in (IEnumerable<Projects>)ViewData["Projects"])
         {
-            <p>
-                <a asp-action="Create" asp-route-ParentProjectId="@item.ProjectId">Create Child project</a>
-            </p>
-        }
+            @if (User.Identity.IsAuthenticated)
+            {
+                <p>
+                    <a asp-action="Create" asp-route-ParentProjectId="@item.ProjectId">Create Child project</a>
+                </p>
+            }
+            @if (User.IsInRole("Admin") && @item.StatusId == 1)
+            {
+                <form asp-area="Admin" asp-action="Public" asp-route-id="@item.ProjectId" method="post">
+                    <button type="submit" class="btn btn-link">Make it public</button>
+                </form>
+            }
 
-        <div>
-            @Html.DisplayFor(modelItem => item.ProjectName)
-        </div>
-        <div>
-            @Html.DisplayFor(modelItem => item.UserName)
-        </div>
-        <div>
-            @Html.DisplayFor(modelItem => item.CreatedDate)
-        </div>
-        <div>
-            <div id="bodyContent-input" style="display:none">
-                @Html.DisplayFor(modelItem => item.BodyContent)
+            <div>
+                @Html.DisplayFor(modelItem => item.ProjectName)
             </div>
-            <div id="bodyContent-output">
+            <div>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </div>
+            <div>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </div>
+            <div>
+                <div id="bodyContent-input" style="display:none">
+                    @Html.DisplayFor(modelItem => item.BodyContent)
+                </div>
+                <div id="bodyContent-output">
 
+                </div>
             </div>
-        </div>
-        <div>
-            @Html.DisplayFor(modelItem => item.Files)
-        </div>
-        <div>
-            @Html.DisplayFor(modelItem => item.Images)
-        </div>
-        <div>
-            @Html.DisplayFor(modelItem => item.ViewCounts)
-        </div>
-        <div>
-            @Html.DisplayFor(modelItem => item.LikeCounts)
-        </div>
-        <div>
-            @Html.DisplayFor(modelItem => item.Tags)
-        </div>
-        <div>
-            @Html.DisplayFor(modelItem => item.Category)
-        </div>
-        <div>
-            @Html.DisplayFor(modelItem => item.ParentProject.ProjectName)
-        </div>
-        <div>
-            @Html.DisplayFor(modelItem => item.Status.StatusName)
-        </div>
-        if (User.Identity.Name == item.UserName || User.IsInRole("Admin"))
-        {
-        <div>
-            <a asp-action="Edit" asp-route-id="@item.ProjectId">Edit</a>
-        </div>
+            <div id="project-files">
+                @Html.DisplayFor(modelItem => item.Files)
+            </div>
+            <div id="project-images">
+                @item.Images
+            </div>
+            <div>
+                @Html.DisplayFor(modelItem => item.ViewCounts)
+            </div>
+            <div>
+                @Html.DisplayFor(modelItem => item.LikeCounts)
+            </div>
+            <div>
+                @Html.DisplayFor(modelItem => item.Tags)
+            </div>
+            <div>
+                @Html.DisplayFor(modelItem => item.Category)
+            </div>
+            <div>
+                @Html.DisplayFor(modelItem => item.ParentProject.ProjectName)
+            </div>
+            <div>
+                @Html.DisplayFor(modelItem => item.Status.StatusName)
+            </div>
+            @if (User.Identity.Name == item.UserName || User.IsInRole("Admin"))
+            {
+                <div>
+                    <a asp-action="Edit" asp-route-id="@item.ProjectId">Edit</a>
+                </div>
+            }
+            @if (ViewBag.isLike == true)
+            {
+                <form asp-controller="SavedProjects" asp-action="Unlike" asp-route-ProjectId="@item.ProjectId" asp-route-UserName="@User.Identity.Name" method="post">
+                    <button type="submit" class="btn btn-link">Unlike</button>
+                </form>
+            }
+            else
+            {
+                <form asp-controller="SavedProjects" asp-action="Like" asp-route-ProjectId="@item.ProjectId" asp-route-UserName="@User.Identity.Name" method="post">
+                    <button type="submit" class="btn btn-link">Like</button>
+                </form>
+
+            }
         }
+        <h2>Comments</h2>
+
+        <partial name="_DisplayComments" />
+        <partial name="_CreateComment" />
+    </div>
+
+<script src="/lib/jquery/dist/jquery.js"></script>
+<script>
+    var imgSection = $("#project-images")
+    var fileSection = $("#project-files")
+    var images = imgSection.text().trim().split(" ")
+    var files = fileSection.text().trim().split(" ")
+    var imgContent = ""
+    var fileContent = ""
+
+    if (images != "") {
+        $.each(images, function (index, img) {
+            //Image HTML goes here!
+            imgContent += "<img src = '../../upload/img/"+img+"' alt = '' width='200' />"
+        })
     }
-    <h2>Comments</h2>
+    else {
+        imgContent = "<p>No Images</p>"
+    }
+    imgSection.html(imgContent)
 
-    <partial name="_DisplayComments" />
-    <partial name="_CreateComment" />
-</div>
+    if (files != "") {
+        $.each(files, function (index, file) {
+            var plainName = file.substring(file.indexOf("_") + 1);
+            //File display HTML goes here!
+            fileContent += "<p class=''><a target='_blank' href='../DownloadFile/"+file+"'>" + plainName + "</a></p>"
+        })
+    }
+    fileSection.html(fileContent);
+</script>

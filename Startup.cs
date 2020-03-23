@@ -87,7 +87,8 @@ namespace onni
 
             app.UseAuthentication();
 
-            app.UseMvc(routes =>
+
+			app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
