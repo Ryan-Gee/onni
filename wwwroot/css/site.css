@@ -175,10 +175,13 @@ body {
     box-shadow: 2px 5px 5px #000;
     width: 100%;
     margin-bottom: 20px;
+    margin-top: -90px;
 }
 
 .input-group .mt-4 {
     max-height: 80px;
+    z-index: 10;
+    position: relative;
 }
 
 .input-group-append {
@@ -191,12 +194,19 @@ body {
 
 .container-fluid, .jumbotron {
     background-color: #1bde3d;
+    -webkit-clip-path: polygon(0 0, 1600px 0, 1600px 70%, 0 100%);
+    clip-path: polygon(0 0, 1600px 0, 1600px 70%, 0 100%);
+}
+
+.container-fluid {
+    box-shadow: 2px 5px 5px #000;
 }
 
 .jumbotron {
     max-width: 1140px;
     margin: auto;
     margin-bottom: 10px;
+    padding-bottom: 24px;
 }
 
 /* Login styles */
@@ -305,6 +315,30 @@ h3 {
     .gallery .img-fluid {
         border-radius: 0;
         padding: 5px;
+    }
+
+    .project-background h2 {
+        width: 190px;
+        padding-left: 8px;
+        padding-right: 8px;
+        margin-top: -23px;
+        background-color: white;
+    }
+
+    .project-gallery h2 {
+        width: 120px;
+        padding-left: 8px;
+        padding-right: 8px;
+        margin-top: -23px;
+        background-color: white;
+    }
+
+    .project-downloads h2 {
+        width: 180px;
+        padding-left: 8px;
+        padding-right: 8px;
+        margin-top: -23px;
+        background-color: white;
     }
 
     /* Login styles */
