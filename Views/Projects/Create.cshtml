@@ -128,7 +128,7 @@
                         var index = imageFiles.indexOf(file);
                         var filename = imageNames[index];
                         //Send the message to the server to delete the file
-                        $.post('DeleteFile/' + filename);
+                        $.post('DeleteImg/' + filename);
                         //Update the holder arrays
                         if (index > -1) {
                             imageFiles.splice(index, 1);
