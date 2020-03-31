@@ -175,6 +175,26 @@ namespace onni.Controllers
 		[HttpPost]
 		public async Task<string> DeleteFile(string id)
 		{
+			var uploads = Path.Combine(hostingEnvironment.WebRootPath, "upload/files");
+			var fn = id;
+
+			var filepath = Path.Combine(uploads, fn);
+			if (System.IO.File.Exists(filepath))
+			{
+				// If file found, delete it    
+				System.IO.File.Delete(filepath);
+				Console.WriteLine("File deleted.");
+				return "";
+			}
+			else
+			{
+				return "File does not exist";
+			}
+		}
+
+		[HttpPost]
+		public async Task<string> DeleteImg(string id)
+		{
 			var uploads = Path.Combine(hostingEnvironment.WebRootPath, "upload/img");
 			var fn = id;
 
@@ -286,6 +306,48 @@ namespace onni.Controllers
 		public async Task<IActionResult> DeleteConfirmed(int id)
 		{
 			var projects = await _context.Projects.FindAsync(id);
+			var imgList = projects.Images;
+			var fileList = projects.Files;
+
+			var images = imgList.Split(" ");
+			var files = fileList.Split(" ");
+
+			foreach (String img in images)
+			{
+				var uploads = Path.Combine(hostingEnvironment.WebRootPath, "upload/img");
+				var fn = img;
+
+				var filepath = Path.Combine(uploads, fn);
+				if (System.IO.File.Exists(filepath))
+				{
+					// If file found, delete it    
+					System.IO.File.Delete(filepath);
+					Console.WriteLine("Image deleted.");
+				}
+				else
+				{
+					Console.WriteLine("Image failed to delete.");
+				}
+			}
+
+			foreach (String f in files)
+			{
+				var uploads = Path.Combine(hostingEnvironment.WebRootPath, "upload/files/");
+				var fn = f;
+
+				var filepath = Path.Combine(uploads, fn);
+				if (System.IO.File.Exists(filepath))
+				{
+					// If file found, delete it    
+					System.IO.File.Delete(filepath);
+					Console.WriteLine("File deleted.");
+				}
+				else
+				{
+					Console.WriteLine("File failed to delete.");
+				}
+			}
+
 			_context.Projects.Remove(projects);
 			await _context.SaveChangesAsync();
 			return RedirectToAction(nameof(Index));

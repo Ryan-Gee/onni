@@ -36,16 +36,43 @@
                     <span asp-validation-for="BodyContent" class="text-danger"></span>
                     <div id="codex-editor" class="cdx-input" data-placeholder="Custom placeholder"></div>
                 </div>
-                <div class="form-group">
+                @*<div class="form-group">
+                    <label asp-for="Files" class="control-label"></label>*@
+
+                @* Hidden input to easily manage files, file names are placed here after async upload *@
+                    <input asp-for="Files" class="form-control" type="hidden" name="Files" id="file-upload" />
+
+                    @*<span asp-validation-for="Files" class="text-danger"></span>
+                </div>*@
+
+                <div class="dropzone-container form-group">
                     <label asp-for="Files" class="control-label"></label>
-                    <input asp-for="Files" class="form-control" />
-                    <span asp-validation-for="Files" class="text-danger"></span>
+                    @* Holds the uploaded file links, includes delete links *@
+                    <div id="project-files"></div>
+
+                    <div action="../UploadFile" id="fileUploader" class="dropzone">
+                        <div class="dropzone-drop-area"></div>
+                    </div>
                 </div>
-                <div class="form-group">
+
+                @*<div class="form-group">
+                    <label asp-for="Images" class="control-label"></label>*@
+
+                @* Hidden input to easily manage images, image names are placed here after async upload *@
+                    <input asp-for="Images" class="form-control" type="hidden" name="Images" id="img-upload" />
+
+                    @*<span asp-validation-for="Images" class="text-danger"></span>
+                </div>*@
+
+                <div class="dropzone-container form-group">
                     <label asp-for="Images" class="control-label"></label>
-                    <input asp-for="Images" class="form-control" />
-                    <span asp-validation-for="Images" class="text-danger"></span>
+                    @* Holds the previously uploaded images, clicking on an image will delete it *@
+                    <div id="project-images"></div>
+                    <div action="../UploadImg" id="imgUploader" class="dropzone">
+                        <div class="dropzone-drop-area"></div>
+                    </div>
                 </div>
+
                 <div class="form-group">
                     <label asp-for="ViewCounts" class="control-label"></label>
                     <input asp-for="ViewCounts" class="form-control" />
@@ -84,6 +111,170 @@
             </form>
         </div>
     </div>
+
+    @* Add file upload scripts *@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <script src="~/lib/dropzone/dropzone.min.js"></script>
+    <script type="text/javascript">
+
+        //FILE UPLOAD #############################################################################################################################
+
+        //Holder arrays for all images filenames and image fiels
+        var imageNames = []
+        var imageFiles = []
+        var dataNames = []
+        var dataFiles = []
+        //Populate the image and data arrays with the form values
+        imageNames = $("#img-upload").attr('value').trim().split(" ")
+        dataNames = $("#file-upload").attr('value').trim().split(" ")
+
+        Dropzone.autoDiscover = false
+
+        new Dropzone("#imgUploader", {
+            maxFilesize: 100, // MB
+            addRemoveLinks: true,
+            //Will throw errors if more photos are added
+            maxFiles: 50,
+            //Only accept images files
+            acceptedFiles: "image/*",
+            removedfile: function (file) {
+                //Grab the index (only the file object is passed, must search image files to get index for image names)
+                var index = imageFiles.indexOf(file);
+                var filename = imageNames[index];
+                //Send the message to the server to delete the file
+                $.post('../DeleteImg/' + filename, function () { });
+                //Update the holder arrays
+                if (index > -1) {
+                    imageFiles.splice(index, 1);
+                    imageNames.splice(index, 1);
+                }
+                //Update the images form value
+                $("#img-upload").attr('value', imageNames.join(" "));
+                console.log(filename + "deleted successfully");
+                //Remove the element
+                return (el = file.previewElement) != null ? el.parentNode.removeChild(file.previewElement) : void 0;
+            },
+            init: function () {
+                //On a successful file upload
+                this.on("success", function (file, imgName) {
+                    //Add it to both arrays
+                    imageNames.push(imgName);
+                    imageFiles.push(file);
+                    //Update the form value
+                    $("#img-upload").attr('value', imageNames.join(" "));
+                    console.log(imgName + " uploaded successfully");
+                });
+            }
+        });
+
+        new Dropzone("#fileUploader", {
+            maxFilesize: 100, // MB
+            addRemoveLinks: true,
+            //Will throw errors if more photos are added
+            maxFiles: 25,
+            removedfile: function (file) {
+                //Grab the index (only the file object is passed, must search image files to get index for image names)
+                var index = dataFiles.indexOf(file);
+                var filename = dataNames[index];
+                //Send the message to the server to delete the file
+                $.post('../DeleteFile/' + filename);
+                //Update the holder arrays
+                if (index > -1) {
+                    dataFiles.splice(index, 1);
+                    dataNames.splice(index, 1);
+                }
+                //Update the images form value
+                $("#file-upload").attr('value', dataNames.join(" "));
+                console.log(filename + "deleted successfully");
+                //Remove the element
+                return (el = file.previewElement) != null ? el.parentNode.removeChild(file.previewElement) : void 0;
+            },
+            init: function () {
+                //On a successful file upload
+                this.on("success", function (file, dataName) {
+                    //Add it to both arrays
+                    dataNames.push(dataName);
+                    dataFiles.push(file);
+                    //Update the form value
+                    $("#file-upload").attr('value', dataNames.join(" "));
+                    console.log(dataName + " uploaded successfully");
+                });
+            }
+        });
+
+        //FILE DISPLAY #################################################################################################################
+
+        //Grab the input and output elements for images and files
+        var imgOutput = $("#project-images")
+        var fileOutput = $("#project-files")
+        var imgInput = $("#img-upload")
+        var fileInput = $("#file-upload")
+        //Ensure everything is populated accordingly
+        var images = imgInput.val().trim().split(" ")
+        var files = fileInput.val().trim().split(" ")
+        //Initialize some variables for the output
+        var imgContent = ""
+        var fileContent = ""
+
+        //If there are images, display each one with the html formatted as below
+        if (images != "") {
+            $.each(images, function (index, img) {
+                imgContent += "<img src = '../../upload/img/" + img + "' alt = '' width='200' class='deleteImg' data-name='" + img + "'/>";
+            })
+        }
+        //If there are no images, display a paragraph element saying there aren't any
+        else {
+            imgContent = "<p>No Images</p>"
+        }
+        //Write the image output
+        imgOutput.html(imgContent)
+
+        //Add click handlers for all the the delete image links (actually just the images themselves)
+        $(".deleteImg").click(function () {
+            //Get the file name itself
+            var file = $(this).data('name');
+            //Send the async delete request with ajax
+            $.post("../DeleteImg/" + $(this).data('name'));
+            //Remove the file name from the names array (no need to remove from the file array, there's no files associated with already uploaded files, they're on the server already)
+            imageNames = imageNames.filter(e => e !== file)
+
+            //Update the value of the form element
+            $("#img-upload").attr('value', imageNames.join(" "));
+            console.log(file + " deleted successfully");
+            //Remove the displayed element itself to show the user it's gone
+            $(this).remove();
+        })
+
+        //If there are files
+        if (files != "") {
+            $.each(files, function (index, file) {
+                //Show the file without the appended GUID
+                var plainName = file.substring(file.indexOf("_") + 1);
+                //File display HTML, file links to download link for actual file, includes delete link to remove the file
+                fileContent += "<p class='file'><a target='_blank' href='../DownloadFile/" + file + "'>" + plainName + "</a><a class='text-danger deleteFile' data-name='" + file + "'>Delete</a></p>";
+            })
+        }
+        //Write the file html
+        fileOutput.html(fileContent);
+
+        //Add click handlers for the delete file buttons
+        $(".deleteFile").click(function () {
+            //Grab the full file name (GUID included)
+            var file = $(this).data('name');
+
+            //Send the async post to delete the file
+            $.post("../DeleteFile/" + $(this).data('name'));
+            //Update the datanames list to remove the file
+            dataNames = dataNames.filter(e => e !== file)
+
+            //Reassign the form element
+            $("#file-upload").attr('value', dataNames.join(" "));
+            console.log(file + " deleted successfully");
+            //IMPORTANT - removes the closest PARAGRAPH element to the delete link (in this case it's direct parent, its an anchor with a sibling anchor for the download, wrapped in a paragraph)
+            $(this).closest('p').remove();
+        })
+
+    </script>
 
     <div>
         <a asp-action="Index">Back to List</a>
