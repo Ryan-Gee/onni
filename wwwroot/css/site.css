@@ -194,12 +194,13 @@ body {
 
 .container-fluid, .jumbotron {
     background-color: #1bde3d;
-    -webkit-clip-path: polygon(0 0, 1600px 0, 1600px 70%, 0 100%);
-    clip-path: polygon(0 0, 1600px 0, 1600px 70%, 0 100%);
+    padding-bottom: 20px;
 }
 
 .container-fluid {
     box-shadow: 2px 5px 5px #000;
+    -webkit-clip-path: polygon(0 0, 1600px 0, 1600px 70%, 0 100%);
+    clip-path: polygon(0 0, 1600px 0, 1600px 70%, 0 100%);
 }
 
 .jumbotron {
@@ -220,6 +221,10 @@ body {
     padding-bottom: 10px;
 }
 
+#l {
+    margin-top: 15px;
+}
+
 /* Register styles */
 #register {
     border-radius: 0px 50px;
@@ -229,6 +234,10 @@ body {
     padding-top: 10px;
     padding-left: 10px;
     padding-bottom: 20px;
+}
+
+#r {
+    margin-top: 15px;
 }
 
 .project-edit {

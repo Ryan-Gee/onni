@@ -22,7 +22,7 @@
                     <input type="text" class="form-control" placeholder="Search..." value="greenhouse">
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="button">
-                            <img src="icons/search.svg" alt="search" />
+                            <i class="fas fa-search fa-lg"></i>
                         </button>
                     </div>
                 </div>
@@ -50,19 +50,19 @@
                                 <!-- Category icons -->
                                 <div class="btn-group category-group" role="group">
                                     <button class="icon icon-category">
-                                        <img src="icons/leaf.svg" alt="environmental" />
+                                        <i class="fas fa-leaf fa-lg" style="color:#1bde3d;"></i>
                                     </button>
                                     <button class="icon icon-category">
-                                        <img src="icons/user.svg" alt="social" />
+                                        <i class="fas fa-microchip fa-lg" style="color:#2a2de7;"></i>
                                     </button>
                                 </div>
                                 <!-- Views and likes icons (used button group as default styling is close) -->
                                 <div class="btn-group stats-group" role="group">
                                     <button class="stat">
-                                        <img src="icons/eye.svg" alt="views" class="mr-2" />@Html.DisplayFor(modelItem => item.ViewCounts)
+                                        <i class="far fa-eye fa-lg"></i>@Html.DisplayFor(modelItem => item.ViewCounts)
                                     </button>
                                     <button class="stat">
-                                        <img src="icons/heart.svg" alt="likes" class="mr-2" />@Html.DisplayFor(modelItem => item.LikeCounts)
+                                        <i class="far fa-heart fa-lg" style="color:#ED1C24;"></i>@Html.DisplayFor(modelItem => item.LikeCounts)
                                     </button>
                                 </div>
                                 <div>
