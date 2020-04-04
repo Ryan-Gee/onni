@@ -1,4 +1,4 @@
-﻿@model IEnumerable<onni.Models.Projects>
+﻿@model onni.Models.ProjectCategories
 
 @{
     ViewData["Title"] = "Index";
@@ -8,15 +8,26 @@
 }
 
     <div data-page="project-index">
-        <form asp-controller="Projects" asp-action="Index">
-            <p>
-                Search: <input type="text" name="search">
-                <input type="submit" value="Search" />
-            </p>
+        <form asp-controller="Projects" asp-action="Index" method="get">
+
+            <label>Category:</label>
+            <select asp-for="ProjectCategory" asp-items="Model.Categories">
+                <option value="">All</option>
+            </select>
+            <label> Search:</label>
+            <input type="text" asp-for="SearchString" />
+            <input type="submit" value="Search" />
+
         </form>
-        @if (!String.IsNullOrEmpty(ViewBag.searchString)){
+        @if (!String.IsNullOrEmpty(ViewBag.ProjectCategory))
+        {
+            <p>Results of @ViewBag.ProjectCategory</p>
+        }
+        @if (!String.IsNullOrEmpty(ViewBag.searchString))
+        {
             <p>Results of @ViewBag.searchString</p>
         }
+
         <h2>Index</h2>
         @if (User.Identity.IsAuthenticated)
         {
@@ -28,46 +39,46 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.ProjectName)
+                        @Html.DisplayNameFor(model => model.Projects[0].ProjectName)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.UserName)
+                        @Html.DisplayNameFor(model => model.Projects[0].UserName)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.CreatedDate)
+                        @Html.DisplayNameFor(model => model.Projects[0].CreatedDate)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.BodyContent)
+                        @Html.DisplayNameFor(model => model.Projects[0].BodyContent)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Files)
+                        @Html.DisplayNameFor(model => model.Projects[0].Files)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Images)
+                        @Html.DisplayNameFor(model => model.Projects[0].Images)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.ViewCounts)
+                        @Html.DisplayNameFor(model => model.Projects[0].ViewCounts)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.LikeCounts)
+                        @Html.DisplayNameFor(model => model.Projects[0].LikeCounts)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Tags)
+                        @Html.DisplayNameFor(model => model.Projects[0].Tags)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Category)
+                        @Html.DisplayNameFor(model => model.Projects[0].Category)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.ParentProject)
+                        @Html.DisplayNameFor(model => model.Projects[0].ParentProject)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Status)
+                        @Html.DisplayNameFor(model => model.Projects[0].Status)
                     </th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @foreach (var item in Model.Projects)
                 {
                     <tr>
                         <td>

@@ -33,22 +33,30 @@ namespace onni.Controllers
 
 		// GET: Projects
 		[AllowAnonymous]
-		public async Task<IActionResult> Index(string search)
+		public async Task<IActionResult> Index(string searchString, string ProjectCategory)
 		{
 			// https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/search?view=aspnetcore-2.1
-			var projects = from p in _context.Projects select p;
-			if (!String.IsNullOrEmpty(search))
+			IQueryable<string> genreQuery = from m in _context.Projects
+											orderby m.Category.CategoriesName
+											select m.Category.CategoriesName;
+			var projects = from p in _context.Projects.Include(p => p.Category).Include(p => p.ParentProject).Include(p => p.Status) select p;			
+			if (!string.IsNullOrEmpty(searchString))
 			{
-				projects = projects.Where(s => s.ProjectName.Contains(search) || s.BodyContent.Contains(search) || s.Tags.Contains(search));
-				ViewBag.searchString = search;
-				return View(await projects.ToListAsync());
+				projects = projects.Where(s => s.ProjectName.Contains(searchString) || s.BodyContent.Contains(searchString) || s.Tags.Contains(searchString));
+				ViewBag.searchString =  searchString;
 			}
-			else
+			if (!string.IsNullOrEmpty(ProjectCategory))
 			{
-				var changeMakingContext = _context.Projects.Include(p => p.Category).Include(p => p.ParentProject).Include(p => p.Status);
-				return View(await changeMakingContext.ToListAsync());
+				projects = projects.Where(x => x.Category.CategoriesName == ProjectCategory);
+				ViewBag.ProjectCategory =  ProjectCategory;
 			}
 
+			var ProjectCategorie = new ProjectCategories
+			{
+				Categories = new SelectList(await genreQuery.Distinct().ToListAsync()),
+				Projects = await projects.ToListAsync()
+			};
+			return View(ProjectCategorie);
 		}
 
 		// GET: Projects/Details/5
