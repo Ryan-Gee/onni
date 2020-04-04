@@ -33,10 +33,22 @@ namespace onni.Controllers
 
 		// GET: Projects
 		[AllowAnonymous]
-		public async Task<IActionResult> Index()
+		public async Task<IActionResult> Index(string search)
 		{
-			var changeMakingContext = _context.Projects.Include(p => p.Category).Include(p => p.ParentProject).Include(p => p.Status);
-			return View(await changeMakingContext.ToListAsync());
+			// https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/search?view=aspnetcore-2.1
+			var projects = from p in _context.Projects select p;
+			if (!String.IsNullOrEmpty(search))
+			{
+				projects = projects.Where(s => s.ProjectName.Contains(search) || s.BodyContent.Contains(search) || s.Tags.Contains(search));
+				ViewBag.searchString = search;
+				return View(await projects.ToListAsync());
+			}
+			else
+			{
+				var changeMakingContext = _context.Projects.Include(p => p.Category).Include(p => p.ParentProject).Include(p => p.Status);
+				return View(await changeMakingContext.ToListAsync());
+			}
+
 		}
 
 		// GET: Projects/Details/5

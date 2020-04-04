@@ -2,10 +2,21 @@
 
 @{
     ViewData["Title"] = "Index";
+    
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
     <div data-page="project-index">
+        <form asp-controller="Projects" asp-action="Index">
+            <p>
+                Search: <input type="text" name="search">
+                <input type="submit" value="Search" />
+            </p>
+        </form>
+        @if (!String.IsNullOrEmpty(ViewBag.searchString)){
+            <p>Results of @ViewBag.searchString</p>
+        }
         <h2>Index</h2>
         @if (User.Identity.IsAuthenticated)
         {
@@ -60,7 +71,7 @@
                 {
                     <tr>
                         <td>
-                            <a asp-action="Details" asp-route-id="@item.ProjectId"> @Html.DisplayFor(modelItem => item.ProjectName)</a> 
+                            <a asp-action="Details" asp-route-id="@item.ProjectId"> @Html.DisplayFor(modelItem => item.ProjectName)</a>
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.UserName)
@@ -109,4 +120,4 @@
                 }
             </tbody>
         </table>
-      </div>
+    </div>
