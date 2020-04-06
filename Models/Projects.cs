@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,28 +18,38 @@ namespace onni.Models
 
         [Key]
         [Column("ProjectID")]
-        public int ProjectId { get; set; }
+		[DisplayName("Project ID")]
+		public int ProjectId { get; set; }
         [Required]
         [StringLength(50)]
-        public string ProjectName { get; set; }
+		[DisplayName("Title")]
+		public string ProjectName { get; set; }
         [Required]
         [StringLength(50)]
-        public string UserName { get; set; }
+		[DisplayName("Creator")]
+		public string UserName { get; set; }
         [Column(TypeName = "datetime")]
-        public DateTime CreatedDate { get; set; }
+		[DisplayName("Creation Date")]
+		public DateTime CreatedDate { get; set; }
         [Required]
-        public string BodyContent { get; set; }
-        public string Files { get; set; }
+		[DisplayName("Description")]
+		public string BodyContent { get; set; }
+		public string Files { get; set; }
         public string Images { get; set; }
-        public int ViewCounts { get; set; }
-        public int LikeCounts { get; set; }
+		[DisplayName("Views")]
+		public int ViewCounts { get; set; }
+		[DisplayName("Likes")]
+		public int LikeCounts { get; set; }
         [Column("StatusID")]
-        public int StatusId { get; set; }
-        [Column("ParentProjectID")]
-        public int? ParentProjectId { get; set; }
+		[DisplayName("Status")]
+		public int StatusId { get; set; }
+		[Column("ParentProjectID")]
+		[DisplayName("Parent")]
+		public int? ParentProjectId { get; set; }
         public string Tags { get; set; }
         [Column("CategoryID")]
-        public int? CategoryId { get; set; }
+		[DisplayName("Cateogry")]
+		public int? CategoryId { get; set; }
 
         [ForeignKey("CategoryId")]
         [InverseProperty("Projects")]
@@ -78,12 +89,22 @@ namespace onni.Models
         public int Count { get; set; }
 
     }
+	public class ActivityInYear
+	{
+		public int Month { get; set; }
+		public int yearProjects { get; set; }
+		public int yearComments { get; set; }
+	}
     public class CommentsInYear
     {
         public int Mouth { get; set; }
         public int Count { get; set; }
-
     }
+	public class BestOfYear
+	{
+		public Projects views { get; set; }
+		public Projects likes { get; set; }
+	}
 
     
 }

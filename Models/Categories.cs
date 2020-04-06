@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,10 +14,12 @@ namespace onni.Models
         }
 
         [Column("CategoriesID")]
-        public int CategoriesId { get; set; }
+		[DisplayName("ID")]
+		public int CategoriesId { get; set; }
         [Required]
         [StringLength(50)]
-        public string CategoriesName { get; set; }
+		[DisplayName("Name")]
+		public string CategoriesName { get; set; }
 
         [InverseProperty("Category")]
         public ICollection<Projects> Projects { get; set; }

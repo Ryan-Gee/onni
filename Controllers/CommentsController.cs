@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
@@ -10,7 +11,9 @@ using onni.Models;
 
 namespace onni.Controllers
 {
-    public class CommentsController : Controller
+	[Authorize(Roles = "Admin")]
+
+	public class CommentsController : Controller
     {
         private readonly ChangeMakingContext _context;
 
@@ -23,7 +26,7 @@ namespace onni.Controllers
         public async Task<IActionResult> Index()
         {
             var changeMakingContext = _context.Comments.Include(c => c.Project);
-            return View(await changeMakingContext.ToListAsync());
+            return View(await changeMakingContext.OrderByDescending(p => p.CommentDate).ToListAsync());
         }
 
         // GET: Comments/Details/5
