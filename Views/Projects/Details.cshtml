@@ -14,102 +14,101 @@
                     <button type="submit" class="btn btn-primary">Make it public</button>
                 </form>
             }
-            <div class="project pt-4">
-                <h2>
-                    @Html.DisplayFor(modelItem => item.ProjectName)
-                </h2>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <a asp-action="Create" asp-route-ParentProjectId="@item.ProjectId">Create Child project</a>
-                }
-                <!-- Bar containing user, comments, likes, etc links, rendered as a large pill-styled bar in the mockup -->
-                <div class="action-bar btn-group" role="group">
-                    <!-- User link, should take up twice the space of other items in the bar -->
-                    <a href="#" class="btn" id="action-user">
-                        <img class="profile-img" src="~/images/icons/user.svg" alt="profile" height="30" />
-                        @Html.DisplayFor(modelItem => item.UserName)
-                    </a>
-                    <!-- Comments link -->
-                    <a href="#comment-section" class="btn" id="action-comment">
-                        <img src="https://image.flaticon.com/icons/svg/1380/1380338.svg" alt="comments" height="30" />
-                    </a>
-                    <!-- Like button -->
-                    @if (ViewBag.isLike == true)
-                    {
-                        <form asp-controller="SavedProjects" asp-action="Unlike" asp-route-ProjectId="@item.ProjectId" asp-route-UserName="@User.Identity.Name" method="post">
-                            <button type="submit" class="btn btn-link">Unlike</button>
-                        </form>
-                    }
-                    else
-                    {
-                        <form asp-controller="SavedProjects" asp-action="Like" asp-route-ProjectId="@item.ProjectId" asp-route-UserName="@User.Identity.Name" method="post">
-                            <button type="submit" class="btn btn-link">Like</button>
-                        </form>
+    <div class="project pt-4">
+        <h2>
+            @Html.DisplayFor(modelItem => item.ProjectName)
+        </h2>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <a asp-action="Create" asp-route-ParentProjectId="@item.ProjectId">Create Child project</a>
+        }
+        <!-- Bar containing user, comments, likes, etc links, rendered as a large pill-styled bar in the mockup -->
+        <div class="action-bar btn-group" role="group">
+            <!-- User link, should take up twice the space of other items in the bar -->
+            <a href="#" class="btn" id="action-user">
+                <img class="profile-img" src="~/images/icons/user.svg" alt="profile" height="30" />
+                @Html.DisplayFor(modelItem => item.UserName)
+            </a>
+            <!-- Comments link -->
+            <a href="#comment-section" class="btn" id="action-comment">
+                <img src="https://image.flaticon.com/icons/svg/1380/1380338.svg" alt="comments" height="30" />
+            </a>
+            <!-- Like button -->
+            @if (ViewBag.isLike == true)
+            {
+                <form asp-controller="SavedProjects" asp-action="Unlike" asp-route-ProjectId="@item.ProjectId" asp-route-UserName="@User.Identity.Name" method="post">
+                    <button type="submit" class="btn btn-link">Unlike</button>
+                </form>
+            }
+            else
+            {
+                <form asp-controller="SavedProjects" asp-action="Like" asp-route-ProjectId="@item.ProjectId" asp-route-UserName="@User.Identity.Name" method="post">
+                    <button type="submit" class="btn btn-link">Like</button>
+                </form>
 
-                    }
-                    @if (User.Identity.Name == item.UserName || User.IsInRole("Admin"))
-                    {
-                        <a class="btn" asp-action="Edit" asp-route-id="@item.ProjectId">Edit</a>
+            }
+            @if (User.Identity.Name == item.UserName || User.IsInRole("Admin"))
+            {
+                <a class="btn" asp-action="Edit" asp-route-id="@item.ProjectId">Edit</a>
 
-                    }
-                </div>
-                <!-- Main project card -->
-                <div class="card">
-                    <!-- Header contains categories and views and likes -->
-                    <div class="card-header">
-                        <div class="btn-group category-group " role="group">
-                            <button class="@Html.DisplayFor(modelItem => item.Category.CategoriesName)">
-                                @Html.DisplayFor(modelItem => item.Category.CategoriesName)
-                            </button>
-                        </div>
-                        <!-- Views and likes icons (used button group as default styling is close) -->
-                        <div class="btn-group stats-group" role="group">
-                            <button class="stat">
-                                <img src="icons/eye.svg" alt="views" class="mr-2" />
-                                @Html.DisplayFor(modelItem => item.ViewCounts)
-                            </button>
-                            <button class="stat">
-                                <img src="icons/heart.svg" alt="likes" class="mr-2" />
-                                @Html.DisplayFor(modelItem => item.LikeCounts)
-                            </button>
-                        </div>
+            }
+        </div>
+        <!-- Main project card -->
+
+        <div class="card">
+            <!-- Header contains categories and views and likes -->
+            <div class="card-header btn-group">
+                <button class="icon-btn">
+                    <span class="icons @Html.DisplayFor(modelItem => item.Category.CategoriesName)"></span>
+                    @Html.DisplayFor(modelItem => item.Category.CategoriesName)
+                </button>
+                <button class="icon-btn">
+                    <span class="icons eye"></span>
+                    View:
+                    @Html.DisplayFor(modelItem => item.ViewCounts)
+                </button>
+                <button class="icon-btn">
+                    <span class="icons heart"></span>
+                    Like:
+                    @Html.DisplayFor(modelItem => item.LikeCounts)
+                </button>
+            </div>
+            <!-- Body contains the various sectioned content pieces -->
+            <div class="card-body">
+                <!-- Background brief section -->
+                <section class="project-background">
+                    <h2>Description</h2>
+                    <div id="bodyContent-input" style="display:none">
+                        @Html.DisplayFor(modelItem => item.BodyContent)
                     </div>
-                    <!-- Body contains the various sectioned content pieces -->
-                    <div class="card-body">
-                        <!-- Background brief section -->
-                        <section class="project-background">
-                            <h2>Description</h2>
-                            <div id="bodyContent-input" style="display:none">
-                                @Html.DisplayFor(modelItem => item.BodyContent)
-                            </div>
-                            <div id="bodyContent-output">
-                            </div>
-                        </section>
-                        <!-- Gallery section (may need additional classes?) -->
-                        <section class="project-gallery mt-4">
-                            <h2>Gallery</h2>
-                            <div class="gallery" id="project-images">
-                                @item.Images
-                            </div>
-                        </section>
-                        <!-- Downloads section -->
-                        <section class="project-downloads mt-4">
-                            <h2>Downloads</h2>
-                            <div class="file-uploads p-5" id="project-files">
-                                @Html.DisplayFor(modelItem => item.Files)
-                            </div>
-                        </section>
-                        @*ParentProject*@
-                        <section>
-                            <h2>Parent Project</h2>
-                            <div>
-                                @Html.DisplayFor(modelItem => item.ParentProject.ProjectName)
-                            </div>
-                        </section>
+                    <div id="bodyContent-output">
+                    </div>
+                </section>
+                <!-- Gallery section (may need additional classes?) -->
+                <section class="project-gallery mt-4">
+                    <h2>Gallery</h2>
+                    <div class="gallery" id="project-images">
+                        @item.Images
+                    </div>
+                </section>
+                <!-- Downloads section -->
+                <section class="project-downloads mt-4">
+                    <h2>Downloads</h2>
+                    <div class="file-uploads p-5" id="project-files">
+                        @Html.DisplayFor(modelItem => item.Files)
+                    </div>
+                </section>
+                @*ParentProject*@
+                <section>
+                    <h2>Parent Project</h2>
+                    <div>
+                        @Html.DisplayFor(modelItem => item.ParentProject.ProjectName)
+                    </div>
+                </section>
 
-                    </div>@*end card-body*@
-                </div>
-            </div> <!-- End of project -->
+            </div>@*end card-body*@
+        </div>
+    </div> <!-- End of project -->
 
             @*<div id="project-files">
                 @Html.DisplayFor(modelItem => item.Files)
