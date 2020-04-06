@@ -4,31 +4,75 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Report</h2>
-<h3>New Comments This Month</h3>
-<p>@ViewData["CommentsCount"]</p>
-<h3>New Projects This Month</h3>
-<p>@ViewData["ProjectsCount"]</p>
+<h2>Administration</h2>
 
-<h3>New comments of Year</h3>
+
+
+@if (ViewData["PendingProjects"] != null)
+{
+    <div class="alert alert-primary">There are @ViewData["PendingProjects"] projects are pending approval <a class=" ml-3 btn btn-primary" asp-action="Index">Approve Now</a></div>
+}
+
+    <div class="btn-group mb-3">
+        <div class="btn-group">
+            <button id="manageGroup" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Manage
+            </button>
+            <div class="dropdown-menu" aria-labelledby="manageGroup">
+                <a class="dropdown-item" asp-area="" asp-controller="role" asp-action="index">Edit Roles </a>
+                <a class="dropdown-item" asp-controller="Categories" asp-action="Index">Edit Categories</a>
+                <a class="dropdown-item" asp-controller="Comments" asp-action="Index">Manage Comments</a>
+            </div>
+        </div>
+        <a class="btn btn-outline-primary" asp-action="Index">Approve projects</a>
+    </div>
+
+
+<h3>Activity this month</h3>
 <table class="table">
     <tr>
         <th>
-            Mouth
+            New comments
         </th>
         <th>
-            Count
+            New projects
         </th>
     </tr>
-    @foreach (var item in (IEnumerable<CommentsInYear>)ViewData["CommentsInYear"])
+    <tr>
+        <td>
+            @ViewData["CommentsCount"]
+        </td>
+        <td>
+            @ViewData["ProjectsCount"]
+        </td>
+    </tr>
+</table>
+
+<h3>Activity this year</h3>
+<table class="table">
+    <tr>
+        <th>
+            Month
+        </th>
+        <th>
+            New projects
+        </th>
+        <th>
+            New comments
+        </th>
+    </tr>
+    @foreach (var item in (IEnumerable<ActivityInYear>)ViewData["ActivityInYear"])
     {
-        var mouthName = new DateTime(2012, item.Mouth, 1).ToString("MMMM");
+        var mouthName = new DateTime(2012, item.Month, 1).ToString("MMMM");
         <tr>
             <td>
                 @mouthName
             </td>
             <td>
-                @item.Count
+                @item.yearProjects
+            </td>
+            <td>
+                @item.yearComments
             </td>
         </tr>
 
@@ -36,66 +80,115 @@
 </table>
 
 
-<h3>New projects of Year</h3>
+@*<h3>New comments this year</h3>
+    <table class="table">
+        <tr>
+            <th>
+                Month
+            </th>
+            <th>
+                Count
+            </th>
+        </tr>
+        @foreach (var item in (IEnumerable<CommentsInYear>)ViewData["CommentsInYear"])
+        {
+            var mouthName = new DateTime(2012, item.Mouth, 1).ToString("MMMM");
+            <tr>
+                <td>
+                    @mouthName
+                </td>
+                <td>
+                    @item.Count
+                </td>
+            </tr>
+
+        }
+    </table>
+
+
+    <h3>New projects this year</h3>
+    <table class="table">
+        <tr>
+            <th>
+                Month
+            </th>
+            <th>
+                Count
+            </th>
+        </tr>
+        @foreach (var item in (IEnumerable<ProjectsInYear>)ViewData["ProjectsInYears"])
+        {
+            var mouthName = new DateTime(2012, item.Mouth, 1).ToString("MMMM");
+            <tr>
+                <td>
+                    @mouthName
+                </td>
+                <td>
+                    @item.Count
+                </td>
+            </tr>
+
+        }
+    </table>*@
+
+<h3>Top projects this year</h3>
 <table class="table">
     <tr>
         <th>
-            Mouth
+            Most viewed
         </th>
         <th>
-            Count
+            Most liked
         </th>
     </tr>
-    @foreach (var item in (IEnumerable<ProjectsInYear>)ViewData["ProjectsInYears"])
+    @foreach (var record in (IEnumerable<BestOfYear>)ViewData["YearRecords"])
     {
-        var mouthName = new DateTime(2012, item.Mouth, 1).ToString("MMMM");
         <tr>
             <td>
-                @mouthName
+                <a asp-controller="Projects" asp-action="Details" asp-route-id="@record.views.ProjectId"> @record.views.ProjectName</a>
+                <span>(@record.views.ViewCounts) </span>
             </td>
             <td>
-                @item.Count
+                <a asp-controller="Projects" asp-action="Details" asp-route-id="@record.likes.ProjectId"> @record.likes.ProjectName</a>
+                <span>(@record.likes.ViewCounts) </span>
             </td>
         </tr>
 
     }
 </table>
 
+@*<div>
+        <h3>
+            Most Liked Projects
+        </h3>
+        <ol>
+
+            @foreach (var project in (IEnumerable<Projects>)ViewData["MostLiked"])
+            {
+                <li>
+                    <a asp-controller="Projects" asp-action="Details" asp-route-id="@project.ProjectId"> @project.ProjectName</a>
+                    <span>(@project.LikeCounts) </span>
+                </li>
+
+            }
+        </ol>
+    </div>
 
 
-<div>
-    <h3>
-        Most Liked Projects
-    </h3>
-    <ol>
+    <div>
+        <h3>
+            Most viewed Project
+        </h3>
+        <ol>
 
-        @foreach (var project in (IEnumerable<Projects>)ViewData["MostLiked"])
-        {
-            <li>
-                <a asp-controller="Projects" asp-action="Details" asp-route-id="@project.ProjectId"> @project.ProjectName</a>
-                <span>(@project.LikeCounts) </span>
-            </li>
+            @foreach (var project in (IEnumerable<Projects>)ViewData["MostViewed"])
+            {
+                <li>
+                    <a asp-controller="Projects" asp-action="Details" asp-route-id="@project.ProjectId"> @project.ProjectName</a>
+                    <span>(@project.ViewCounts) </span>
+                </li>
 
-        }
-    </ol>
-</div>
+            }
+        </ol>
+    </div>*@
 
-
-<div>
-    <h3>
-        Most viewed Project
-    </h3>
-    <ol>
-
-        @foreach (var project in (IEnumerable<Projects>)ViewData["MostViewed"])
-        {
-            <li>
-                <a asp-controller="Projects" asp-action="Details" asp-route-id="@project.ProjectId"> @project.ProjectName</a>
-                <span>(@project.LikeCounts) </span>
-            </li>
-
-        }
-    </ol>
-</div>
-<p> You have <a asp-action="Index">@ViewData["PendingProjects"] </a>pending projects</p>
-<a asp-area="" asp-controller="role" asp-action="index">Menage Role </a>

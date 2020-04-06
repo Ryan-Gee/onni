@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,16 +10,21 @@ namespace onni.Models
     {
         [Key]
         [Column("CommentID")]
-        public int CommentId { get; set; }
+		[DisplayName("ID")]
+		public int CommentId { get; set; }
         [Required]
         [StringLength(50)]
-        public string UserName { get; set; }
+		[DisplayName("User")]
+		public string UserName { get; set; }
         [Column("ProjectID")]
-        public int ProjectId { get; set; }
+		[DisplayName("Project")]
+		public int ProjectId { get; set; }
         [Column(TypeName = "datetime")]
-        public DateTime CommentDate { get; set; }
+		[DisplayName("Date")]
+		public DateTime CommentDate { get; set; }
         [Required]
-        public string BodyContent { get; set; }
+		[DisplayName("Comment")]
+		public string BodyContent { get; set; }
 
         [ForeignKey("ProjectId")]
         [InverseProperty("Comments")]

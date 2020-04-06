@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,9 @@ using onni.Models;
 
 namespace onni.Controllers
 {
-    public class StatusController : Controller
+	[Authorize(Roles = "Admin")]
+
+	public class StatusController : Controller
     {
         private readonly ChangeMakingContext _context;
 
