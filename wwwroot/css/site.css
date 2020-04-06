@@ -36,3 +36,56 @@ body {
     }
 }
 
+.nav-main {
+    position: fixed;
+    top: 0px;
+    background-color: #fff;
+    width: 100%;
+    z-index: 10;
+}
+
+
+nav .sub-nav {
+    background-color: #ccc;
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
+    z-index: 10
+}
+
+body{
+    margin-top: 76px;
+}
+
+
+
+//icons
+
+
+.Technology {
+    background-image: url("../icons/Technology.svg");
+    height: 20px;
+    width: 2000000px;
+    margin: 5px;
+}
+
+// comment
+.comment{
+    display: flex;
+    flex-direction: column;
+}
+.comment-user {
+    display: flex;
+    align-items:center;
+
+}
+.profile-img{
+    margin-right: 10px;
+}
+.profile-user h4{
+    margin: 0;
+}
+.profile-user small {
+    margin: 0;
+    color: gray;
+}

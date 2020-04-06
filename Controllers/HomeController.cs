@@ -12,7 +12,7 @@ namespace onni.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Projects");
         }
 
         public IActionResult About()
