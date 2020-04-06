@@ -15,44 +15,18 @@
                 </form>
             }
     <div class="project pt-4">
-        <h2>
-            @Html.DisplayFor(modelItem => item.ProjectName)
-        </h2>
-        @if (User.Identity.IsAuthenticated)
-        {
-            <a asp-action="Create" asp-route-ParentProjectId="@item.ProjectId">Create Child project</a>
-        }
-        <!-- Bar containing user, comments, likes, etc links, rendered as a large pill-styled bar in the mockup -->
-        <div class="action-bar btn-group" role="group">
-            <!-- User link, should take up twice the space of other items in the bar -->
+        <div class="title-autor">
+            <h2>
+                @Html.DisplayFor(modelItem => item.ProjectName)
+            </h2>
             <a href="#" class="btn" id="action-user">
-                <img class="profile-img" src="~/images/icons/user.svg" alt="profile" height="30" />
+                <img src="~/images/icons/user.svg" alt="profile" height="20" />
                 @Html.DisplayFor(modelItem => item.UserName)
             </a>
-            <!-- Comments link -->
-            <a href="#comment-section" class="btn" id="action-comment">
-                <img src="https://image.flaticon.com/icons/svg/1380/1380338.svg" alt="comments" height="30" />
-            </a>
-            <!-- Like button -->
-            @if (ViewBag.isLike == true)
-            {
-                <form asp-controller="SavedProjects" asp-action="Unlike" asp-route-ProjectId="@item.ProjectId" asp-route-UserName="@User.Identity.Name" method="post">
-                    <button type="submit" class="btn btn-link">Unlike</button>
-                </form>
-            }
-            else
-            {
-                <form asp-controller="SavedProjects" asp-action="Like" asp-route-ProjectId="@item.ProjectId" asp-route-UserName="@User.Identity.Name" method="post">
-                    <button type="submit" class="btn btn-link">Like</button>
-                </form>
-
-            }
-            @if (User.Identity.Name == item.UserName || User.IsInRole("Admin"))
-            {
-                <a class="btn" asp-action="Edit" asp-route-id="@item.ProjectId">Edit</a>
-
-            }
         </div>
+
+
+
         <!-- Main project card -->
 
         <div class="card">
@@ -108,6 +82,51 @@
 
             </div>@*end card-body*@
         </div>
+        <!-- Bar containing user, comments, likes, etc links, rendered as a large pill-styled bar in the mockup -->
+        <div class="action-bar btn-group" role="group">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a asp-action="Create" asp-route-ParentProjectId="@item.ProjectId" class="btn icon-btn">
+                    <span class="icons plus"></span>
+                    Child project
+                </a>
+            }
+            <!-- User link, should take up twice the space of other items in the bar -->
+            <!-- Comments link -->
+            <a href="#creat-comment" class="btn icon-btn" id="action-comment">
+                <span class="icons reply"></span>
+                Comment
+            </a>
+            <!-- Like button -->
+            @if (ViewBag.isLike == true)
+            {
+                <form asp-controller="SavedProjects" asp-action="Unlike" asp-route-ProjectId="@item.ProjectId" asp-route-UserName="@User.Identity.Name" method="post">
+                    <button type="submit" class="btn btn-link icon-btn">
+                        <span class="icons unlike"></span>
+                        Unlike
+                    </button>
+                </form>
+            }
+            else
+            {
+                <form asp-controller="SavedProjects" asp-action="Like" asp-route-ProjectId="@item.ProjectId" asp-route-UserName="@User.Identity.Name" method="post">
+                    <button type="submit" class="btn btn-link icon-btn">
+                        <span class="icons like"></span>
+                        Like
+                    </button>
+                </form>
+
+            }
+            @if (User.Identity.Name == item.UserName || User.IsInRole("Admin"))
+            {
+                <a class="btn icon-btn" asp-action="Edit" asp-route-id="@item.ProjectId">
+                    <span class="icons edit"></span>
+
+                    Edit
+                </a>
+
+            }
+        </div>
     </div> <!-- End of project -->
 
             @*<div id="project-files">
@@ -122,7 +141,7 @@
             </div>*@
         }
         <div class="comments mt-5 pb-3">
-            <h2>project discussion</h2>
+            <h2 >Project Discussion</h2>
             <partial name="_DisplayComments" />
             <partial name="_CreateComment" />
         </div>

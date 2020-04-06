@@ -1,4 +1,8 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
+﻿html {
+    scroll-behavior: smooth;
+}
+
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
 for details on configuring this project to bundle and minify static web assets. */
 body {
     padding-bottom: 20px;
@@ -36,6 +40,8 @@ body {
     }
 }
 
+
+/*nav*/
 .nav-main {
     position: fixed;
     top: 0px;
@@ -91,10 +97,26 @@ body{
 .heart {
     background-image: url("/images/icons/heart.svg");
 }
+.reply {
+    background-image: url("/images/icons/comment.svg");
+}
+.like {
+    background-image: url("/images/icons/like.svg")
+}
+.unlike {
+    background-image: url("/images/icons/unlike.svg")
+}
+.plus {
+    background-image: url("/images/icons/plus.svg")
+}
+.edit {
+    background-image: url("/images/icons/edit.svg")
+}
 
 
-
-
+.title-autor{
+    display: flex;
+}
 /*comment*/
 .comment {
     display: flex;

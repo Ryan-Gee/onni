@@ -2,7 +2,7 @@
 {
     <div class="row">
         <div class="col-md-4">
-            <form asp-controller="Comments" asp-action="Create">
+            <form asp-controller="Comments" asp-action="Create" id="creat-comment">
                 <div class="form-group" style="display:none;">
                     <label for="UserName" class="control-label">UserName</label>
                     <input id="UserName" name="UserName" class="form-control" value="@User.Identity.Name"/>
