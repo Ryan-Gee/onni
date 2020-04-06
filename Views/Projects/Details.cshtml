@@ -19,7 +19,7 @@
             @if (User.IsInRole("Admin") && @item.StatusId == 1)
             {
                 <form asp-area="Admin" asp-action="Public" asp-route-id="@item.ProjectId" method="post">
-                    <button type="submit" class="btn btn-link">Make it public</button>
+                    <button type="submit" class="btn btn-primary">Publish</button>
                 </form>
             }
 
