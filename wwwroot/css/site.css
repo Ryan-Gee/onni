@@ -36,3 +36,82 @@ body {
     }
 }
 
+.nav-main {
+    position: fixed;
+    top: 0px;
+    background-color: #fff;
+    width: 100%;
+    z-index: 10;
+}
+
+
+nav .sub-nav {
+    background-color: #ccc;
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
+    z-index: 10
+}
+
+body{
+    margin-top: 76px;
+}
+
+
+/*icons*/
+.icon-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icons {
+    content: "";
+    display: inline-block;
+    background-size: contain;
+    height: 20px;
+    width: 20px;
+    margin: auto 5px;
+}
+.Technology {
+    background-image: url("/images/icons/Technology.svg");
+}
+.Digital {
+    background-image: url("/images/icons//Digital.svg");
+}
+.Social {
+    background-image: url("/images/icons/Social.svg");
+}
+.Environmental {
+    background-image: url("/images/icons/Environmental.svg");
+}
+.eye {
+    background-image: url("/images/icons/eye.svg");
+}
+.heart {
+    background-image: url("/images/icons/heart.svg");
+}
+
+
+
+
+/*comment*/
+.comment {
+    display: flex;
+    flex-direction: column;
+}
+.comment-user {
+    display: flex;
+    align-items:center;
+
+}
+.profile-img{
+    margin-right: 10px;
+}
+.profile-user h4{
+    margin: 0;
+}
+.profile-user small {
+    margin: 0;
+    color: gray;
+}

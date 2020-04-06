@@ -2,21 +2,29 @@
 
 @foreach (var item in Model)
 {
+    <section class="comment mb-5 mt-5 col-12">
 
-    <div>
-        @Html.DisplayFor(modelItem => item.UserName)
-    </div>
-    <div>
-        @Html.DisplayFor(modelItem => item.CommentDate)
-    </div>
-    <div>
-        @Html.DisplayFor(modelItem => item.BodyContent)
-    </div>
-    if (User.Identity.Name == item.UserName || User.IsInRole("Admin"))
-{
-    <div>
-        <a asp-controller="Comments" asp-action="Delete" asp-route-id="@item.CommentId">Delete</a>
-    </div>
-    }
-    <hr />
+        <div class="comment-user">
+            <div class="profile-img">
+                <img  src="~/images/icons/user.svg" alt="profile" height="30" />
+            </div>
+            <div class="profile-user">
+                <h4> @Html.DisplayFor(modelItem => item.UserName)</h4>
+                <small>
+                    @Html.DisplayFor(modelItem => item.CommentDate)
+                </small>
+            </div>
+        </div>
+        <div class="comment-body">
+            <p>
+                @Html.DisplayFor(modelItem => item.BodyContent)
+            </p>
+            @if (User.Identity.Name == item.UserName || User.IsInRole("Admin"))
+            {
+                <div>
+                    <a asp-controller="Comments" asp-action="Delete" asp-route-id="@item.CommentId">Delete</a>
+                </div>
+            }
+        </div>   
+     </section>
 }

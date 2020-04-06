@@ -5,71 +5,35 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
     <div data-page="project-details">
-
-        <h2>Project</h2>
-
         @foreach (var item in (IEnumerable<Projects>)ViewData["Projects"])
         {
-            @if (User.Identity.IsAuthenticated)
-            {
-                <p>
-                    <a asp-action="Create" asp-route-ParentProjectId="@item.ProjectId">Create Child project</a>
-                </p>
-            }
+            // Display "Publish" button if login as admin and project is pedding
             @if (User.IsInRole("Admin") && @item.StatusId == 1)
             {
                 <form asp-area="Admin" asp-action="Public" asp-route-id="@item.ProjectId" method="post">
                     <button type="submit" class="btn btn-primary">Publish</button>
                 </form>
             }
-
-            <div>
-                @Html.DisplayFor(modelItem => item.ProjectName)
-            </div>
-            <div>
+    <div class="project pt-4">
+        <h2>
+            @Html.DisplayFor(modelItem => item.ProjectName)
+        </h2>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <a asp-action="Create" asp-route-ParentProjectId="@item.ProjectId">Create Child project</a>
+        }
+        <!-- Bar containing user, comments, likes, etc links, rendered as a large pill-styled bar in the mockup -->
+        <div class="action-bar btn-group" role="group">
+            <!-- User link, should take up twice the space of other items in the bar -->
+            <a href="#" class="btn" id="action-user">
+                <img class="profile-img" src="~/images/icons/user.svg" alt="profile" height="30" />
                 @Html.DisplayFor(modelItem => item.UserName)
-            </div>
-            <div>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </div>
-            <div>
-                <div id="bodyContent-input" style="display:none">
-                    @Html.DisplayFor(modelItem => item.BodyContent)
-                </div>
-                <div id="bodyContent-output">
-
-                </div>
-            </div>
-            <div id="project-files">
-                @Html.DisplayFor(modelItem => item.Files)
-            </div>
-            <div id="project-images">
-                @item.Images
-            </div>
-            <div>
-                @Html.DisplayFor(modelItem => item.ViewCounts)
-            </div>
-            <div>
-                @Html.DisplayFor(modelItem => item.LikeCounts)
-            </div>
-            <div>
-                @Html.DisplayFor(modelItem => item.Tags)
-            </div>
-            <div>
-                @Html.DisplayFor(modelItem => item.Category)
-            </div>
-            <div>
-                @Html.DisplayFor(modelItem => item.ParentProject.ProjectName)
-            </div>
-            <div>
-                @Html.DisplayFor(modelItem => item.Status.StatusName)
-            </div>
-            @if (User.Identity.Name == item.UserName || User.IsInRole("Admin"))
-            {
-                <div>
-                    <a asp-action="Edit" asp-route-id="@item.ProjectId">Edit</a>
-                </div>
-            }
+            </a>
+            <!-- Comments link -->
+            <a href="#comment-section" class="btn" id="action-comment">
+                <img src="https://image.flaticon.com/icons/svg/1380/1380338.svg" alt="comments" height="30" />
+            </a>
+            <!-- Like button -->
             @if (ViewBag.isLike == true)
             {
                 <form asp-controller="SavedProjects" asp-action="Unlike" asp-route-ProjectId="@item.ProjectId" asp-route-UserName="@User.Identity.Name" method="post">
@@ -83,39 +47,114 @@
                 </form>
 
             }
-        }
-        <h2>Comments</h2>
+            @if (User.Identity.Name == item.UserName || User.IsInRole("Admin"))
+            {
+                <a class="btn" asp-action="Edit" asp-route-id="@item.ProjectId">Edit</a>
 
-        <partial name="_DisplayComments" />
-        <partial name="_CreateComment" />
+            }
+        </div>
+        <!-- Main project card -->
+
+        <div class="card">
+            <!-- Header contains categories and views and likes -->
+            <div class="card-header btn-group">
+                <button class="icon-btn">
+                    <span class="icons @Html.DisplayFor(modelItem => item.Category.CategoriesName)"></span>
+                    @Html.DisplayFor(modelItem => item.Category.CategoriesName)
+                </button>
+                <button class="icon-btn">
+                    <span class="icons eye"></span>
+                    View:
+                    @Html.DisplayFor(modelItem => item.ViewCounts)
+                </button>
+                <button class="icon-btn">
+                    <span class="icons heart"></span>
+                    Like:
+                    @Html.DisplayFor(modelItem => item.LikeCounts)
+                </button>
+            </div>
+            <!-- Body contains the various sectioned content pieces -->
+            <div class="card-body">
+                <!-- Background brief section -->
+                <section class="project-background">
+                    <h2>Description</h2>
+                    <div id="bodyContent-input" style="display:none">
+                        @Html.DisplayFor(modelItem => item.BodyContent)
+                    </div>
+                    <div id="bodyContent-output">
+                    </div>
+                </section>
+                <!-- Gallery section (may need additional classes?) -->
+                <section class="project-gallery mt-4">
+                    <h2>Gallery</h2>
+                    <div class="gallery" id="project-images">
+                        @item.Images
+                    </div>
+                </section>
+                <!-- Downloads section -->
+                <section class="project-downloads mt-4">
+                    <h2>Downloads</h2>
+                    <div class="file-uploads p-5" id="project-files">
+                        @Html.DisplayFor(modelItem => item.Files)
+                    </div>
+                </section>
+                @*ParentProject*@
+                <section>
+                    <h2>Parent Project</h2>
+                    <div>
+                        @Html.DisplayFor(modelItem => item.ParentProject.ProjectName)
+                    </div>
+                </section>
+
+            </div>@*end card-body*@
+        </div>
+    </div> <!-- End of project -->
+
+            @*<div id="project-files">
+                @Html.DisplayFor(modelItem => item.Files)
+            </div>
+            <div id="project-images">
+                @item.Images
+            </div>*@
+
+            @*<div>
+                @Html.DisplayFor(modelItem => item.Tags)
+            </div>*@
+        }
+        <div class="comments mt-5 pb-3">
+            <h2>project discussion</h2>
+            <partial name="_DisplayComments" />
+            <partial name="_CreateComment" />
+        </div>
+
     </div>
 
-<script src="/lib/jquery/dist/jquery.js"></script>
-<script>
-    var imgSection = $("#project-images")
-    var fileSection = $("#project-files")
-    var images = imgSection.text().trim().split(" ")
-    var files = fileSection.text().trim().split(" ")
-    var imgContent = ""
-    var fileContent = ""
+        <script src="/lib/jquery/dist/jquery.js"></script>
+        <script>
+            var imgSection = $("#project-images")
+            var fileSection = $("#project-files")
+            var images = imgSection.text().trim().split(" ")
+            var files = fileSection.text().trim().split(" ")
+            var imgContent = ""
+            var fileContent = ""
 
-    if (images != "") {
-        $.each(images, function (index, img) {
-            //Image HTML goes here!
-            imgContent += "<img src = '../../upload/img/"+img+"' alt = '' width='200' />"
-        })
-    }
-    else {
-        imgContent = "<p>No Images</p>"
-    }
-    imgSection.html(imgContent)
+            if (images != "") {
+                $.each(images, function (index, img) {
+                    //Image HTML goes here!
+                    imgContent += "<img src = '../../upload/img/" + img + "' alt = '' width='200' />"
+                })
+            }
+            else {
+                imgContent = "<p>No Images</p>"
+            }
+            imgSection.html(imgContent)
 
-    if (files != "") {
-        $.each(files, function (index, file) {
-            var plainName = file.substring(file.indexOf("_") + 1);
-            //File display HTML goes here!
-            fileContent += "<p class=''><a target='_blank' href='../DownloadFile/"+file+"'>" + plainName + "</a></p>"
-        })
-    }
-    fileSection.html(fileContent);
-</script>
+            if (files != "") {
+                $.each(files, function (index, file) {
+                    var plainName = file.substring(file.indexOf("_") + 1);
+                    //File display HTML goes here!
+                    fileContent += "<p class=''><a target='_blank' href='../DownloadFile/" + file + "'>" + plainName + "</a></p>"
+                })
+            }
+            fileSection.html(fileContent);
+        </script>
