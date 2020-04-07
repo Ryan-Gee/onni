@@ -70,17 +70,25 @@ namespace onni.Models
 
 	public class  ProjectUpload
 	{
+		public int ProjectId { get; set; }
+		[DisplayName("Title")]
 		public string ProjectName { get; set; }
 		public string UserName { get; set; }
 		public DateTime CreatedDate { get; set; }
+		[DisplayName("Description")]
 		public string BodyContent { get; set; }
+		[DisplayName("Files")]
 		public string Files { get; set; }
+		[DisplayName("Images")]
 		public string Images { get; set; }
 		public int ViewCounts { get; set; }
 		public int LikeCounts { get; set; }
+		[DisplayName("Status")]
 		public int StatusId { get; set; }
+		[DisplayName("Parent Project")]
 		public int? ParentProjectId { get; set; }
 		public string Tags { get; set; }
+		[DisplayName("Category")]
 		public int? CategoryId { get; set; }
 	}
     public class ProjectsInYear

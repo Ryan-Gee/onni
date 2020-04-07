@@ -92,8 +92,18 @@ body{
     background-image: url("/images/icons/heart.svg");
 }
 
+/*Card Images*/
+.project-thumbnail img{
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
 
-
+.project-thumbnail {
+    height: 200px;
+    width: 100%;
+    overflow: hidden;
+}
 
 /*comment*/
 .comment {

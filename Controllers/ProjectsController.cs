@@ -242,8 +242,66 @@ namespace onni.Controllers
 			return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
 		}
 
+		//// GET: Projects/Edit/5
+		//public async Task<IActionResult> Edit(int? id)
+		//{
+		//	if (id == null)
+		//	{
+		//		return NotFound();
+		//	}
+
+		//	var projects = await _context.Projects.FindAsync(id);
+		//	if (projects == null)
+		//	{
+		//		return NotFound();
+		//	}
+		//	ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoriesId", "CategoriesName", projects.CategoryId);
+		//	ViewData["ParentProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName", projects.ParentProjectId);
+		//	ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusName", projects.StatusId);
+		//	return View(projects);
+		//}
+
+		//// POST: Projects/Edit/5
+		//// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+		//// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+		//[HttpPost]
+		//[ValidateAntiForgeryToken]
+		//public async Task<IActionResult> Edit(int id, [Bind("ProjectId,ProjectName,UserName,CreatedDate,BodyContent,Files,Images,ViewCounts,LikeCounts,StatusId,ParentProjectId,Tags,CategoryId")] Projects projects)
+		//{
+		//	if (id != projects.ProjectId)
+		//	{
+		//		return NotFound();
+		//	}
+
+		//	if (ModelState.IsValid)
+		//	{
+		//		try
+		//		{
+		//			_context.Update(projects);
+		//			_context.SaveChanges();
+		//			//await _context.SaveChangesAsync();
+		//		}
+		//		catch (DbUpdateConcurrencyException)
+		//		{
+		//			if (!ProjectsExists(projects.ProjectId))
+		//			{
+		//				return NotFound();
+		//			}
+		//			else
+		//			{
+		//				throw;
+		//			}
+		//		}
+		//		return RedirectToAction(nameof(Index));
+		//	}
+		//	ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoriesId", "CategoriesName", projects.CategoryId);
+		//	ViewData["ParentProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName", projects.ParentProjectId);
+		//	ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusName", projects.StatusId);
+		//	return View(projects);
+		//}
+
 		// GET: Projects/Edit/5
-		public async Task<IActionResult> Edit(int? id)
+		public async Task<IActionResult> Edit(int id)
 		{
 			if (id == null)
 			{
@@ -258,7 +316,23 @@ namespace onni.Controllers
 			ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoriesId", "CategoriesName", projects.CategoryId);
 			ViewData["ParentProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName", projects.ParentProjectId);
 			ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusName", projects.StatusId);
-			return View(projects);
+
+			var upload = new ProjectUpload();
+			upload.ProjectId = id;
+			upload.ProjectName = projects.ProjectName;
+			upload.UserName = projects.UserName;
+			upload.CreatedDate = projects.CreatedDate;
+			upload.BodyContent = projects.BodyContent;
+			upload.Files = projects.Files;
+			upload.Images = projects.Images;
+			upload.ViewCounts = projects.ViewCounts;
+			upload.LikeCounts = projects.LikeCounts;
+			upload.StatusId = projects.StatusId;
+			upload.ParentProjectId = projects.ParentProjectId;
+			upload.Tags = projects.Tags;
+			upload.CategoryId = projects.CategoryId;
+
+			return View(upload);
 		}
 
 		// POST: Projects/Edit/5
@@ -266,37 +340,35 @@ namespace onni.Controllers
 		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(int id, [Bind("ProjectId,ProjectName,UserName,CreatedDate,BodyContent,Files,Images,ViewCounts,LikeCounts,StatusId,ParentProjectId,Tags,CategoryId")] Projects projects)
+		public async Task<IActionResult> Edit(int id, ProjectUpload projectUpload)
 		{
-			if (id != projects.ProjectId)
-			{
-				return NotFound();
-			}
-
+			//Validate according to the upload model
 			if (ModelState.IsValid)
 			{
-				try
-				{
-					_context.Update(projects);
-					await _context.SaveChangesAsync();
-				}
-				catch (DbUpdateConcurrencyException)
-				{
-					if (!ProjectsExists(projects.ProjectId))
-					{
-						return NotFound();
-					}
-					else
-					{
-						throw;
-					}
-				}
+				//Create a project model and bind everything from upload to the new model
+				var project = new Projects();
+				project.ProjectId = id;
+				project.ProjectName = projectUpload.ProjectName;
+				project.UserName = projectUpload.UserName;
+				project.CreatedDate = projectUpload.CreatedDate;
+				project.BodyContent = projectUpload.BodyContent;
+				project.Files = projectUpload.Files;
+				project.Images = projectUpload.Images;
+				project.ViewCounts = projectUpload.ViewCounts;
+				project.LikeCounts = projectUpload.LikeCounts;
+				project.StatusId = projectUpload.StatusId;
+				project.ParentProjectId = projectUpload.ParentProjectId;
+				project.Tags = projectUpload.Tags;
+				project.CategoryId = projectUpload.CategoryId;
+
+				_context.Update(project);
+				await _context.SaveChangesAsync();
 				return RedirectToAction(nameof(Index));
 			}
-			ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoriesId", "CategoriesName", projects.CategoryId);
-			ViewData["ParentProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName", projects.ParentProjectId);
-			ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusName", projects.StatusId);
-			return View(projects);
+			ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoriesId", "CategoriesName", projectUpload.CategoryId);
+			//ViewData["ParentProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName", projectUpload.ParentProjectId);
+			ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusName", projectUpload.StatusId);
+			return View("index");
 		}
 
 		// GET: Projects/Delete/5
