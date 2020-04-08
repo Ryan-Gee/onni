@@ -9,7 +9,7 @@
 }
 
 <div data-page="project-index">
-    <h2>All Projects</h2>
+    <h2></h2>
 
     @*<form asp-controller="Projects" asp-action="Index" method="get" class="form-inline">
             <div class="form-group">
@@ -22,19 +22,20 @@
                 <input type="submit" value="Search" class="btn btn-secondary" />
             </div>
         </form>*@
-    <form asp-controller="Projects" asp-action="Index" method="get" class="form-inline">
-        <div class="input-group-prepend">
-            <select asp-for="ProjectCategory" asp-items="Model.Categories" class="form-control ">
-                <option value="">All categories</option>
-            </select>
-        </div>
-        <input type="text" asp-for="SearchString" class="form-control" />
-        <div class="input-group">
-            <div class="input-group-append">
-                <input type="submit" value="Search" class="btn btn-outline-secondary" />
+        <form asp-controller="Projects" asp-action="Index" method="get" class="form-inline search">
+            <div class="input-group-prepend">
+                <select asp-for="ProjectCategory" asp-items="Model.Categories" class="form-control ">
+                    <option value="">All categories</option>
+                </select>
             </div>
-        </div>
-    </form>
+            <input type="text" asp-for="SearchString" class="form-control w-50" />
+            <div class="input-group">
+                <div class="input-group-append">
+                    <input type="submit" value="Search" class="btn btn-outline-secondary" />
+                </div>
+            </div>
+        </form>
+    
     @if (!String.IsNullOrEmpty(ViewBag.ProjectCategory))
     {
         @if (!String.IsNullOrEmpty(ViewBag.searchString))
@@ -54,7 +55,7 @@
     @if (User.Identity.IsAuthenticated)
     {
         <p>
-            <a asp-action="Create" class="btn btn-primary mt-3">Create a Project</a>
+            <a asp-action="Create" class="btn btn-primary mt-3">+ Create a Project</a>
         </p>
     }
     @*<table class="table">
@@ -157,7 +158,8 @@
 
         @foreach (var item in Model.Projects)
         {
-            <div class="card mb-4 p-0 col-lg-4 col-md-6 col-sm-12">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card mb-5 p-0 ">
                 <!-- Thumbnail at the top of the card -->
                 <div class="project-thumbnail">
                     @{
@@ -179,32 +181,32 @@
                 </div>
                 <!-- Project title -->
                 <h2 class="card-header">
-                    <a asp-action="Details" asp-route-id="@item.ProjectId">@item.ProjectName</a>
+                    <a class="text-dark" asp-action="Details" asp-route-id="@item.ProjectId">@item.ProjectName</a>
                 </h2>
                 <div class="card-body">
                     <!-- User attribution -->
                     <h5 class="card-title">By @item.UserName</h5>
                     <!-- Category icons -->
                     <div class=" btn-group">
-                        <button class="icon-btn btn btn-outline-info">
+                        <a class="icon-btn btn btn-outline-info">
                             <span class="icons @Html.DisplayFor(modelItem => item.Category.CategoriesName)"></span>
                             @Html.DisplayFor(modelItem => item.Category.CategoriesName)
-                        </button>
+                        </a>
                         <div class="btn-group">
-                            <button class="icon-btn btn btn-outline-secondary">
+                            <a class="icon-btn btn btn-outline-secondary">
                                 <span class="icons eye"></span>
                                 @Html.DisplayFor(modelItem => item.ViewCounts)
-                            </button>
-                            <button class="icon-btn btn btn-outline-secondary">
+                            </a>
+                            <a class="icon-btn btn btn-outline-secondary">
                                 <span class="icons heart"></span>
                                 @Html.DisplayFor(modelItem => item.LikeCounts)
-                            </button>
+                            </a>
                         </div>
 
                     </div>
                 </div>
             </div>
-
+        </div>
         }
     </div>
 </div>
