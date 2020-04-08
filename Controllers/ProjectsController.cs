@@ -74,8 +74,7 @@ namespace onni.Controllers
 					.Where(m => m.ProjectId == id)
 					.Include(p => p.Category)
 					.Include(p => p.ParentProject)
-					.Include(p => p.Status)
-					.Include(p => p.ViewCounts);
+					.Include(p => p.Status);
 				if (projects == null)
 				{
 					return NotFound();
@@ -90,12 +89,12 @@ namespace onni.Controllers
 					ViewBag.isLike = true;
 				}
 				//Update view count
-				var prj = _context.Projects.SingleOrDefault(p => p.ProjectId == id);
-				if (prj != null)
-				{
-					prj.ViewCounts += 1;
-					_context.SaveChanges();
-				}
+				//var prj = _context.Projects.SingleOrDefault(p => p.ProjectId == id);
+				//if (prj != null)
+				//{
+				//	prj.ViewCounts += 1;
+				//	_context.SaveChanges();
+				//}
 				// find all comments with the project ID
 				var comments = _context.Comments.Where(p => p.ProjectId == id);
 				ViewData["Projects"] = projects;
