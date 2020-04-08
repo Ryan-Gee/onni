@@ -92,14 +92,9 @@ namespace onni.Controllers
 				var prj = await _context.Projects.FindAsync(id);
 				if (prj != null)
 				{
-					Console.WriteLine("#######################################################");
 					prj.ViewCounts += 1;
 					_context.SaveChanges();
 				}
-
-
-				//prj.ViewCounts += 1;
-				//_context.SaveChanges();
 
 				// find all comments with the project ID
 				var comments = _context.Comments.Where(p => p.ProjectId == id);

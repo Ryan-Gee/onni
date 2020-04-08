@@ -185,22 +185,22 @@
                     <!-- User attribution -->
                     <h5 class="card-title">By @item.UserName</h5>
                     <!-- Category icons -->
-                    <div class="btn-group category-group" role="group">
-                        <button class="icon-btn">
+                    <div class=" btn-group">
+                        <button class="icon-btn btn btn-outline-info">
                             <span class="icons @Html.DisplayFor(modelItem => item.Category.CategoriesName)"></span>
                             @Html.DisplayFor(modelItem => item.Category.CategoriesName)
                         </button>
-                    </div>
-                    <!-- Views and likes icons (used button group as default styling is close) -->
-                    <div class="btn-group stats-group" role="group">
-                        <button class="icon-btn">
-                            <span class="icons eye"></span>
-                            @Html.DisplayFor(modelItem => item.ViewCounts)
-                        </button>
-                        <button class="icon-btn">
-                            <span class="icons heart"></span>
-                            @Html.DisplayFor(modelItem => item.LikeCounts)
-                        </button>
+                        <div class="btn-group">
+                            <button class="icon-btn btn btn-outline-secondary">
+                                <span class="icons eye"></span>
+                                @Html.DisplayFor(modelItem => item.ViewCounts)
+                            </button>
+                            <button class="icon-btn btn btn-outline-secondary">
+                                <span class="icons heart"></span>
+                                @Html.DisplayFor(modelItem => item.LikeCounts)
+                            </button>
+                        </div>
+
                     </div>
                 </div>
             </div>

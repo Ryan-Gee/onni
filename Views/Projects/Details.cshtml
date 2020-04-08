@@ -62,20 +62,21 @@
             <div class="card">
                 <!-- Header contains categories and views and likes -->
                 <div class="card-header btn-group">
-                    <button class="icon-btn">
+                    <button class="icon-btn btn btn-outline-info">
                         <span class="icons @Html.DisplayFor(modelItem => item.Category.CategoriesName)"></span>
                         @Html.DisplayFor(modelItem => item.Category.CategoriesName)
                     </button>
-                    <button class="icon-btn">
-                        <span class="icons eye"></span>
-                        View:
-                        @Html.DisplayFor(modelItem => item.ViewCounts)
-                    </button>
-                    <button class="icon-btn">
-                        <span class="icons heart"></span>
-                        Like:
-                        @Html.DisplayFor(modelItem => item.LikeCounts)
-                    </button>
+                    <div class="btn-group">
+                        <button class="icon-btn btn btn-outline-secondary">
+                            <span class="icons eye"></span>
+                            @Html.DisplayFor(modelItem => item.ViewCounts)
+                        </button>
+                        <button class="icon-btn btn btn-outline-secondary">
+                            <span class="icons heart"></span>
+                            @Html.DisplayFor(modelItem => item.LikeCounts)
+                        </button>
+                    </div>
+                    
                 </div>
                 <!-- Body contains the various sectioned content pieces -->
                 <div class="card-body">
@@ -103,12 +104,18 @@
                         </div>
                     </section>
                     @*ParentProject*@
-                    <section>
+                    @if (item.ParentProject != null)
+                    {
+                    <p>
+                        Child project of <a asp-action="Details" asp-route-id="@item.ParentProject.ProjectId">@item.ParentProject.ProjectName</a>
+                    </p>
+                    }
+                    @*<section>
                         <h2>Parent Project</h2>
                         <div>
                             @Html.DisplayFor(modelItem => item.ParentProject.ProjectName)
                         </div>
-                    </section>
+                    </section>*@
 
                 </div>@*end card-body*@
             </div>
