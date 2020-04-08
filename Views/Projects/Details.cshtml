@@ -70,20 +70,29 @@
                     <div id="bodyContent-output">
                     </div>
                 </section>
+
                 <!-- Gallery section (may need additional classes?) -->
-                <section class="project-gallery mt-4">
-                    <h2>Gallery</h2>
-                    <div class="gallery" id="project-images">
-                        @item.Images
-                    </div>
-                </section>
+                @if (item.Images != null)
+                {
+                    <section class="project-gallery mt-4">
+                        <h2>Gallery</h2>
+                        <div class="gallery" id="project-images">
+                            @item.Images
+                        </div>
+                    </section>
+                }
+
                 <!-- Downloads section -->
-                <section class="project-downloads mt-4">
-                    <h2>Downloads</h2>
-                    <div class="file-uploads p-5" id="project-files">
-                        @Html.DisplayFor(modelItem => item.Files)
-                    </div>
-                </section>
+                @if (item.Files != null)
+                {
+                    <section class="project-downloads mt-4">
+                        <h2>Downloads</h2>
+                        <div class="file-uploads p-5" id="project-files">
+                            @Html.DisplayFor(modelItem => item.Files)
+                        </div>
+                    </section>
+                }
+
                 @*ParentProject*@
                 @if (item.ParentProject != null)
                 {
