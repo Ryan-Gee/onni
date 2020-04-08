@@ -4,16 +4,16 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+    <div id="l">
+        <h2>Comments</h2>
 
-<h2>Index</h2>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<!-- Comments section -->
-<div class="comments mt-5 pb-3">
-    <!-- Comments title -->
-    <h2>project discussion</h2>
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+        <!-- Comments section -->
+        <div class="comments mt-5 pb-3">
+            <!-- Comments title -->
+            <h2>project discussion</h2>
             @foreach (var item in Model)
             {
                 <!-- Section elements used for comments, similar styling to project sections -->
@@ -26,16 +26,17 @@
                     <!-- Body of the comment itself -->
                     <p class="comment-body m-4">@Html.DisplayFor(modelItem => item.BodyContent)</p>
                 </section>
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.CommentDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Project.ProjectName)
-                    </td>*@
-                    <div>
-                        <a asp-action="Edit" asp-route-id="@item.CommentId">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.CommentId">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.CommentId">Delete</a>
-                    </div>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.CommentDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Project.ProjectName)
+                </td>*@
+                <div>
+                    <a asp-action="Edit" asp-route-id="@item.CommentId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.CommentId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.CommentId">Delete</a>
+                </div>
             }
-</div>
+        </div>
+    </div>

@@ -66,6 +66,17 @@ body {
     box-shadow: 20px 10px #006837;
     margin: auto;
     margin-bottom: 30px;
+    padding-bottom: 10px;
+}
+
+.col-md-4 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.col-md-6 {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .col-md-6:first-of-type {
