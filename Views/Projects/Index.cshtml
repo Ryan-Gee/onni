@@ -22,7 +22,7 @@
                 <input type="submit" value="Search" class="btn btn-secondary" />
             </div>
         </form>*@
-        <form asp-controller="Projects" asp-action="Index" method="get" class="form-inline search">
+        <form asp-controller="Projects" asp-action="Index" method="get" class="form-inline mb-3">
             <div class="input-group-prepend">
                 <select asp-for="ProjectCategory" asp-items="Model.Categories" class="form-control ">
                     <option value="">All categories</option>
