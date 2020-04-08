@@ -89,12 +89,18 @@ namespace onni.Controllers
 					ViewBag.isLike = true;
 				}
 				//Update view count
-				//var prj = _context.Projects.SingleOrDefault(p => p.ProjectId == id);
-				//if (prj != null)
-				//{
-				//	prj.ViewCounts += 1;
-				//	_context.SaveChanges();
-				//}
+				var prj = await _context.Projects.FindAsync(id);
+				if (prj != null)
+				{
+					Console.WriteLine("#######################################################");
+					prj.ViewCounts += 1;
+					_context.SaveChanges();
+				}
+
+
+				//prj.ViewCounts += 1;
+				//_context.SaveChanges();
+
 				// find all comments with the project ID
 				var comments = _context.Comments.Where(p => p.ProjectId == id);
 				ViewData["Projects"] = projects;
