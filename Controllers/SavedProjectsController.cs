@@ -59,15 +59,20 @@ namespace onni.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Like( string UserName, int ProjectId)
         {
-            var savedProjects = new SavedProjects
+            var savedProject = new SavedProjects
             {
                 UserName = UserName,
                 ProjectId = ProjectId,
                 SavedDate = DateTime.Now
             };
-
-                _context.SavedProjects.Add(savedProjects);
+                _context.SavedProjects.Add(savedProject);
                 _context.SaveChanges();
+            var project = _context.Projects.SingleOrDefault(p => p.ProjectId == ProjectId);
+            var savedCount = _context.SavedProjects.Where(p=>p.ProjectId == ProjectId).Count();
+            project.LikeCounts = savedCount;
+            _context.SaveChanges();
+
+
 
             return RedirectToAction("Details", "Projects", new { id = ProjectId });
         }
@@ -78,6 +83,10 @@ namespace onni.Controllers
         {
             var savedProjects = _context.SavedProjects.SingleOrDefault(s => s.UserName == UserName && s.ProjectId == ProjectId);
             _context.SavedProjects.Remove(savedProjects);
+            _context.SaveChanges();
+            var project = _context.Projects.SingleOrDefault(p => p.ProjectId == ProjectId);
+            var savedCount = _context.SavedProjects.Where(p => p.ProjectId == ProjectId).Count();
+            project.LikeCounts = savedCount;
             _context.SaveChanges();
             return RedirectToAction("Details", "Projects", new { id = ProjectId });
         }

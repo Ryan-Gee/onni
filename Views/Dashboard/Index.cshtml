@@ -1,24 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Identity
-
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    //Layout = "~/Areas/Identity/Pages/Account/Manage/_Layout.cshtml";
 
 }
-
-<h2>Index</h2>
-
-<ul class="nav navbar-nav navbar-right">
-    <li class="nav-item">
-        <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-    </li>
-    <li class="nav-item">
-        <button type="submit" class="btn btn-link navbar-btn navbar-link">Logout</button>
-    </li>
-</ul>
 
 <div>
     <h3>
@@ -53,7 +38,3 @@
         }
     </ol>
 </div>
-
-@*@section Script{
-    <partial name="_ManageNav" />
-}*@
