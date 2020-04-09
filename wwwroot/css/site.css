@@ -149,3 +149,48 @@ body{
     margin: 0;
     color: gray;
 }
+
+/*Scrollbar styling*/
+/* width */
+::-webkit-scrollbar {
+    width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #999;
+    border-radius: 10px;
+    border: 3px solid white;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/*Horizontal scroller styles*/
+.horizontal-scroll-container {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+.horizontal-scroll-item {
+    display: inline-block;
+}
+
+.horizontal-scroll-item .card {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+img.profile-placeholder {
+    border-radius: 50% !important;
+    display: block;
+    max-width: 200px;
+}

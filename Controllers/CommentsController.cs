@@ -11,7 +11,7 @@ using onni.Models;
 
 namespace onni.Controllers
 {
-	[Authorize(Roles = "Admin")]
+	//[Authorize(Roles = "Admin,Collaborator,Creator")]
 
 	public class CommentsController : Controller
     {

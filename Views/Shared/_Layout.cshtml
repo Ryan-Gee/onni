@@ -28,14 +28,18 @@
             <img src="https://image.flaticon.com/icons/svg/2089/2089792.svg" alt="hamburger" height="20" />
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" asp-area="" asp-controller="Projects" asp-action="index">All Projects</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-controller="dashboard" asp-action="index"> My Projects</a>
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About</a>
                 </li>
-                @if (User.IsInRole("Admin")) { 
+                @*<li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="dashboard" asp-action="index"> My Projects</a>
+                </li>*@
+                @if (User.IsInRole("Admin"))
+                {
                     <li class="nav-item">
                         <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Report">Administration</a>
                     </li>

@@ -12,8 +12,8 @@ namespace onni.Controllers
     {
         public IActionResult Index()
         {
-            return RedirectToAction("Index", "Projects");
-        }
+			return RedirectToAction("Index", "Projects");
+		}
 
         public IActionResult About()
         {

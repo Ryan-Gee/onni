@@ -4,37 +4,100 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
+<div class="">
+    <img class="profile-placeholder img-fluid ml-auto mr-auto" src="~/images/icons/user.png" />
+    <h1 class="text-center text-capitalize ml-4">@User.Identity.Name
+        <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+            <span class="icons edit"></span>
+        </a>
+    </h1>
+    
 
-<div>
-    <h3>
-        My Projects
-    </h3>
-    <ol>
-
-        @foreach (var project in (IEnumerable<Projects>)ViewData["MyProjects"])
-        {
-            <li>
-                <a asp-controller="Projects" asp-action="Details" asp-route-id="@project.ProjectId"> @project.ProjectName</a>
-
-            </li>
-
-        }
-    </ol>
 </div>
 
+<div>
+    <h2>
+        My Projects
+    </h2>
+    <div class="horizontal-scroll-container mt-4 mb-5">
+        @foreach (var item in (IEnumerable<Projects>)ViewData["MyProjects"])
+        {
+            <div class="horizontal-scroll-item col-sm-4">
+                <div class="card mb-3 p-0 ">
+                    <!-- Thumbnail at the top of the card -->
+                    <div class="project-thumbnail">
+                        @{
+                            string pic = item.Images;
+                            if (pic != null)
+                            {
+                                string[] things = pic.Split(" ");
+                                Console.WriteLine(pic);
+                            }
+                        }
+                        @if (pic != null)
+                        {
+                            <img class="img-fluid" src="/upload/img/@item.Images.Split(" ")[0]" alt="" />
+                        }
+                        else
+                        {
+                            <img class="img-fluid" src="https://via.placeholder.com/640x400.png?text=No+Image" alt="" />
+                        }
+                    </div>
+                    <!-- Project title -->
+                    <h3 class="card-header">
+                        <a class="text-dark" asp-controller="Projects" asp-action="Details" asp-route-id="@item.ProjectId">@item.ProjectName</a>
+                    </h3>
+                    <div class="card-body">
+                        <!-- User attribution -->
+                        <h5 class="card-title mb-0">By @item.UserName</h5>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<hr />
 
 <div>
-    <h3>
+    <h2>
         Liked Projects
-    </h3>
-    <ol>
-
+    </h2>
+    <div class="horizontal-scroll-container mt-4">
         @foreach (var project in (IEnumerable<SavedProjects>)ViewData["MyLiked"])
         {
-            <li>
-                <a asp-controller="Projects" asp-action="Details" asp-route-id="@project.ProjectId"> @project.Project.ProjectName</a>
-            </li>
-
+            var item = project.Project;
+        <div class="horizontal-scroll-item col-sm-4">
+            <div class="card mb-3 p-0 ">
+                <!-- Thumbnail at the top of the card -->
+                <div class="project-thumbnail">
+                    @{
+                        string pic = item.Images;
+                        if (pic != null)
+                        {
+                            string[] things = pic.Split(" ");
+                            Console.WriteLine(pic);
+                        }
+                    }
+                    @if (pic != null)
+                    {
+                        <img class="img-fluid" src="/upload/img/@item.Images.Split(" ")[0]" alt="" />
+                    }
+                    else
+                    {
+                        <img class="img-fluid" src="https://via.placeholder.com/640x400.png?text=No+Image" alt="" />
+                    }
+                </div>
+                <!-- Project title -->
+                <h3 class="card-header">
+                    <a class="text-dark" asp-controller="Projects" asp-action="Details" asp-route-id="@item.ProjectId">@item.ProjectName</a>
+                </h3>
+                <div class="card-body">
+                    <!-- User attribution -->
+                    <h5 class="card-title mb-0">By @item.UserName</h5>
+                </div>
+            </div>
+        </div>
         }
-    </ol>
+    </div>
 </div>
