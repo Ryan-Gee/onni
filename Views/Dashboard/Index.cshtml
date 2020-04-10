@@ -11,11 +11,26 @@
             <span class="icons edit"></span>
         </a>
     </h1>
-    
+    <div class="text-center">
+        <div class="btn-group">
+            <a class="icon-btn btn btn-outline-secondary no-hover" href="#myProjects">
+                <span class="icons project-icon"></span>
+                @ViewData["projCount"] Projects
+            </a>
+            <a class="icon-btn btn btn-outline-secondary no-hover" href="#myProjects">
+                <span class="icons eye"></span>
+                @ViewData["myViews"] Views
+            </a>
+            <a class="icon-btn btn btn-outline-secondary no-hover" href="#myProjects">
+                <span class="icons heart"></span>
+                @ViewData["myLikes"] Likes
+            </a>
+        </div>
+    </div>
 
 </div>
 
-<div>
+<div class="pt-5" id="myProjects">
     <h2>
         My Projects
     </h2>

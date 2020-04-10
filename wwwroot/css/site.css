@@ -112,6 +112,18 @@ body{
 .edit {
     background-image: url("/images/icons/edit.svg")
 }
+.delete-icon {
+    background-image: url("/images/icons/delete.svg")
+}
+.project-icon {
+    background-image: url("/images/icons/project.svg")
+}
+
+.no-hover:hover {
+    background-color: inherit !important;
+    color: inherit !important;
+    cursor: default;
+}
 
 /*Card Images*/
 .project-thumbnail img{

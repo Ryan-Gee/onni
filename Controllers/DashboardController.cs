@@ -36,10 +36,22 @@ namespace onni.Controllers
 			var MyLiked = _context.SavedProjects.Include(p=>p.Project).Where(p => p.UserName == User.Identity.Name).OrderByDescending(p => p.SavedDate).ToList();
 			var PendingProjects = _context.Projects.Where(p => p.StatusId == 1).Count();
 
+			var myLikes = 0;
+			var myViews = 0;
+			var projCount = 0;
+			foreach (var proj in MyProjects)
+			{
+				myLikes += proj.LikeCounts;
+				myViews += proj.ViewCounts;
+				projCount += 1;
+			}
+
 
 			ViewData["MyProjects"] = MyProjects;
 			ViewData["MyLiked"] = MyLiked;
-
+			ViewData["myLikes"] = myLikes;
+			ViewData["myViews"] = myViews;
+			ViewData["projCount"] = projCount;
 
 			return View();
 		}

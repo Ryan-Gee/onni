@@ -12,11 +12,26 @@
             // Display "Publish" button if login as admin and project is pending
             @if (User.IsInRole("Admin") && @item.StatusId == 1)
             {
-                <a asp-area="Admin" asp-action="Public" asp-route-id="@item.ProjectId" class="btn btn-primary">Publish</a>
+                <div>
+                    <div class="alert alert-primary">
+                        <a asp-area="Admin" asp-action="Public" asp-route-id="@item.ProjectId" class="btn btn-primary mr-3">Publish</a>
+                        This project has not yet been approved, and isn't publicly visible
+                    </div>
+                </div>
             }
+            
             @if (UserManager.GetUserName(User) == item.UserName)
             {
-                <a asp-action="Edit" asp-route-id="@item.ProjectId" class="btn btn-outline-secondary">Edit Project</a>
+                <div class="btn-group">
+                    <a class="btn icon-btn btn-outline-secondary" asp-action="Edit" asp-route-id="@item.ProjectId">
+                        <span class="icons edit mr-2"></span>
+                        Edit Project
+                    </a>
+                    <a class="btn icon-btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ProjectId">
+                        <span class="icons delete-icon mr-2"></span>
+                        Delete Project
+                    </a>
+                </div>
             }
 
     <div class="project pt-4">
@@ -43,16 +58,16 @@
         <div class="card">
             <!-- Header contains categories and views and likes -->
             <div class="card-header btn-group">
-                <button class="icon-btn btn btn-outline-info">
+                <button class="icon-btn btn btn-outline-info no-hover">
                     <span class="icons @Html.DisplayFor(modelItem => item.Category.CategoriesName)"></span>
                     @Html.DisplayFor(modelItem => item.Category.CategoriesName)
                 </button>
                 <div class="btn-group">
-                    <button class="icon-btn btn btn-outline-secondary">
+                    <button class="icon-btn btn btn-outline-secondary no-hover">
                         <span class="icons eye"></span>
                         @Html.DisplayFor(modelItem => item.ViewCounts)
                     </button>
-                    <button class="icon-btn btn btn-outline-secondary">
+                    <button class="icon-btn btn btn-outline-secondary no-hover">
                         <span class="icons heart"></span>
                         @Html.DisplayFor(modelItem => item.LikeCounts)
                     </button>
@@ -96,7 +111,8 @@
                 @*ParentProject*@
                 @if (item.ParentProject != null)
                 {
-                    <p>
+                    <hr />
+                    <p class="text-muted">
                         Child project of <a asp-action="Details" asp-route-id="@item.ParentProject.ProjectId">@item.ParentProject.ProjectName</a>
                     </p>
                 }

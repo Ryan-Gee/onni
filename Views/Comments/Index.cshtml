@@ -46,7 +46,7 @@
             <td>
                 @*<a asp-action="Edit" asp-route-id="@item.CommentId">Edit</a> |
             <a asp-action="Details" asp-route-id="@item.CommentId">Details</a> |*@
-                <a asp-action="Delete" asp-route-id="@item.CommentId">Delete</a>
+                <a asp-action="Delete" class="text-danger" asp-route-id="@item.CommentId">Delete</a>
             </td>
         </tr>
 }
