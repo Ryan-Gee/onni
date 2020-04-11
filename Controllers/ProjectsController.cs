@@ -142,7 +142,9 @@ namespace onni.Controllers
 
 				_context.Add(project);
 				await _context.SaveChangesAsync();
-				return RedirectToAction(nameof(Index));
+				return RedirectToAction("Details", new { id = projectUpload.ProjectId });
+
+				//return RedirectToAction(nameof(Index));
 			}
 			ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoriesId", "CategoriesName", projectUpload.CategoryId);
 			//ViewData["ParentProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName", projectUpload.ParentProjectId);
@@ -371,11 +373,17 @@ namespace onni.Controllers
 
 				_context.Update(project);
 				await _context.SaveChangesAsync();
-				return RedirectToAction(nameof(Index));
+				return RedirectToAction("Details", new { id = projectUpload.ProjectId });
+
+				//return RedirectToAction(nameof(Index));
 			}
 			ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoriesId", "CategoriesName", projectUpload.CategoryId);
 			//ViewData["ParentProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName", projectUpload.ParentProjectId);
 			ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusName", projectUpload.StatusId);
+
+			//return RedirectToAction("Details", new { id = projectUpload.ProjectId });
+
+
 			return View("index");
 		}
 
