@@ -1,7 +1,7 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = "Edit My Profile";
 }
 
 @Html.Partial("_StatusMessage", Model.StatusMessage)
@@ -9,12 +9,13 @@
     <div class="col"></div>
     <div class="col-md-6">
         <h2 class="text-center">@ViewData["Title"]</h2>
-        <ul class="nav flex-column nav-fill">
+        <a asp-controller="Dashboard" asp-action="index" class="col-md-offset-0 p-0">< Back</a>
+        <ul class="nav nav-tabs nav-fill mt-4">
             <li class="@ManageNavPages.IndexNavClass(ViewContext) nav-item">
-                <a asp-page="./Index" class="nav-link ">Profile</a>
+                <a asp-page="./Index" class="nav-link active">Edit Profile</a>
             </li>
             <li class="@ManageNavPages.ChangePasswordNavClass(ViewContext) nav-item">
-                <a id="change-password" asp-page="./ChangePassword" class="nav-link active">Change Password</a>
+                <a id="change-password" asp-page="./ChangePassword" class="nav-link">Change Password</a>
             </li>
             <li class="@ManageNavPages.PersonalDataNavClass(ViewContext) nav-item">
                 <a asp-page="./PersonalData" class="nav-link">Personal data</a>

@@ -8,28 +8,29 @@
     <div class="col"></div>
     <div class="col-md-6">
         <h2 class="text-center">@ViewData["Title"]</h2>
-        <ul class="nav flex-column nav-fill">
+        <a asp-controller="Dashboard" asp-action="index" class="col-md-offset-0 p-0">< Back</a>
+        <ul class="nav nav-tabs nav-fill mt-4">
             <li class="@ManageNavPages.IndexNavClass(ViewContext) nav-item">
-                <a asp-page="./Index" class="nav-link ">Profile</a>
+                <a asp-page="./Index" class="nav-link ">Edit Profile</a>
             </li>
             <li class="@ManageNavPages.ChangePasswordNavClass(ViewContext) nav-item">
-                <a id="change-password" asp-page="./ChangePassword" class="nav-link active">Change Password</a>
+                <a id="change-password" asp-page="./ChangePassword" class="nav-link">Change Password</a>
             </li>
             <li class="@ManageNavPages.PersonalDataNavClass(ViewContext) nav-item">
-                <a asp-page="./PersonalData" class="nav-link">Personal data</a>
+                <a asp-page="./PersonalData" class="nav-link active">Personal data</a>
             </li>
         </ul>
         <div class="row mt-3">
             <div class="col">
-                <p>Your account contains personal data that you have given us. This page allows you to download or delete that data.</p>
+                <p>Your account contains personal data that you have given us. You are able to download or delete this data, in keeping with our privacy policy.</p>
                 <p>
-                    <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
+                    <strong>Deleting this data will permanently delete your account, this action cannot be undone.</strong>
                 </p>
                 <form asp-page="DownloadPersonalData" method="post" class="form-group">
                     <button class="btn btn-primary btn-block" type="submit">Download</button>
                 </form>
                 <p>
-                    <a asp-page="DeletePersonalData" class="btn btn-danger btn-block">Delete</a>
+                    <a asp-page="DeletePersonalData" class="btn btn-outline-danger btn-block" onclick="return confirm('Are you sure you want to delete your account and all your personal data?');">Delete</a>
                 </p>
             </div>
         </div>
