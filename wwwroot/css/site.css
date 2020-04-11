@@ -206,3 +206,33 @@ img.profile-placeholder {
     display: block;
     max-width: 200px;
 }
+
+.about {
+    color: #666;
+    font-size: 115%;
+    line-height: 1.6em;
+}
+
+.btn-primary {
+    background-color: #006837 !important;
+    border-color: #006837;
+}
+
+.btn-primary:hover {
+    background-color: #555 !important;
+    border-color: #006837;
+}
+
+.btn-outline-primary {
+    border-color: #006837 !important;
+    color: #006837;
+}
+
+.btn-outline-primary:hover, .btn-outline-info:hover {
+    background-color: #999 !important;
+}
+
+.btn-outline-info {
+    border-color: #006837;
+    color: #006837;
+}
