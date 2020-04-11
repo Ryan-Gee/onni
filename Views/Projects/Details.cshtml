@@ -39,13 +39,10 @@
         @*project title and author *@
 
         <div class="title-author">
-            <h2>
+            <h2 class="display-4">
                 @Html.DisplayFor(modelItem => item.ProjectName)
             </h2>
-            <a href="#" class="btn" id="action-user">
-                <img src="~/images/icons/user.svg" alt="profile" height="20" />
-                @Html.DisplayFor(modelItem => item.UserName)
-            </a>
+            <hr />
         </div>
 
         @*@if (User.Identity.IsAuthenticated)
@@ -73,39 +70,53 @@
                     </button>
                 </div>
 
+                <div class="ml-auto">
+
+                    <a href="#" class="btn text-right" id="action-user">
+                        <img src="~/images/icons/user.svg" alt="profile" height="20" />
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </a>
+                </div>
+
             </div>
             <!-- Body contains the various sectioned content pieces -->
             <div class="card-body">
                 <!-- Background brief section -->
                 <section class="project-background">
-                    <h2>Description</h2>
-                    <div id="bodyContent-input" style="display:none">
+                    <h2 class="display-4">Description</h2>
+                    <hr />
+
+                    <div id="bodyContent-input" style="display:none" class="pl-3">
                         @Html.DisplayFor(modelItem => item.BodyContent)
                     </div>
-                    <div id="bodyContent-output">
+                    <div class="pl-5" id="bodyContent-output">
                     </div>
                 </section>
 
                 <!-- Gallery section (may need additional classes?) -->
                 @if (item.Images != null)
                 {
-                    <section class="project-gallery mt-4">
-                        <h2>Gallery</h2>
-                        <div class="gallery" id="project-images">
-                            @item.Images
-                        </div>
-                    </section>
+                <section class="project-gallery mt-4">
+                    <h2 class="display-4">Gallery</h2>
+                    <hr />
+
+                    <div class="project-gallery pl-3" id="project-images">
+                        @item.Images
+                    </div>
+                </section>
                 }
 
                 <!-- Downloads section -->
                 @if (item.Files != null)
                 {
-                    <section class="project-downloads mt-4">
-                        <h2>Downloads</h2>
-                        <div class="file-uploads p-5" id="project-files">
-                            @Html.DisplayFor(modelItem => item.Files)
-                        </div>
-                    </section>
+                <section class="project-downloads mt-4">
+                    <h2 class="display-4">Downloads</h2>
+                    <hr />
+
+                    <div class="file-uploads m-3" id="project-files">
+                        @Html.DisplayFor(modelItem => item.Files)
+                    </div>
+                </section>
                 }
 
                 @*ParentProject*@
@@ -122,25 +133,25 @@
 
 
         <!-- Bar containing user, comments, likes, etc links, rendered as a large pill-styled bar in the mockup -->
-        <div class="action-bar btn-group" role="group">
+        <div class="action-bar btn-group mt-4" role="group">
             @if (User.Identity.IsAuthenticated)
             {
-                <a asp-action="Create" asp-route-ParentProjectId="@item.ProjectId" class="btn icon-btn">
+                <a asp-action="Create" asp-route-ParentProjectId="@item.ProjectId" class="btn icon-btn btn-outline-primary">
                     <span class="icons plus"></span>
                     Child project
                 </a>
             }
             <!-- User link, should take up twice the space of other items in the bar -->
             <!-- Comments link -->
-            <a href="#creat-comment" class="btn icon-btn" id="action-comment">
+            <a href="#creat-comment" class="btn icon-btn btn-outline-secondary text-dark" id="action-comment">
                 <span class="icons reply"></span>
                 Comment
             </a>
             <!-- Like button -->
             @if (ViewBag.isLike == true)
             {
-                <form asp-controller="SavedProjects" asp-action="Unlike" asp-route-ProjectId="@item.ProjectId" asp-route-UserName="@User.Identity.Name" method="post">
-                    <button type="submit" class="btn btn-link icon-btn">
+                <form class="btn btn-outline-secondary" asp-controller="SavedProjects" asp-action="Unlike" asp-route-ProjectId="@item.ProjectId" asp-route-UserName="@User.Identity.Name" method="post">
+                    <button type="submit" class="icon-btn text-dark" style="background-color: transparent; border: none;">
                         <span class="icons unlike"></span>
                         Unlike
                     </button>
@@ -149,16 +160,16 @@
             else
             {
                 <form asp-controller="SavedProjects" asp-action="Like" asp-route-ProjectId="@item.ProjectId" asp-route-UserName="@User.Identity.Name" method="post">
-                    <button type="submit" class="btn btn-link icon-btn">
+                    <button type="submit" class="btn icon-btn btn-outline-secondary"  style="background-color: transparent; border: none;">
                         <span class="icons like"></span>
                         Like
                     </button>
                 </form>
 
             }
-            @if (User.Identity.Name == item.UserName || User.IsInRole("Admin"))
+            @if (User.Identity.Name == item.UserName)
             {
-                <a class="btn icon-btn" asp-action="Edit" asp-route-id="@item.ProjectId">
+                <a class="btn icon-btn btn-outline-secondary text-dark" asp-action="Edit" asp-route-id="@item.ProjectId">
                     <span class="icons edit"></span>
 
                     Edit
@@ -190,7 +201,7 @@
     if (images != "") {
         $.each(images, function (index, img) {
             //Image HTML goes here!
-            imgContent += "<img src = '/upload/img/" + img + "' alt = '' width='200' />"
+            imgContent += "<div class='img-container'><a href='../../upload/img/" + img + "' target='_blank'><img src = '/upload/img/" + img + "' alt = '' /></a></div>"
         })
     }
     else {

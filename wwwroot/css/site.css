@@ -236,3 +236,56 @@ img.profile-placeholder {
     border-color: #006837;
     color: #006837;
 }
+
+.dropzone {
+    border-color: #006837 !important;
+    border-width: 1px !important;
+    border-radius: 5px;
+    background-image: url("../images/icons/upload.svg") !important;
+    background-size: auto 70% !important;
+    background-repeat: no-repeat !important;
+    background-position: 50% 50% !important;
+}
+
+.card .display-4 {
+    font-size: 2.5em !important;
+}
+
+.delete-icon {
+    position: relative;
+}
+
+.img-container {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    margin: 10px;
+}
+
+.img-container img {
+    transition: 0.2s;
+    width: 200px;
+    height: 120px;
+    object-fit: cover;
+}
+
+.deleteImg:hover img {
+    filter: brightness(0.4);
+}
+
+.imgDel {
+    display: inline-block;
+    position: absolute;
+    top: 50px;
+    color: #dc3545;
+    left: 80px;
+    text-shadow: 0px 0px 10px black;
+    pointer-events: none;
+    font-weight: 600;
+    opacity: 0;
+    transition: 0.2s;
+}
+
+.deleteImg:hover p {
+    opacity: 1;
+}

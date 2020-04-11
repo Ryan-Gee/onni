@@ -1,7 +1,7 @@
 ﻿@if (User.Identity.IsAuthenticated)
 {
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
             <form asp-controller="Comments" asp-action="Create" id="creat-comment">
                 <div class="form-group" style="display:none;">
                     <label for="UserName" class="control-label">UserName</label>
@@ -16,7 +16,7 @@
                     <textarea id="BodyContent" name="BodyContent" class="form-control" ></textarea>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Add Comment" class="btn btn-secondary" />
+                    <input type="submit" value="Add Comment" class="btn btn-primary px-5" />
                 </div>
             </form>
         </div>
