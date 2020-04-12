@@ -96,27 +96,27 @@
                 <!-- Gallery section (may need additional classes?) -->
                 @if (item.Images != null)
                 {
-                <section class="project-gallery mt-4">
-                    <h2 class="display-4">Gallery</h2>
-                    <hr />
+                    <section class="project-gallery mt-4 pt-4">
+                        <h2 class="display-4">Gallery</h2>
+                        <hr />
 
-                    <div class="project-gallery pl-3" id="project-images">
-                        @item.Images
-                    </div>
-                </section>
+                        <div class="project-gallery pl-3" id="project-images">
+                            @item.Images
+                        </div>
+                    </section>
                 }
 
                 <!-- Downloads section -->
                 @if (item.Files != null)
                 {
-                <section class="project-downloads mt-4">
-                    <h2 class="display-4">Downloads</h2>
-                    <hr />
+                    <section class="project-downloads mt-4 pt-4">
+                        <h2 class="display-4">Downloads</h2>
+                        <hr />
 
-                    <div class="file-uploads m-3" id="project-files">
-                        @Html.DisplayFor(modelItem => item.Files)
-                    </div>
-                </section>
+                        <div class="file-uploads m-3" id="project-files">
+                            @Html.DisplayFor(modelItem => item.Files)
+                        </div>
+                    </section>
                 }
 
                 @*ParentProject*@
@@ -126,6 +126,43 @@
                     <p class="text-muted">
                         Child project of <a asp-action="Details" asp-route-id="@item.ParentProject.ProjectId">@item.ParentProject.ProjectName</a>
                     </p>
+                }
+                @if ((IEnumerable<Projects>)ViewData["Children"] != null)
+                {
+                    <h2 class="display-4 mt-4 pt-4">Child Projects</h2>
+
+                    <div class="horizontal-scroll-container mt-4">
+                        @foreach (var child in (IEnumerable<Projects>)ViewData["Children"])
+                        {
+                            <div class="horizontal-scroll-item col-sm-3">
+                                <div class="card mb-3 p-0 ">
+                                    <!-- Thumbnail at the top of the card -->
+                                    <div class="project-thumbnail" style="height: 130px;">
+                                        @{
+                                            string pic = child.Images;
+                                            if (pic != null)
+                                            {
+                                                string[] things = pic.Split(" ");
+                                                Console.WriteLine(pic);
+                                            }
+                                        }
+                                        @if (pic != null)
+                                        {
+                                            <img class="img-fluid" src="/upload/img/@child.Images.Split(" ")[0]" alt="" />
+                                        }
+                                        else
+                                        {
+                                            <img class="img-fluid" src="https://via.placeholder.com/640x400.png?text=No+Image" alt="" />
+                                        }
+                                    </div>
+                                    <!-- Project title -->
+                                    <h3 class="card-header">
+                                        <a class="text-dark" style="font-size: 0.7em;" asp-controller="Projects" asp-action="Details" asp-route-id="@child.ProjectId">@child.ProjectName</a>
+                                    </h3>
+                                </div>
+                            </div>
+                        }
+                    </div>
                 }
             </div>@*end card-body*@
         </div>
@@ -151,7 +188,7 @@
             @if (ViewBag.isLike == true)
             {
                 <form class="btn btn-outline-secondary" asp-controller="SavedProjects" asp-action="Unlike" asp-route-ProjectId="@item.ProjectId" asp-route-UserName="@User.Identity.Name" method="post">
-                    <button type="submit" class="icon-btn text-dark" style="background-color: transparent; border: none;">
+                    <button type="submit" class="icon-btn text-dark btn-outline-secondary" style="background-color: transparent; border: none;">
                         <span class="icons unlike"></span>
                         Unlike
                     </button>
@@ -159,8 +196,8 @@
             }
             else
             {
-                <form asp-controller="SavedProjects" asp-action="Like" asp-route-ProjectId="@item.ProjectId" asp-route-UserName="@User.Identity.Name" method="post">
-                    <button type="submit" class="btn icon-btn btn-outline-secondary"  style="background-color: transparent; border: none;">
+                <form class="btn btn-outline-secondary" asp-controller="SavedProjects" asp-action="Like" asp-route-ProjectId="@item.ProjectId" asp-route-UserName="@User.Identity.Name" method="post">
+                    <button type="submit" class="icon-btn btn-outline-secondary text-dark"  style="background-color: transparent; border: none;">
                         <span class="icons like"></span>
                         Like
                     </button>

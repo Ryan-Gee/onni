@@ -39,7 +39,8 @@ namespace onni.Controllers
 			IQueryable<string> genreQuery = from m in _context.Projects
 											orderby m.Category.CategoriesName
 											select m.Category.CategoriesName;
-			var projects = from p in _context.Projects.Include(p => p.Category).Include(p => p.ParentProject).Include(p => p.Status) select p;			
+			var projects = from p in _context.Projects.Include(p => p.Category).Include(p => p.ParentProject).Include(p => p.Status) select p;
+			projects = projects.Where(p => p.StatusId != 1);
 			if (!string.IsNullOrEmpty(searchString))
 			{
 				projects = projects.Where(s => s.ProjectName.Contains(searchString) || s.BodyContent.Contains(searchString) || s.Tags.Contains(searchString));
@@ -79,6 +80,8 @@ namespace onni.Controllers
 				{
 					return NotFound();
 				}
+				var children = _context.Projects.Where(p => p.ParentProjectId == id).OrderByDescending(p => p.CreatedDate).ToList();
+				if (children.Count() == 0) children = null;
 				var savedProjects = _context.SavedProjects.SingleOrDefault(s => s.UserName == User.Identity.Name && s.ProjectId == id);
 				if (savedProjects == null)
 				{
@@ -98,6 +101,7 @@ namespace onni.Controllers
 
 				// find all comments with the project ID
 				var comments = _context.Comments.Where(p => p.ProjectId == id);
+				ViewData["Children"] = children;
 				ViewData["Projects"] = projects;
 				ViewBag.id = id;
 				return View(comments);
