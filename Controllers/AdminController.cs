@@ -101,8 +101,15 @@ namespace onni.Controllers
 			for (var i = 0; i < 5; i++)
 			{
 				var record = new BestOfYear();
-				record.likes = MostLiked[i];
-				record.views = MostViewed[i];
+				if (MostLiked.Count() > i)
+				{
+					record.likes = MostLiked[i];
+				}
+				if (MostViewed.Count() > i)
+				{
+					record.views = MostViewed[i];
+
+				}
 				yearBest.Add(record);
 			}
 

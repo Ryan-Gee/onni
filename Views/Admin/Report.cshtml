@@ -143,17 +143,20 @@
     </tr>
     @foreach (var record in (IEnumerable<BestOfYear>)ViewData["YearRecords"])
     {
-        <tr>
-            <td>
-                <a asp-controller="Projects" asp-action="Details" asp-route-id="@record.views.ProjectId"> @record.views.ProjectName</a>
-                <span>(@record.views.ViewCounts) </span>
-            </td>
-            <td>
-                <a asp-controller="Projects" asp-action="Details" asp-route-id="@record.likes.ProjectId"> @record.likes.ProjectName</a>
-                <span>(@record.likes.LikeCounts) </span>
-            </td>
-        </tr>
-
+        if (record.views != null)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="Projects" asp-action="Details" asp-route-id="@record.views.ProjectId"> @record.views.ProjectName</a>
+                    <span>(@record.views.ViewCounts) </span>
+                </td>
+                <td>
+                    <a asp-controller="Projects" asp-action="Details" asp-route-id="@record.likes.ProjectId"> @record.likes.ProjectName</a>
+                    <span>(@record.likes.LikeCounts) </span>
+                </td>
+            </tr>
+        }
+       
     }
 </table>
 

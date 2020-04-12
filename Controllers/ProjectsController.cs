@@ -445,6 +445,7 @@ namespace onni.Controllers
 		{
 			var projects = await _context.Projects.FindAsync(id);
 			var savedProjects = _context.SavedProjects.Where(p => p.ProjectId == id);
+			var comments = _context.Comments.Where(p => p.ProjectId == id);
 
 			var imgList = projects.Images;
 			var fileList = projects.Files;
@@ -495,6 +496,10 @@ namespace onni.Controllers
 			foreach (var sp in savedProjects)
 			{
 				_context.SavedProjects.Remove(sp);
+			}
+			foreach (var c in comments)
+			{
+				_context.Comments.Remove(c);
 			}
 			_context.Projects.Remove(projects);
 			
