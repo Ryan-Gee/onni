@@ -15,13 +15,13 @@
                     <form asp-action="Create">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
-                            <label asp-for="ProjectName" class="control-label lead"></label>
+                            <label asp-for="ProjectName" class="control-label lead">Title*</label>
                             <input asp-for="ProjectName" class="form-control" />
                             <span asp-validation-for="ProjectName" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="BodyContent" class="control-label lead"></label>
-                            <input asp-for="BodyContent" type="hidden" class="form-control" />
+                            <label asp-for="BodyContent" class="control-label lead">Description*</label>
+                            <input asp-for="BodyContent" type="hidden" class="form-control" required/>
                             <span asp-validation-for="BodyContent" class="text-danger"></span>
                             <div id="codex-editor" class="cdx-input" data-placeholder="Write project description..."></div>
                         </div>
@@ -63,7 +63,7 @@
                         </div>
 
                         <div class="form-group">
-                            <input type="submit" value="Create" class="btn btn-primary btn-block" />
+                            <input type="submit" value="Create" class="btn btn-primary btn-block validate-submit"/>
                         </div>
                     </form>
 
@@ -73,9 +73,18 @@
                     <script src="~/lib/dropzone/dropzone.min.js"></script>
                     <script type="text/javascript">
 
-                        $(function () {
-                            $('[data-toggle="tooltip"]').tooltip()
-                        })
+                        $(document).ready(function () {
+                            $('[data-toggle="tooltip"]').tooltip();
+                        });
+                        
+
+                        $(".validate-submit").click(function(e) {
+                            var empty = $('.codex-editor').hasClass("codex-editor--empty")
+                            if (empty) {
+                                e.preventDefault();
+                                alert("Project must include a description")
+                            }
+                        });
                         //Holder arrays for all images filenames and image fiels
                         var imageNames = []
                         var imageFiles = []

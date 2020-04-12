@@ -55,7 +55,7 @@ namespace onni.Controllers
 			var ProjectCategorie = new ProjectCategories
 			{
 				Categories = new SelectList(await genreQuery.Distinct().ToListAsync()),
-				Projects = await projects.ToListAsync()
+				Projects = await projects.OrderBy(p => p.CreatedDate).ToListAsync()
 			};
 			return View(ProjectCategorie);
 		}
@@ -72,15 +72,16 @@ namespace onni.Controllers
 				}
 
 				var projects = _context.Projects
-					.Where(m => m.ProjectId == id)
+					.Where(m => m.ProjectId == id && m.StatusId != 1)
 					.Include(p => p.Category)
 					.Include(p => p.ParentProject)
 					.Include(p => p.Status);
 				if (projects == null)
 				{
+					return RedirectToAction(nameof(Index));
 					return NotFound();
 				}
-				var children = _context.Projects.Where(p => p.ParentProjectId == id).OrderByDescending(p => p.CreatedDate).ToList();
+				var children = _context.Projects.Where(p => p.ParentProjectId == id).Where(p => p.StatusId!= 1).OrderByDescending(p => p.CreatedDate).ToList();
 				if (children.Count() == 0) children = null;
 				var savedProjects = _context.SavedProjects.SingleOrDefault(s => s.UserName == User.Identity.Name && s.ProjectId == id);
 				if (savedProjects == null)
@@ -146,9 +147,11 @@ namespace onni.Controllers
 
 				_context.Add(project);
 				await _context.SaveChangesAsync();
-				return RedirectToAction("Details", new { id = projectUpload.ProjectId });
+				//return View("index");
 
-				//return RedirectToAction(nameof(Index));
+				//return RedirectToAction("Details", new { id = projectUpload.ProjectId });
+
+				return RedirectToAction(nameof(Index));
 			}
 			ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoriesId", "CategoriesName", projectUpload.CategoryId);
 			//ViewData["ParentProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName", projectUpload.ParentProjectId);
@@ -377,9 +380,9 @@ namespace onni.Controllers
 
 				_context.Update(project);
 				await _context.SaveChangesAsync();
-				return RedirectToAction("Details", new { id = projectUpload.ProjectId });
+				//return RedirectToAction("Details", new { id = projectUpload.ProjectId });
 
-				//return RedirectToAction(nameof(Index));
+				return RedirectToAction(nameof(Index));
 			}
 			ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoriesId", "CategoriesName", projectUpload.CategoryId);
 			//ViewData["ParentProjectId"] = new SelectList(_context.Projects, "ProjectId", "ProjectName", projectUpload.ParentProjectId);

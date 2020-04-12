@@ -76,6 +76,8 @@
                         <img src="~/images/icons/user.svg" alt="profile" height="20" />
                         @Html.DisplayFor(modelItem => item.UserName)
                     </a>
+                    <span class="ml-1">@Html.DisplayFor(modelItem => item.CreatedDate)</span>
+
                 </div>
 
             </div>
@@ -138,17 +140,13 @@
                                 <div class="card mb-3 p-0 ">
                                     <!-- Thumbnail at the top of the card -->
                                     <div class="project-thumbnail" style="height: 130px;">
-                                        @{
-                                            string pic = child.Images;
-                                            if (pic != null)
-                                            {
-                                                string[] things = pic.Split(" ");
-                                                Console.WriteLine(pic);
-                                            }
-                                        }
-                                        @if (pic != null)
+                                        @if (child.Images != null)
                                         {
-                                            <img class="img-fluid" src="/upload/img/@child.Images.Split(" ")[0]" alt="" />
+                                            string pic = child.Images.Trim().Split(" ")[0];
+                                            @if (pic != null && pic != "" && pic != " ")
+                                            {
+                                                <img class="img-fluid" src="/upload/img/@pic" alt="" />
+                                            }
                                         }
                                         else
                                         {

@@ -77,7 +77,7 @@
                     }
                     @if (pic != null)
                     {
-                        <img class="img-fluid" src="/upload/img/@item.Images.Split(" ")[0]" alt="" />
+                        <img class="img-fluid" src="/upload/img/@item.Images.Trim().Split(" ")[0]" alt="" />
                     }
                     else
                     {

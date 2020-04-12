@@ -30,6 +30,7 @@ namespace onni.Models
 		public string UserName { get; set; }
         [Column(TypeName = "datetime")]
 		[DisplayName("Creation Date")]
+		[DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
 		public DateTime CreatedDate { get; set; }
         [Required]
 		[DisplayName("Description")]
