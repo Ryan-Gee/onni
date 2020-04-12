@@ -72,10 +72,33 @@ namespace onni.Controllers
 				}
 
 				var projects = _context.Projects
-					.Where(m => m.ProjectId == id && m.StatusId != 1)
+					.Where(m => m.ProjectId == id)
 					.Include(p => p.Category)
 					.Include(p => p.ParentProject)
 					.Include(p => p.Status);
+				//THANG GOES HERE
+				//if (User.IsInRole("Admin"))
+				//{
+				//	projects = _context.Projects
+				//	.Where(m => m.ProjectId == id)
+				//	.Include(p => p.Category)
+				//	.Include(p => p.ParentProject)
+				//	.Include(p => p.Status);
+				//}
+
+				foreach (var p in projects)
+				{
+					if (p.StatusId == 1 && !User.IsInRole("Admin"))
+					{
+						return RedirectToAction(nameof(Index));
+					}
+				}
+
+					//var projects = _context.Projects
+					//.Where(m => m.ProjectId == id && m.StatusId != 1)
+					//.Include(p => p.Category)
+					//.Include(p => p.ParentProject)
+					//.Include(p => p.Status);
 				if (projects == null)
 				{
 					return RedirectToAction(nameof(Index));
@@ -421,49 +444,61 @@ namespace onni.Controllers
 		public async Task<IActionResult> DeleteConfirmed(int id)
 		{
 			var projects = await _context.Projects.FindAsync(id);
+			var savedProjects = _context.SavedProjects.Where(p => p.ProjectId == id);
+
 			var imgList = projects.Images;
 			var fileList = projects.Files;
-
-			var images = imgList.Split(" ");
-			var files = fileList.Split(" ");
-
-			foreach (String img in images)
+			if (imgList != null  && imgList != "")
 			{
-				var uploads = Path.Combine(hostingEnvironment.WebRootPath, "upload/img");
-				var fn = img;
+				var images = imgList.Split(" ");
+				foreach (String img in images)
+				{
+					var uploads = Path.Combine(hostingEnvironment.WebRootPath, "upload/img");
+					var fn = img;
 
-				var filepath = Path.Combine(uploads, fn);
-				if (System.IO.File.Exists(filepath))
-				{
-					// If file found, delete it    
-					System.IO.File.Delete(filepath);
-					Console.WriteLine("Image deleted.");
+					var filepath = Path.Combine(uploads, fn);
+					if (System.IO.File.Exists(filepath))
+					{
+						// If file found, delete it    
+						System.IO.File.Delete(filepath);
+						Console.WriteLine("Image deleted.");
+					}
+					else
+					{
+						Console.WriteLine("Image failed to delete.");
+					}
 				}
-				else
-				{
-					Console.WriteLine("Image failed to delete.");
-				}
+
 			}
 
-			foreach (String f in files)
+			if (fileList != null && fileList != "")
 			{
-				var uploads = Path.Combine(hostingEnvironment.WebRootPath, "upload/files/");
-				var fn = f;
+				var files = fileList.Split(" ");
+				foreach (String f in files)
+				{
+					var uploads = Path.Combine(hostingEnvironment.WebRootPath, "upload/files/");
+					var fn = f;
 
-				var filepath = Path.Combine(uploads, fn);
-				if (System.IO.File.Exists(filepath))
-				{
-					// If file found, delete it    
-					System.IO.File.Delete(filepath);
-					Console.WriteLine("File deleted.");
-				}
-				else
-				{
-					Console.WriteLine("File failed to delete.");
+					var filepath = Path.Combine(uploads, fn);
+					if (System.IO.File.Exists(filepath))
+					{
+						// If file found, delete it    
+						System.IO.File.Delete(filepath);
+						Console.WriteLine("File deleted.");
+					}
+					else
+					{
+						Console.WriteLine("File failed to delete.");
+					}
 				}
 			}
-
+			foreach (var sp in savedProjects)
+			{
+				_context.SavedProjects.Remove(sp);
+			}
 			_context.Projects.Remove(projects);
+			
+
 			await _context.SaveChangesAsync();
 			return RedirectToAction(nameof(Index));
 		}
