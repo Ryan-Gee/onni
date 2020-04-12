@@ -185,8 +185,8 @@ namespace onni.Controllers
 		[HttpPost]
 		public async Task<string> UploadImg(IFormFile file)
 		{
-			var uploads = Path.Combine(hostingEnvironment.WebRootPath, "upload/img");
-			uploads = "https://onnidev.azurewebsites.net/upload/img";
+			//var uploads = Path.Combine(hostingEnvironment.WebRootPath, "upload/img");
+			var uploads = "/upload/img";
 			if (file.Length > 0)
 			{
 				var f = file.FileName;
