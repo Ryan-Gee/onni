@@ -32,7 +32,7 @@ namespace onni.Controllers
 		// GET: Projects
 		public async Task<IActionResult> Index()
 		{
-			var changeMakingContext = _context.Projects.Include(p => p.Category).Include(p => p.ParentProject).Include(p => p.Status);
+			var changeMakingContext = _context.Projects.Include(p => p.Category).Include(p => p.ParentProject).Include(p => p.Status).OrderBy(p => p.CreatedDate);
 			return View(await changeMakingContext.ToListAsync());
 		}
 
